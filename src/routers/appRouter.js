@@ -4,6 +4,9 @@ import ExpenseForm from '../components/expenseForm'
 import EditExpense from '../components/editExpense'
 import Header from '../components/header'
 import ExpenseDashboard from '../components/expenseDashboard'
+import Login from '../components/login'
+import Logout from '../components/logout'
+
 const AppRouter =() => (
     <BrowserRouter>
     <div>
@@ -12,7 +15,8 @@ const AppRouter =() => (
     <Route path="/"  component={ExpenseDashboard} exact={true}/>
     <Route path="/create" component={ExpenseForm} />
     <Route path="/edit/:id" component={EditExpense} />
-    
+    <Route path="/login" component={Login} />
+    <Route path="/logout" component={Logout} />
     </Switch>
     </div>      
     </BrowserRouter>
