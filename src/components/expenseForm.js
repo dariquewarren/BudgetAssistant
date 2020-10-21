@@ -58,7 +58,7 @@ this.setState({
     <div className='app ' style={{backgroundColor: '#393e46'}}>
     <header>
     <div className='wrapper text-center'>
-    <h3 style={{color: '#fbe8d3'}}>Add an Expense </h3>
+    <h3 style={{color: '#fbe8d3'}}>Add Expense </h3>
     </div>
     </header>
     <div className='container'> 
