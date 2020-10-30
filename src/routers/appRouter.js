@@ -1,20 +1,13 @@
 import React from 'react'
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
-import ExpenseForm from '../components/expenseForm'
+import FormProper from '../components/expenseForm'
 import EditExpense from '../components/editExpense'
 import Header from '../components/header'
 import ExpenseDashboard from '../components/expenseDashboard'
 import Login from '../components/login'
 import Logout from '../components/logout'
 
-
-
-const AppRouter =() => {
-
-
-  return (
-    
-  
+const AppRouter =() => (
     <BrowserRouter>
     <div>
     <Header />
@@ -27,9 +20,7 @@ const AppRouter =() => {
     </Switch>
     </div>      
     </BrowserRouter>
-    
   )
-}
 
 
 export default AppRouter

@@ -58,7 +58,7 @@ this.setState({
   render()
  { return (
     <div className='app ' style={{backgroundColor: '#393e46'}}>
-    <FormProper/>
+    <ExpenseForm/>
     <header>
     <div className='wrapper text-center'>
     <h3 style={{color: '#fbe8d3'}}>Add Expense </h3>
@@ -153,4 +153,4 @@ const ExpenseForm =()=>{
 }
 
 
-export default ExpenseForm
+export default FormProper
