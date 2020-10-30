@@ -12,6 +12,7 @@ function App(){
     clientId="dDBCDAphCkb9dA1g9sP4JhTib0ZditlI"
     redirectUri={window.location.origin}
     useRefreshTokens = {true}
+    cacheLocation="localstorage"
   >
      <AppRouter   />
      </Auth0Provider>
