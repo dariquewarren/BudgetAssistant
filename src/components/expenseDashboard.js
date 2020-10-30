@@ -11,7 +11,20 @@ import { FaGlasses, FaMinusCircle, FaPlayCircle,
 import {BsFillGearFill} from 'react-icons/bs'
 import LoginButton from '../components/loginButton'
 import UserContext from './userContext'
+var axios = require("axios").default;
 
+var options = {
+  method: 'POST',
+  url: 'https://dev-sg8fbv3t.us.auth0.com/oauth/token',
+  mode: 'no-cors',
+  headers: {'content-type': 'application/x-www-form-urlencoded'},
+  data: {
+    grant_type: 'client_credentials',
+    client_id: 'YsUPHTB3zq0gdAuAAd41YYi0ffnwvYEI',
+    client_secret: '3f7EwPwQ0hIgnDAzaatlgzIv6xFmvOg_UkVGYMwoaScVaWp4M17Hh3byYEIp8JbP',
+    audience: 'https://dev-sg8fbv3t.us.auth0.com/api/v2/'
+  }
+};
 
 const itemsRef = firebase.database().ref("expenses");
 
@@ -60,6 +73,13 @@ class ExpenseDashboard extends React.Component {
  componentDidMount() {
 const email = this.context
 console.log(email)
+axios.request(options).then(function (response) {
+  console.log(response.data);
+}).catch(function (error) {
+  console.error(error);
+});
+
+
 
 
     itemsRef.on("value", (snapshot) => {

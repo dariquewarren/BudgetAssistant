@@ -8,8 +8,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 
 class FormProper extends React.Component{
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       expense: '',
       amount: '',
@@ -58,7 +58,7 @@ this.setState({
   render()
  { return (
     <div className='app ' style={{backgroundColor: '#393e46'}}>
-    <ExpenseForm/>
+    
     <header>
     <div className='wrapper text-center'>
     <h3 style={{color: '#fbe8d3'}}>Add Expense </h3>
