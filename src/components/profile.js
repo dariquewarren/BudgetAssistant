@@ -18,6 +18,9 @@ var options = {
   const Profile = () => {
     const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
     const [userMetadata, setUserMetadata] = useState(null);
+    
+    let myToken
+    
     useEffect(() => {
       const getUserMetadata = async () => {
         const domain = "dev-sg8fbv3t.us.auth0.com";
@@ -37,20 +40,14 @@ var options = {
           });
     
           const { user_metadata } = await metadataResponse.json();
-    
+    console.log(accessToken)
+    myToken = accessToken
           setUserMetadata(user_metadata);
         } catch (e) {
           console.log(e.message);
         }
       };
-      if (user){
-    
-        return  axios.request(options).then(function (response) {
-          console.log(response.data);
-        }).catch(function (error) {
-          console.error(error);
-        });
-        }
+      
          
       getUserMetadata();
     }, []);
@@ -65,6 +62,7 @@ var options = {
           <img src={user.picture} alt={user.name} />
           <h2>{user.name}</h2>
           <p>{user.email}</p>
+          
           <h3>User Metadata</h3>
           {userMetadata ? (
             <pre>{JSON.stringify(userMetadata, null, 2)}</pre>
