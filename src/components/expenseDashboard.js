@@ -10,6 +10,9 @@ import { FaGlasses, FaMinusCircle, FaPlayCircle,
     FaSortAmountUp, FaSortAmountDown, FaSortAlphaDownAlt, FaSortAlphaUpAlt} from 'react-icons/fa'
 import {BsFillGearFill} from 'react-icons/bs'
 import LoginButton from '../components/loginButton'
+import UserContext from './userContext'
+
+
 const itemsRef = firebase.database().ref("expenses");
 
 
@@ -53,8 +56,12 @@ class ExpenseDashboard extends React.Component {
     this.handleBudget = this.handleBudget.bind(this)
     this.setBudget = this.setBudget.bind(this)
  }
- 
+ static contextType = UserContext
  componentDidMount() {
+const email = this.context
+console.log(email)
+
+
     itemsRef.on("value", (snapshot) => {
       let items = snapshot.val();
       let newState = [];

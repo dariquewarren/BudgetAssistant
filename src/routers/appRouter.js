@@ -7,7 +7,14 @@ import ExpenseDashboard from '../components/expenseDashboard'
 import Login from '../components/login'
 import Logout from '../components/logout'
 
-const AppRouter =() => (
+
+
+const AppRouter =() => {
+
+
+  return (
+    
+  
     <BrowserRouter>
     <div>
     <Header />
@@ -20,7 +27,9 @@ const AppRouter =() => (
     </Switch>
     </div>      
     </BrowserRouter>
+    
   )
+}
 
 
 export default AppRouter

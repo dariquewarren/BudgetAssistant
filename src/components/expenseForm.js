@@ -4,10 +4,12 @@ import firebase from '../firebase'
 import {TextField} from '@material-ui/core'
 import {Button} from 'react-bootstrap'
 import moment from 'moment'
+import { useAuth0 } from "@auth0/auth0-react";
 
-class ExpenseForm extends React.Component{
-  constructor() {
-    super();
+
+class FormProper extends React.Component{
+  constructor(props) {
+    super(props);
     this.state = {
       expense: '',
       amount: '',
@@ -56,9 +58,11 @@ this.setState({
   render()
  { return (
     <div className='app ' style={{backgroundColor: '#393e46'}}>
+    <FormProper/>
     <header>
     <div className='wrapper text-center'>
     <h3 style={{color: '#fbe8d3'}}>Add Expense </h3>
+    {this.props.email}
     </div>
     </header>
     <div className='container'> 
@@ -118,6 +122,33 @@ this.setState({
     </div>
     </div>
   )}
+
+}
+
+const ExpenseForm =()=>{
+
+  const { user, isAuthenticated, isLoading } = useAuth0();
+
+  if (isLoading) {
+    return <div>Loading ...</div>;
+  }
+
+  return (
+<div>
+{
+  isAuthenticated ?   <div>
+
+  <h2>{user.name}</h2>
+  <p>{user.email}</p>
+  <FormProper email={user.email}/>
+</div>: 
+<p>Please Login</p>
+
+}
+</div>
+    
+    
+  );
 
 }
 
