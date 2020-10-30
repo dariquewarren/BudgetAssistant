@@ -3,10 +3,16 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-
+import { Auth0Provider } from "@auth0/auth0-react"
 ReactDOM.render(
   <React.StrictMode>
+  <Auth0Provider
+  domain="dev-sg8fbv3t.us.auth0.com"
+  clientId="dDBCDAphCkb9dA1g9sP4JhTib0ZditlI"
+  redirectUri={window.location.origin}
+>
     <App />
+    </Auth0Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
