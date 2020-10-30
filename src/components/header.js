@@ -1,11 +1,12 @@
 import React from 'react'
 import { NavLink} from 'react-router-dom'
-
+import Profile from '../components/profile'
 
 
 const Header = ()=> (
  
     <header style={{backgroundColor: '#60316e'}}>
+    <Profile/>
     <h1 style={{color:'#fbe8d3'}} className='text-center'>Budget Buddy</h1>
     
  <div className='text-center' >

@@ -9,7 +9,7 @@ import { FaGlasses, FaMinusCircle, FaPlayCircle,
    FaCalendarPlus, FaSort,
     FaSortAmountUp, FaSortAmountDown, FaSortAlphaDownAlt, FaSortAlphaUpAlt} from 'react-icons/fa'
 import {BsFillGearFill} from 'react-icons/bs'
-
+import LoginButton from '../components/loginButton'
 const itemsRef = firebase.database().ref("expenses");
 
 
@@ -399,7 +399,7 @@ console.log('final array', finalArray)
     render(){
      return (
 <div>
-
+<LoginButton/>
 
 <div style={{backgroundColor: '#393e46', display: 'flex', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center'}}>
 
