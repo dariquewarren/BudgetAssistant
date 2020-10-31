@@ -86,7 +86,7 @@ const regex = /[a-z]/gmi
   //  itemsref.push(expenses)
  // window.location.assign('/')
 setTimeout(()=>{
-  let expenseEmail = user.email.match(regex).toString()
+  let expenseEmail = user.email.match(regex).join('')
  console.log('expensesEmail', expenseEmail)
  
   let expenses = {
