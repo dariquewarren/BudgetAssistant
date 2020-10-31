@@ -36,7 +36,7 @@ const [expense, setExpense] = useState(0)
 const [amount, setAmount] = useState(0)
 const [notes, setNotes] = useState(0)
 const [date, setDate] = useState(0)
-const [email, setEmail] = useState(0)
+const [email, setEmail] = useState('ddw')
       const prevEmail = usePrevious(email);
   
 
@@ -71,7 +71,7 @@ useEffect(() => {
     }
   };
   
-     
+     setEmail(user.email)
   getUserMetadata();
 }, [prevEmail]);
 
