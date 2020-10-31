@@ -71,28 +71,33 @@ useEffect(() => {
     }
   };
   
-     setEmail(user.email)
+     
   getUserMetadata();
 }, [prevEmail]);
 
 
+const handleSubmit = (e)=>{
+   e.preventDefault()
+ setEmail(user.email)
+
+
+   const itemsref = firebase.database().ref('expenses')
+   
+   
 let expenses = {
   expense,
   amount,
   notes,
-  date
+  date,
+  email
 }
-const handleSubmit = (e)=>{
-   e.preventDefault()
-   const itemsref = firebase.database().ref('expenses')
-   
-   
-   itemsref.push(expenses)
+  //  itemsref.push(expenses)
+ // window.location.assign('/')
 
-   
+console.log(expenses)
 
-    window.location.assign('/')
- }
+
+}
 
 
 
