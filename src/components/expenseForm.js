@@ -51,17 +51,17 @@ myToken = accessToken
 }, []);
 
 
-
- handleSubmit = (e)=>{
+let expenses = {
+  expense,
+  amount,
+  notes,
+  date
+}
+const handleSubmit = (e)=>{
    e.preventDefault()
    const itemsref = firebase.database().ref('expenses')
    
-   let expenses = {
-    expense,
-    amount,
-    notes,
-    date
-  }
+   
    itemsref.push(expenses)
 
    
