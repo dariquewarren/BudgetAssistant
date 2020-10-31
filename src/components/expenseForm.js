@@ -80,7 +80,7 @@ const handleSubmit = (e)=>{
    e.preventDefault()
    const regex = /[a-z]/gmi
 
-   let expenseEmail = (user.email) ? user.email.match(regex).join('') : 'testtestcom'
+   let expenseEmail = (isAuthenticated) ? user.email.match(regex).join('') : 'testtestcom'
 setTimeout(()=>{
   
  
