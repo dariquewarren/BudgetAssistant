@@ -81,9 +81,14 @@ const handleSubmit = (e)=>{
 
    const itemsref = firebase.database().ref('expenses')
 
+const regex = /[a-z]/gmi
+
   //  itemsref.push(expenses)
  // window.location.assign('/')
 setTimeout(()=>{
+  let expenseEmail = user.email.match(regex).toString()
+ console.log('expensesEmail', expenseEmail)
+ 
   let expenses = {
     expense: newExpense,
     amount: newAmount,
