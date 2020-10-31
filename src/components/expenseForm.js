@@ -9,22 +9,6 @@ import { useAuth0} from "@auth0/auth0-react";
 
 
 
-// Usage
-function App() {
-  // State value and setter for our example
-  const [count, setCount] = useState(0);
-  
-  // Get the previous value (was passed into hook on last render)
-  const prevEmail = usePrevious(email);
-  
-  // Display both current and previous count value
-  return (
-    <div>
-      <h1>Now: {email}, before: {prevEmail}</h1>
-      <button onClick={() => setCount(count + 1)}>Increment</button>
-    </div>
-   );
-}
 
 // Hook
 function usePrevious(value) {
