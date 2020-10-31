@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState,useEffect} from "react";
 import "../App.css";
 import firebase from "../firebase";
 import {Badge} from "react-bootstrap";
@@ -11,16 +11,15 @@ import { FaGlasses, FaMinusCircle, FaPlayCircle,
 import {BsFillGearFill} from 'react-icons/bs'
 import LoginButton from '../components/loginButton'
 import UserContext from './userContext'
+import { useAuth0 } from "@auth0/auth0-react";
 
 
-const itemsRef = firebase.database().ref("expenses");
-
-
+;
 
 
 class ExpenseDashboard extends React.Component {
- constructor(){
-    super();
+ constructor(props){
+    super(props);
     this.state = {
       expensesTotal: 0,
       budget: 0,
@@ -37,6 +36,7 @@ class ExpenseDashboard extends React.Component {
       startDate: new moment().format("YYYY MM Do"),
       endDate: new moment().add(365, "days").format("YYYY MM Do"),
       items: [],
+      email: this.props.email
     };
     
     this.setStartDateRange = this.setStartDateRange.bind(this);
@@ -56,15 +56,10 @@ class ExpenseDashboard extends React.Component {
     this.handleBudget = this.handleBudget.bind(this)
     this.setBudget = this.setBudget.bind(this)
  }
- static contextType = UserContext
+
  componentDidMount() {
-const email = this.context
-console.log(email)
-
-
-
-
-
+   console.log('state-email', this.state.email)
+  const itemsRef = firebase.database().ref("expenses")
     itemsRef.on("value", (snapshot) => {
       let items = snapshot.val();
       let newState = [];
@@ -777,11 +772,6 @@ className="card ">
         <h6 style={{color: '#090030'}}>Notes</h6>
         <h5 style={{color:'#fbe8d3'}} className='text-center text-wrap'>{m.notes}</h5> 
         
-        
-
-   
-
-
     </div>
     
   </div>
@@ -808,4 +798,51 @@ className="card ">
 
 }
 
-export default ExpenseDashboard
+const ExpensesWrapper =()=>{
+  const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
+  const [userMetadata, setUserMetadata] = useState(null);
+
+  useEffect(() => {
+    const getUserMetadata = async () => {
+      const domain = "dev-sg8fbv3t.us.auth0.com";
+      let myToken
+      try {
+        const accessToken = await getAccessTokenSilently({
+          audience: `https://${domain}/api/v2/`,
+          scope: "read:current_user",
+        });
+  
+        const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user.sub}`;
+  
+        const metadataResponse = await fetch(userDetailsByIdUrl, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+  
+        const { user_metadata } = await metadataResponse.json();
+  console.log(accessToken)
+  myToken = accessToken
+        setUserMetadata(user_metadata);
+      } catch (e) {
+        console.log(e.message);
+      }
+    };
+    
+       
+    getUserMetadata();
+  }, []);
+
+
+  return(
+    <div>
+    <ExpenseDashboard email={isAuthenticated ? user.email : 'dummyemaiil'}/>
+    </div>
+  )
+
+
+
+}
+
+
+export default ExpensesWrapper
