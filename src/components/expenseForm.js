@@ -78,17 +78,13 @@ useEffect(() => {
 
 const handleSubmit = (e)=>{
    e.preventDefault()
+   const regex = /[a-z]/gmi
 
-   const itemsref = firebase.database().ref('expenses')
-
-const regex = /[a-z]/gmi
-
-  //  itemsref.push(expenses)
- // window.location.assign('/')
+   let expenseEmail = user.email.match(regex).join('') || 'testtestcom'
 setTimeout(()=>{
-  let expenseEmail = user.email.match(regex).join('')
- console.log('expensesEmail', expenseEmail)
+  
  
+  
   let expenses = {
     expense: newExpense,
     amount: newAmount,
@@ -96,8 +92,16 @@ setTimeout(()=>{
     date: newDate,
     email: user.email
   }
+  console.log('expensesEmail', expenseEmail)
 
-console.log(expenses)
+  // const itemsref = firebase.database().ref('expenses' + expenseEmail)
+
+  
+
+  //  itemsref.push(expenses)
+ // window.location.assign('/')
+
+  console.log(expenses)
 }, 2000)
 
 
@@ -112,7 +116,7 @@ console.log(expenses)
     <header>
     <div className='wrapper text-center'>
     <h3 style={{color: '#fbe8d3'}}>Add Expense for 
-    <h1>Now: {newEmail}, before: {prevEmail}</h1>  </h3>
+    <h1>{isAuthenticated ? user.email : 'test@test.com' }</h1>  </h3>
     </div>
     </header>
     <div className='container'> 

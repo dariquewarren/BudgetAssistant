@@ -59,36 +59,82 @@ class ExpenseDashboard extends React.Component {
  }
 
  componentDidMount() {
+
+  let regex = /[a-z]/gmi
+  let expenseEmail = this.state.email.match(regex).join('')
    console.log('state-email', this.state.email)
 
 
-    itemsRef.on("value", (snapshot) => {
-      let items = snapshot.val();
-      let newState = [];
 
-      for (let item in items) {
-        newState.push({
-          id: item,
-          expense: items[item].expense,
-          notes: items[item].notes,
-          date: moment(items[item].date).format("MMM Do"),
-          amount: items[item].amount,
-        });
-      }
+if(this.props.auth){
+  let myExpensesRef = firebase.database().ref("expenses/" + this.state.email)
 
-      
-      const amountArray = [];
-      newState.forEach((e) => {
-        amountArray.push(parseFloat(e.amount,10));
+return  myExpensesRef.on("value", (snapshot) => {
+    let items = snapshot.val();
+    let newState = [];
+
+    for (let item in items) {
+      newState.push({
+        id: item,
+        expense: items[item].expense,
+        notes: items[item].notes,
+        date: moment(items[item].date).format("MMM Do"),
+        amount: items[item].amount,
       });
+    }
 
-      const ddw = amountArray.reduce((total, currentValue) => {
-        return total + currentValue;
-      });
-
-      console.log(amountArray);
-      this.setState({ items: newState, expensesTotal: ddw });
+    
+    const amountArray = [];
+    newState.forEach((e) => {
+      amountArray.push(parseFloat(e.amount,10));
     });
+
+    const ddw = amountArray.reduce((total, currentValue) => {
+      return total + currentValue;
+    });
+
+    console.log(amountArray);
+    this.setState({ items: newState, expensesTotal: ddw });
+  });
+
+
+
+
+
+}else{
+  itemsRef.on("value", (snapshot) => {
+    let items = snapshot.val();
+    let newState = [];
+
+    for (let item in items) {
+      newState.push({
+        id: item,
+        expense: items[item].expense,
+        notes: items[item].notes,
+        date: moment(items[item].date).format("MMM Do"),
+        amount: items[item].amount,
+      });
+    }
+
+    
+    const amountArray = [];
+    newState.forEach((e) => {
+      amountArray.push(parseFloat(e.amount,10));
+    });
+
+    const ddw = amountArray.reduce((total, currentValue) => {
+      return total + currentValue;
+    });
+
+    console.log(amountArray);
+    this.setState({ items: newState, expensesTotal: ddw });
+  });
+
+}
+
+  
+  
+  
   }
 
 
@@ -662,67 +708,6 @@ onClick={this.sortDateHighLow}><FaSortAlphaDownAlt/> Date</button>
 
 </div>
 
-
-<ul style={{backgroundColor: '#393e46', listStyleType:'none'}}>
-{
-this.state.items.map((m)=>{
-    return (
-     
-
-<button
-key={m.id} 
-style={{backgroundColor: '#60316e', height: '15rem', width: '20rem'}}   
-className=' text-wrap text-center m-2 p-1' 
-onClick={(e)=>{
-  e.preventDefault()
-  window.location.assign(`/edit/` + m.id)
-
-
-}}
-
->
-<h4 style={{color: '#fbe8d3'}}>
-{m.expense.toUpperCase()}
-</h4>
-
-<div  
-style={{backgroundColor: '#60316e'}}
->
-<h5 style={{color: '#078d1e'}}>${m.amount}</h5>
-<div
-style={{backgroundColor: '#60316e'}}
-className="card ">
-
-<div  className="card-body">      
-      
-        <div className="text-xs font-weight-bold text-warning text-uppercase ">
-        <h6 style={{color: '#090030'}}>Notes</h6>
-        <h5 style={{color:'#fbe8d3'}} className='text-center text-wrap'>{m.notes}</h5> 
-        
-        
-
-   
-
-
-    </div>
-    
-  </div>
-  
-</div>
-<h6 style={{color: '#090030'}} className='text-center'>{m.date}</h6>
-
-</div>
-
-<h5 style={{color: '#29a19c'}}>Click To Edit/Delete</h5>
-      
-</button>
-
-    )
-})
-
-
-}
-</ul>
 <ExpensesArray items={this.state.items}/>
 
 </div>
@@ -838,7 +823,7 @@ const ExpensesWrapper =()=>{
 
   return(isAuthenticated ? 
     (<div>
-    <ExpenseDashboard email={user.email}/>
+    <ExpenseDashboard email={user.email} auth={isAuthenticated}/>
     </div>)
     :(
       <div>
