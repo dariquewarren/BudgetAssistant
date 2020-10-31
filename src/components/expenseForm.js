@@ -128,32 +128,7 @@ this.setState({
 
 }
 
-const ExpenseForm =()=>{
 
-  const { user, isAuthenticated, isLoading } = useAuth0();
-
-  if (isLoading) {
-    return <div>Loading ...</div>;
-  }
-
-  return (
-<div>
-{
-  isAuthenticated ?   <div>
-
-  <h2>{user.name}</h2>
-  <p>{user.email}</p>
-  <FormProper email={user.email}/>
-</div>: 
-<p>Please Login</p>
-
-}
-</div>
-    
-    
-  );
-
-}
 
 
 export default FormProper
