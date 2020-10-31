@@ -85,12 +85,20 @@ setTimeout(()=>{
   
  
   
-  let expenses = {
+  let expenses = (isAuthenticated) ? {
     expense: newExpense,
     amount: newAmount,
     notes: newNotes,
     date: newDate,
     email: user.email
+  }
+  : 
+  {
+    expense: newExpense,
+    amount: newAmount,
+    notes: newNotes,
+    date: newDate,
+    email: 'test@test.com'
   }
   console.log('expensesEmail', expenseEmail)
 
