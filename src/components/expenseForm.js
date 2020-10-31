@@ -75,13 +75,6 @@ useEffect(() => {
   getUserMetadata();
 }, [prevEmail]);
 
-
-const handleSubmit = (e)=>{
-   e.preventDefault()
-
-   const itemsref = firebase.database().ref('expenses')
-   
-   console.log()
 let expenses = {
   expense: newExpense,
   amount: newAmount,
@@ -89,7 +82,13 @@ let expenses = {
   date: newDate,
   email: user.email
 }
-console.log(expenses)
+const handleSubmit = (e)=>{
+   e.preventDefault()
+
+   const itemsref = firebase.database().ref('expenses')
+
+   console.log(e.target.value)
+   console.log(expenses)
   //  itemsref.push(expenses)
  // window.location.assign('/')
 setTimeout(()=>{
