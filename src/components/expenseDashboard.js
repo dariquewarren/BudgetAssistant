@@ -14,7 +14,7 @@ import UserContext from './userContext'
 import { useAuth0 } from "@auth0/auth0-react";
 
 
-;
+
 const itemsRef = firebase.database().ref("expenses")
 
 
@@ -60,6 +60,8 @@ class ExpenseDashboard extends React.Component {
 
  componentDidMount() {
    console.log('state-email', this.state.email)
+
+
     itemsRef.on("value", (snapshot) => {
       let items = snapshot.val();
       let newState = [];
@@ -834,10 +836,17 @@ const ExpensesWrapper =()=>{
   }, []);
 
 
-  return(
-    <div>
-    <ExpenseDashboard email={isAuthenticated ? user.email : 'dummyemaiil'}/>
-    </div>
+  return(isAuthenticated ? 
+    (<div>
+    <ExpenseDashboard email={user.email}/>
+    </div>)
+    :(
+      <div>
+      <ExpenseDashboard email={'test@test.com'}/>
+      </div>      
+    )
+
+    
   )
 
 
