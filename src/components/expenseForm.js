@@ -75,13 +75,7 @@ useEffect(() => {
   getUserMetadata();
 }, [prevEmail]);
 
-let expenses = {
-  expense: newExpense,
-  amount: newAmount,
-  notes: newNotes,
-  date: newDate,
-  email: user.email || 'ddwaawe'
-}
+
 const handleSubmit = (e)=>{
    e.preventDefault()
 
@@ -91,7 +85,14 @@ const handleSubmit = (e)=>{
   //  itemsref.push(expenses)
  // window.location.assign('/')
 setTimeout(()=>{
-  console.log(user.email)
+  let expenses = {
+    expense: newExpense,
+    amount: newAmount,
+    notes: newNotes,
+    date: newDate,
+    email: user.email
+  }
+
 console.log(expenses)
 }, 2000)
 
