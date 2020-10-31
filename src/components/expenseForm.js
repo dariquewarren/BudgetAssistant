@@ -78,8 +78,6 @@ useEffect(() => {
 
 const handleSubmit = (e)=>{
    e.preventDefault()
- setEmail(user.email)
-
 
    const itemsref = firebase.database().ref('expenses')
    
@@ -89,12 +87,14 @@ let expenses = {
   amount,
   notes,
   date,
-  email
+  email: user.email
 }
   //  itemsref.push(expenses)
  // window.location.assign('/')
-
+setTimeout(()=>{
 console.log(expenses)
+}, 2000)
+
 
 
 }
