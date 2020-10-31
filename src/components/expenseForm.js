@@ -1,10 +1,48 @@
-import React, {Component, useState, useEffect} from 'react';
+import React, {Component, useState, useEffect, useRef} from 'react';
 import '../App.css';
 import firebase from '../firebase'
 import {TextField} from '@material-ui/core'
 import {Button} from 'react-bootstrap'
 import moment from 'moment'
 import { useAuth0} from "@auth0/auth0-react";
+
+
+
+
+// Usage
+function App() {
+  // State value and setter for our example
+  const [count, setCount] = useState(0);
+  
+  // Get the previous value (was passed into hook on last render)
+  const prevEmail = usePrevious(email);
+  
+  // Display both current and previous count value
+  return (
+    <div>
+      <h1>Now: {email}, before: {prevEmail}</h1>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+   );
+}
+
+// Hook
+function usePrevious(value) {
+  // The ref object is a generic container whose current property is mutable ...
+  // ... and can hold any value, similar to an instance property on a class
+  const ref = useRef();
+  
+  // Store current value in ref
+  useEffect(() => {
+    ref.current = value;
+  }, [value]); // Only re-run if value changes
+  
+  // Return previous value (happens before update in useEffect above)
+  return ref.current;
+}
+
+
+
 
 
 
@@ -15,6 +53,8 @@ const [amount, setAmount] = useState(0)
 const [notes, setNotes] = useState(0)
 const [date, setDate] = useState(0)
 const [email, setEmail] = useState(0)
+      const prevEmail = usePrevious(email);
+  
 
 const [userMetadata, setUserMetadata] = useState(null);
 const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
@@ -49,7 +89,7 @@ useEffect(() => {
   
      
   getUserMetadata();
-}, []);
+}, [prevEmail]);
 
 
 let expenses = {
@@ -70,16 +110,15 @@ const handleSubmit = (e)=>{
     window.location.assign('/')
  }
 
-if(isAuthenticated){
-return setEmail(user.email)
-}
+
 
   return (
     <div className='app ' style={{backgroundColor: '#393e46'}}>
     
     <header>
     <div className='wrapper text-center'>
-    <h3 style={{color: '#fbe8d3'}}>Add Expense for {email}  </h3>
+    <h3 style={{color: '#fbe8d3'}}>Add Expense for 
+    <h1>Now: {email}, before: {prevEmail}</h1>  </h3>
     </div>
     </header>
     <div className='container'> 
