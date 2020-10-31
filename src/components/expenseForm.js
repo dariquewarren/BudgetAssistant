@@ -15,6 +15,7 @@ const [amount, setAmount] = useState(0)
 const [notes, setNotes] = useState(0)
 const [date, setDate] = useState(0)
 
+const [userMetadata, setUserMetadata] = useState(null);
 const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
     
 
