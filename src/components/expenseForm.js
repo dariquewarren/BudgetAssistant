@@ -32,12 +32,12 @@ function usePrevious(value) {
 
 const FormProper = ()=>{
 
-const [expense, setExpense] = useState(0)
-const [amount, setAmount] = useState(0)
-const [notes, setNotes] = useState(0)
-const [date, setDate] = useState(0)
-const [email, setEmail] = useState('ddw')
-      const prevEmail = usePrevious(email);
+const [newExpense, setExpense] = useState(0)
+const [newAmount, setAmount] = useState(0)
+const [newNotes, setNotes] = useState(0)
+const [newDate, setDate] = useState(0)
+const [newEmail, setEmail] = useState('dummyEmail')
+      const prevEmail = usePrevious(newEmail);
   
 
 const [userMetadata, setUserMetadata] = useState(null);
@@ -81,14 +81,15 @@ const handleSubmit = (e)=>{
 
    const itemsref = firebase.database().ref('expenses')
    
-   
+   console.log()
 let expenses = {
-  expense,
-  amount,
-  notes,
-  date,
+  expense: newExpense,
+  amount: newAmount,
+  notes: newNotes,
+  date: newDate,
   email: user.email
 }
+console.log(expenses)
   //  itemsref.push(expenses)
  // window.location.assign('/')
 setTimeout(()=>{
