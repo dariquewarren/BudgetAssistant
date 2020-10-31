@@ -14,6 +14,7 @@ const [expense, setExpense] = useState(0)
 const [amount, setAmount] = useState(0)
 const [notes, setNotes] = useState(0)
 const [date, setDate] = useState(0)
+const [email, setEmail] = useState(0)
 
 const [userMetadata, setUserMetadata] = useState(null);
 const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
@@ -39,8 +40,7 @@ useEffect(() => {
       });
 
       const { user_metadata } = await metadataResponse.json();
-console.log(accessToken)
-myToken = accessToken
+
       setUserMetadata(user_metadata);
     } catch (e) {
       console.log(e.message);
@@ -70,14 +70,16 @@ const handleSubmit = (e)=>{
     window.location.assign('/')
  }
 
-
+if(isAuthenticated){
+return setEmail(user.email)
+}
 
   return (
     <div className='app ' style={{backgroundColor: '#393e46'}}>
     
     <header>
     <div className='wrapper text-center'>
-    <h3 style={{color: '#fbe8d3'}}>Add Expense for {user.email} </h3>
+    <h3 style={{color: '#fbe8d3'}}>Add Expense for {email}  </h3>
     </div>
     </header>
     <div className='container'> 
