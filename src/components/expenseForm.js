@@ -80,17 +80,18 @@ let expenses = {
   amount: newAmount,
   notes: newNotes,
   date: newDate,
-  email: user.email
+  email: user.email || 'ddwaawe'
 }
 const handleSubmit = (e)=>{
    e.preventDefault()
 
    const itemsref = firebase.database().ref('expenses')
 
-   console.log(e.target)
+   console.log('first expenses', expenses)
   //  itemsref.push(expenses)
  // window.location.assign('/')
 setTimeout(()=>{
+  console.log(user.email)
 console.log(expenses)
 }, 2000)
 
