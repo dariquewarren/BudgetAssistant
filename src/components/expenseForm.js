@@ -4,7 +4,7 @@ import firebase from '../firebase'
 import {TextField} from '@material-ui/core'
 import {Button} from 'react-bootstrap'
 import moment from 'moment'
-import { useAuth0 } from "@auth0/auth0-react";
+import { useAuth0, withAuth0 } from "@auth0/auth0-react";
 
 
 class FormProper extends React.Component{
@@ -56,7 +56,10 @@ this.setState({
 
 
   render()
- { return (
+ {
+  const {user} = this.props.auth0 
+  
+  return (
     <div className='app ' style={{backgroundColor: '#393e46'}}>
     
     <header>
@@ -69,7 +72,7 @@ this.setState({
     <section className='add-item'>
 
     <div className='text-center' style={{backgroundColor: '#393e46'}} >
-    
+    {user.email}
     <form style={{backgroundColor: '757575'}} className='text-center' onSubmit={this.handleSubmit}>
     <div className='text-center' style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center'}} >
     <h5 style={{color: '#fbe8d3'}} className='m-2'>
