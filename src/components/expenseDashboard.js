@@ -15,6 +15,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 
 ;
+const itemsRef = firebase.database().ref("expenses")
 
 
 class ExpenseDashboard extends React.Component {
@@ -59,7 +60,6 @@ class ExpenseDashboard extends React.Component {
 
  componentDidMount() {
    console.log('state-email', this.state.email)
-  const itemsRef = firebase.database().ref("expenses")
     itemsRef.on("value", (snapshot) => {
       let items = snapshot.val();
       let newState = [];
