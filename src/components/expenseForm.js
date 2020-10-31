@@ -1,88 +1,99 @@
-import React, {Component} from 'react';
+import React, {Component, useState, useEffect} from 'react';
 import '../App.css';
 import firebase from '../firebase'
 import {TextField} from '@material-ui/core'
 import {Button} from 'react-bootstrap'
 import moment from 'moment'
-import { withAuth0} from "@auth0/auth0-react";
+import { useAuth0} from "@auth0/auth0-react";
 
 
-class FormProper extends Component{
-  constructor() {
-    super();
-    this.state = {
-      expense: '',
-      amount: '',
-      notes: '',
-      date: new moment().format('YYYYMMDD'),
-      items: []
+
+const FormProper = ()=>{
+
+const [expense, setExpense] = useState(0)
+const [amount, setAmount] = useState(0)
+const [notes, setNotes] = useState(0)
+const [date, setDate] = useState(0)
+
+const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
+    
+
+
+useEffect(() => {
+  const getUserMetadata = async () => {
+    const domain = "dev-sg8fbv3t.us.auth0.com";
+    let myToken
+    try {
+      const accessToken = await getAccessTokenSilently({
+        audience: `https://${domain}/api/v2/`,
+        scope: "read:current_user",
+      });
+
+      const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user.sub}`;
+
+      const metadataResponse = await fetch(userDetailsByIdUrl, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      const { user_metadata } = await metadataResponse.json();
+console.log(accessToken)
+myToken = accessToken
+      setUserMetadata(user_metadata);
+    } catch (e) {
+      console.log(e.message);
     }
-    this.handleChange = this.handleChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
-  }
-
- 
-  handleChange = (e)=>{
-   if(e.target.name !== 'date'){
-this.setState({
-      [e.target.name]: e.target.value
-    })
-   } else{
-     this.setState({
-       [e.target.name] : moment(e.target.value).format("YYYYMMDD")
-     })
-   }
-   
-   
-    
-  }
-  handleSubmit = (e)=>{
-    e.preventDefault()
-    const itemsref = firebase.database().ref('expenses')
-    
-    const item = {
-      expense: this.state.expense,
-      notes: this.state.notes,
-      date: this.state.date,
-      amount: this.state.amount
-    }
-    itemsref.push(item)
-
-    
-
-     window.location.assign('/')
-  }
+  };
   
+     
+  getUserMetadata();
+}, []);
 
 
-  render()
- {
-  const {user} = this.props.auth0 
-  
+
+ handleSubmit = (e)=>{
+   e.preventDefault()
+   const itemsref = firebase.database().ref('expenses')
+   
+   let expenses = {
+    expense,
+    amount,
+    notes,
+    date
+  }
+   itemsref.push(expenses)
+
+   
+
+    window.location.assign('/')
+ }
+
+
+
   return (
     <div className='app ' style={{backgroundColor: '#393e46'}}>
     
     <header>
     <div className='wrapper text-center'>
-    <h3 style={{color: '#fbe8d3'}}>Add Expense </h3>
-    {this.props.email}
+    <h3 style={{color: '#fbe8d3'}}>Add Expense for {user.email} </h3>
     </div>
     </header>
     <div className='container'> 
     <section className='add-item'>
 
     <div className='text-center' style={{backgroundColor: '#393e46'}} >
-    {user.email}
-    <form style={{backgroundColor: '757575'}} className='text-center' onSubmit={this.handleSubmit}>
+    
+    <form style={{backgroundColor: '757575'}} className='text-center' onSubmit={handleSubmit}>
     <div className='text-center' style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center'}} >
     <h5 style={{color: '#fbe8d3'}} className='m-2'>
     Expense <br></br>
-    <TextField className='bg-light text-center '  label={this.state.expense} name='expense'  onChange={this.handleChange} />
+    <TextField className='bg-light text-center '   name='expense'  onChange={ setExpense} />
 
     </h5>
     <h5 style={{color: '#fbe8d3'}} className='m-2'>
     Amount <br></br>
-    <TextField className='bg-light text-center'  label={this.state.amount} name='amount' type='number' step='.01' min='.01'  onChange={this.handleChange}  />
+    <TextField className='bg-light text-center'  name='amount' type='number' step='.01' min='.01'  onChange={ setAmount}  />
 
     </h5>
     
@@ -90,7 +101,7 @@ this.setState({
     Notes <br></br>
     <TextField
    className='bg-light text-center'  
-   name='notes' placeholder='extra notes' onChange={this.handleChange}  
+   name='notes' placeholder='extra notes' onChange={ setNotes}  
   
   />
   
@@ -106,7 +117,7 @@ this.setState({
     name='date'
     
     type="date"  
-    onChange={this.handleChange}
+    onChange={ setDate}
     InputLabelProps={{
       shrink: true,
     }}
@@ -115,7 +126,7 @@ this.setState({
     
     
     </div>
-    <Button onClick={this.handleSubmit}  style={{backgroundColor: '#753775', color: '#fbe8d3'}}>Add Expense</Button>
+    <Button onClick={handleSubmit}  style={{backgroundColor: '#753775', color: '#fbe8d3'}}>Add Expense</Button>
 
 
     </form>
@@ -124,11 +135,10 @@ this.setState({
     
     </div>
     </div>
-  )}
+  )
+
 
 }
-
-
 
 
 export default FormProper
