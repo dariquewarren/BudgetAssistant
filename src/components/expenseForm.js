@@ -1,13 +1,13 @@
-import React from 'react';
+import React, {Component} from 'react';
 import '../App.css';
 import firebase from '../firebase'
 import {TextField} from '@material-ui/core'
 import {Button} from 'react-bootstrap'
 import moment from 'moment'
-import { useAuth0, withAuth0 } from "@auth0/auth0-react";
+import { withAuth0} from "@auth0/auth0-react";
 
 
-class FormProper extends React.Component{
+class FormProper extends Component{
   constructor() {
     super();
     this.state = {
