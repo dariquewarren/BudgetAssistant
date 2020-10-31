@@ -108,7 +108,7 @@ console.log(expenses)
     <header>
     <div className='wrapper text-center'>
     <h3 style={{color: '#fbe8d3'}}>Add Expense for 
-    <h1>Now: {email}, before: {prevEmail}</h1>  </h3>
+    <h1>Now: {newEmail}, before: {prevEmail}</h1>  </h3>
     </div>
     </header>
     <div className='container'> 
