@@ -87,7 +87,7 @@ const handleSubmit = (e)=>{
 
    const itemsref = firebase.database().ref('expenses')
 
-   console.log(e.target.value)
+   console.log(e.target)
   //  itemsref.push(expenses)
  // window.location.assign('/')
 setTimeout(()=>{
@@ -118,12 +118,16 @@ console.log(expenses)
     <div className='text-center' style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center'}} >
     <h5 style={{color: '#fbe8d3'}} className='m-2'>
     Expense <br></br>
-    <TextField className='bg-light text-center '   name='expense'  onChange={ setExpense} />
+    <TextField className='bg-light text-center '   name='expense'  onChange={ (e)=>{
+      setExpense(e.target.value)
+    }} />
 
     </h5>
     <h5 style={{color: '#fbe8d3'}} className='m-2'>
     Amount <br></br>
-    <TextField className='bg-light text-center'  name='amount' type='number' step='.01' min='.01'  onChange={ setAmount}  />
+    <TextField className='bg-light text-center'  name='amount' type='number' step='.01' min='.01'  onChange={ (e)=>{
+      setAmount(e.target.value)
+    }}  />
 
     </h5>
     
@@ -131,7 +135,9 @@ console.log(expenses)
     Notes <br></br>
     <TextField
    className='bg-light text-center'  
-   name='notes' placeholder='extra notes' onChange={ setNotes}  
+   name='notes' placeholder='extra notes' onChange={(e)=>{
+    setNotes(e.target.value)
+   }}  
   
   />
   
@@ -147,7 +153,9 @@ console.log(expenses)
     name='date'
     
     type="date"  
-    onChange={ setDate}
+    onChange={ (e)=>{
+      setDate(e.target.value)
+    }}
     InputLabelProps={{
       shrink: true,
     }}
