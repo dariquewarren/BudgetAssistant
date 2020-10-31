@@ -81,7 +81,6 @@ const handleSubmit = (e)=>{
 
    const itemsref = firebase.database().ref('expenses')
 
-   console.log('first expenses', expenses)
   //  itemsref.push(expenses)
  // window.location.assign('/')
 setTimeout(()=>{
