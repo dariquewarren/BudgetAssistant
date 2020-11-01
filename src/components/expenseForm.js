@@ -102,7 +102,7 @@ setTimeout(()=>{
   }
   console.log('expensesEmail', expenseEmail)
 
-  const itemsref = firebase.database().ref('expenses' + expenseEmail)
+  const itemsref = firebase.database().ref('expenses/' + expenseEmail)
 
   
 
