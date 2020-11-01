@@ -255,7 +255,7 @@ const EditExpenseWrapper = ()=>{
   return (
 
       <div>     
-        <editExpense auth={isAuthenticated} email={isAuthenicated ? user.email : 'testtestcom' }/>
+        <EditExpense auth={isAuthenticated} email={isAuthenicated ? user.email : 'testtestcom' }/>
       </div>
     
   );
@@ -263,4 +263,4 @@ const EditExpenseWrapper = ()=>{
 }
 
 
-export default EditExpense
+export default EditExpenseWrapper
