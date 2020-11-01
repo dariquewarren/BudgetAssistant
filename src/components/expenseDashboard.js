@@ -59,7 +59,9 @@ class ExpenseDashboard extends React.Component {
  }
 
  componentDidMount() {
-
+if(!this.props.auth){
+  console.log(this.props.auth)
+}
   let regex = /[a-z]/gmi
   let expenseEmail = this.state.email.match(regex).join('')
   let myExpensesRef = firebase.database().ref("expenses/" + expenseEmail)
