@@ -837,7 +837,7 @@ const ExpensesWrapper =()=>{
     </div>)
     :(
       <div>
-      not authorized
+      <ExpenseDashboard email={'testtestcom'} auth={isAuthenticated}/>
       </div>      
     )
 
