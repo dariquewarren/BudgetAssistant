@@ -67,7 +67,7 @@ class ExpenseDashboard extends React.Component {
 
 
 if(this.props.auth){
-  let myExpensesRef = firebase.database().ref("expenses/" + this.state.email)
+  let myExpensesRef = firebase.database().ref("expenses/" + expenseEmail)
 
 return  myExpensesRef.on("value", (snapshot) => {
     let items = snapshot.val();
