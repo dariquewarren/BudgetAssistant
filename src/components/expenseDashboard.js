@@ -71,8 +71,8 @@ if(!this.props.auth){
 
 
 
-setTimeout(()=>{
-  console.log()
+
+  console.log(this.props.auth)
 if(this.props.auth){
   myExpensesRef.on("value", (snapshot) => {
     let items = snapshot.val();
@@ -139,7 +139,7 @@ if(this.props.auth){
 
 
 }
-}, 3000)
+
 
   
 
