@@ -62,14 +62,17 @@ class ExpenseDashboard extends React.Component {
 
   let regex = /[a-z]/gmi
   let expenseEmail = this.state.email.match(regex).join('')
-   console.log('state-email', this.state.email)
-
-
-
-if(this.props.auth){
   let myExpensesRef = firebase.database().ref("expenses/" + expenseEmail)
+ 
+  console.log('state-email', this.state.email)
 
-return  myExpensesRef.on("value", (snapshot) => {
+
+
+
+setTimeout(()=>{
+  console.log()
+if(this.props.auth){
+  myExpensesRef.on("value", (snapshot) => {
     let items = snapshot.val();
     let newState = [];
 
@@ -95,13 +98,12 @@ return  myExpensesRef.on("value", (snapshot) => {
 
     console.log(amountArray);
     this.setState({ items: newState, expensesTotal: ddw });
+    
   });
 
 
 
-
-
-}else{
+}else if (!this.props.auth){
   itemsRef.on("value", (snapshot) => {
     let items = snapshot.val();
     let newState = [];
@@ -128,11 +130,17 @@ return  myExpensesRef.on("value", (snapshot) => {
 
     console.log(amountArray);
     this.setState({ items: newState, expensesTotal: ddw });
+    
   });
 
+
+
+
 }
+}, 3000)
 
   
+
   
   
   }
