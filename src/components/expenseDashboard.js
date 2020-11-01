@@ -312,7 +312,7 @@ console.log('filter state', filterState)
         expenseArray.push(parseInt(e.amount, 10));
       });
 
-      const dummyArray = [0];
+      const dummyArray = [1,2,3];
 
       const expensesTotal =
         expenseArray.length === 0
@@ -364,7 +364,7 @@ console.log('filter state', filterState)
         expenseArray.push(parseInt(e.amount, 10));
       });
 
-      const dummyArray = [0];
+      const dummyArray = [1,2,3];
 
       const expensesTotal =
         expenseArray.length === 0
@@ -423,7 +423,7 @@ console.log('filter state', filterState)
           })
       })
 console.log('final array', finalArray)
-      const dummyArray = [0];
+      const dummyArray = [1,2,3];
 
       const expensesTotal =
         expenseArray.length === 0
