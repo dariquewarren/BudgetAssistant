@@ -730,7 +730,7 @@ onClick={this.sortDateHighLow}><FaSortAlphaDownAlt/> Date</button>
 
 const ExpensesArray = (props)=>{
 
-return(
+return props.items && (
   
 
 <ul style={{backgroundColor: '#393e46', listStyleType:'none'}}>
@@ -752,7 +752,7 @@ onClick={(e)=>{
 
 >
 <h4 style={{color: '#fbe8d3'}}>
-{m.expense.toUpperCase()}
+{m.expense}
 </h4>
 
 <div  
