@@ -253,12 +253,11 @@ const EditExpenseWrapper = ()=>{
     // email value = user.email or testtestcom
 
   return (
-    isAuthenticated && (
-      <div>
-        
+
+      <div>     
         <editExpense auth={isAuthenticated} email={isAuthenicated ? user.email : 'testtestcom' }/>
       </div>
-    )
+    
   );
 
 }
