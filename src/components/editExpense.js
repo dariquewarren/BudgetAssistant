@@ -8,8 +8,10 @@ import moment from 'moment'
 
 
 class EditExpense extends React.Component{
-  constructor() {
-    super();
+// set props {isauthenticated, email }
+
+  constructor(props) {
+    super(props);
     this.state = {
       
       expense: '',
@@ -26,23 +28,31 @@ class EditExpense extends React.Component{
 
   componentDidMount(){
 const id = this.props.match.params.id
-    const itemsRef = firebase.database().ref('expenses/' + id)
-    itemsRef.on('value', (snapshot)=>{
+// mutate email to exclude non letters
+// change items ref to select conditionally either expense/moddedEmail or expenses/testtestcom
+let realEmail = (this.props.auth) ? this.props.email : 'testtestcom'
+let regex = /[a-z]/gmi
+  let expenseEmail = realEmail.match(regex).join('')
+console.log('expenseEmail',expenseEmail)
+console.log(this.props.email)
+console.log(this.props.auth)
+    // const itemsRef = firebase.database().ref('expenses/' + expenseEmail)
+    // itemsRef.on('value', (snapshot)=>{
 
-      var expenseGrabbed = snapshot.val()
-     const items = [expenseGrabbed]
+    //   var expenseGrabbed = snapshot.val()
+    //  const items = [expenseGrabbed]
         
      
-     this.setState({
-            items,
-            amount: expenseGrabbed.amount,
-            notes: expenseGrabbed.notes,
-            date: (expenseGrabbed.date),
-            expense: expenseGrabbed.expense
-        })
-      console.log('/expense/' + id)
+    //  this.setState({
+    //         items,
+    //         amount: expenseGrabbed.amount,
+    //         notes: expenseGrabbed.notes,
+    //         date: (expenseGrabbed.date),
+    //         expense: expenseGrabbed.expense
+    //     })
+      
      
-    })
+    // })
     
 
   }
@@ -199,6 +209,56 @@ className="card ">
     </div>
     
   )}
+
+}
+
+const EditExpenseWrapper = ()=>{
+
+  const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
+  const [userMetadata, setUserMetadata] = useState(null);
+
+  useEffect(() => {
+    const getUserMetadata = async () => {
+      const domain = "dev-sg8fbv3t.us.auth0.com";
+      let myToken
+      try {
+        const accessToken = await getAccessTokenSilently({
+          audience: `https://${domain}/api/v2/`,
+          scope: "read:current_user",
+        });
+  
+        const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user.sub}`;
+  
+        const metadataResponse = await fetch(userDetailsByIdUrl, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+  
+        const { user_metadata } = await metadataResponse.json();
+  console.log(accessToken)
+  myToken = accessToken
+        setUserMetadata(user_metadata);
+      } catch (e) {
+        console.log(e.message);
+      }
+    };
+    
+       
+    getUserMetadata();
+  }, []);
+  //set props for children (isauthenticated, useremail). 
+  // useremail value is conditioned on authentication.
+    // email value = user.email or testtestcom
+
+  return (
+    isAuthenticated && (
+      <div>
+        
+        <editExpense auth={isAuthenticated} email={isAuthenicated ? user.email : 'testtestcom' }/>
+      </div>
+    )
+  );
 
 }
 
