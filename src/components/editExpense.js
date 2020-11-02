@@ -37,23 +37,23 @@ let regex = /[a-z]/gmi
 console.log('expenseEmail',expenseEmail)
 console.log(this.props.email)
 console.log(this.props.auth)
-    // const itemsRef = firebase.database().ref('expenses/' + expenseEmail)
-    // itemsRef.on('value', (snapshot)=>{
+    const itemsRef = firebase.database().ref('expenses/' + expenseEmail)
+    itemsRef.on('value', (snapshot)=>{
 
-    //   var expenseGrabbed = snapshot.val()
-    //  const items = [expenseGrabbed]
+      var expenseGrabbed = snapshot.val()
+     const items = [expenseGrabbed]
         
      
-    //  this.setState({
-    //         items,
-    //         amount: expenseGrabbed.amount,
-    //         notes: expenseGrabbed.notes,
-    //         date: (expenseGrabbed.date),
-    //         expense: expenseGrabbed.expense
-    //     })
+     this.setState({
+            items,
+            amount: expenseGrabbed.amount,
+            notes: expenseGrabbed.notes,
+            date: (expenseGrabbed.date),
+            expense: expenseGrabbed.expense
+        })
       
      
-    // })
+    })
     
 
   }
