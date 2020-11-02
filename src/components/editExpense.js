@@ -29,7 +29,7 @@ class EditExpense extends React.Component{
 
   componentDidMount(){
 
-console.log(this.props.id)
+console.log(window.location.pathname)
 // mutate email to exclude non letters
 // change items ref to select conditionally either expense/moddedEmail or expenses/testtestcom
 let realEmail = (this.props.auth) ? this.props.email : 'testtestcom'
