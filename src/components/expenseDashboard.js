@@ -14,8 +14,11 @@ import UserContext from './userContext'
 import { useAuth0 } from "@auth0/auth0-react";
 
 
+let regex = /[a-z]/gmi
+let expenseEmail = this.state.email.match(regex).join('')
+let myExpensesRef = (this.props.auth) ? firebase.database().ref("expenses/" + expenseEmail) : firebase.database().ref("expenses/testtestcom")
 
-const itemsRef = firebase.database().ref("expenses")
+
 
 
 class ExpenseDashboard extends React.Component {
@@ -60,9 +63,6 @@ class ExpenseDashboard extends React.Component {
 
  componentDidMount() {
 
-  let regex = /[a-z]/gmi
-  let expenseEmail = this.state.email.match(regex).join('')
-  let myExpensesRef = firebase.database().ref("expenses/" + expenseEmail)
  
   console.log('state-email', this.props.auth)
 
@@ -104,7 +104,7 @@ if(this.props.auth){
 
 
 }else if (!this.props.auth){
-  itemsRef.on("value", (snapshot) => {
+  myExpensesRef.on("value", (snapshot) => {
     let items = snapshot.val();
     let newState = [];
 
@@ -128,7 +128,7 @@ if(this.props.auth){
       return total + currentValue;
     });
 
-    console.log(amountArray);
+    console.log(amountArray, newState);
     this.setState({ items: newState, expensesTotal: ddw });
     
   });
@@ -202,7 +202,7 @@ console.log( e.target.budgetAmount.value)
   };
 
   sortDateLowHigh = () => {
-    itemsRef.on("value", (snapshot) => {
+    myExpensesRef.on("value", (snapshot) => {
       let items = snapshot.val();
       let newState = [];
 
@@ -238,7 +238,7 @@ console.log( e.target.budgetAmount.value)
   };
 
   sortDateHighLow = () => {
-    itemsRef.on("value", (snapshot) => {
+    myExpensesRef.on("value", (snapshot) => {
       let items = snapshot.val();
       let newState = [];
 
@@ -284,7 +284,7 @@ console.log( e.target.budgetAmount.value)
     const searchTerm = this.state.searchTerm;
     console.log("search term", searchTerm);
 
-    itemsRef.on("value", (snapshot) => {
+    myExpensesRef.on("value", (snapshot) => {
       const items = snapshot.val();
       let newState = [];
 
@@ -335,7 +335,7 @@ console.log('filter state', filterState)
     this.setState({
         items: []
     })
-    itemsRef.on("value", (snapshot) => {
+    myExpensesRef.on("value", (snapshot) => {
       let items = snapshot.val();
       let newState = [];
 
@@ -383,7 +383,7 @@ console.log('filter state', filterState)
   };
 
   setEndDateRange = () => {
-    itemsRef.on("value", (snapshot) => {
+    myExpensesRef.on("value", (snapshot) => {
       let items = snapshot.val();
       let newState = [];
 
