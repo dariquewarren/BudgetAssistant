@@ -38,23 +38,23 @@ let regex = /[a-z]/gmi
 console.log('expenseEmail',expenseEmail)
 console.log(this.props.email)
 console.log(this.props.auth)
-    const itemsRef = firebase.database().ref('expenses/' + expenseEmail)
-    itemsRef.on('value', (snapshot)=>{
+    // const itemsRef = firebase.database().ref('expenses/' + expenseEmail)
+    // itemsRef.on('value', (snapshot)=>{
 
-      var expenseGrabbed = snapshot.val()
-     const items = [expenseGrabbed]
+    //   var expenseGrabbed = snapshot.val()
+    //  const items = [expenseGrabbed]
         
      
-     this.setState({
-            items,
-            amount: expenseGrabbed.amount,
-            notes: expenseGrabbed.notes,
-            date: (expenseGrabbed.date),
-            expense: expenseGrabbed.expense
-        })
+    //  this.setState({
+    //         items,
+    //         amount: expenseGrabbed.amount,
+    //         notes: expenseGrabbed.notes,
+    //         date: (expenseGrabbed.date),
+    //         expense: expenseGrabbed.expense
+    //     })
       
      
-    })
+    // })
     
 
   }
@@ -82,17 +82,17 @@ this.setState({
     // const id = this.props.match.params.id
     // const itemsRef = firebase.database().ref('expenses/' + id)
     
-    const item = {
-      expense: this.state.expense,
-      notes: this.state.notes,
-      date: this.state.date,
-      amount: this.state.amount
-    }
-    itemsRef.update(item).then(()=>{
-        window.location.assign('/')
-    }).catch((e)=>{
-        console.log(e)
-    })
+    // const item = {
+    //   expense: this.state.expense,
+    //   notes: this.state.notes,
+    //   date: this.state.date,
+    //   amount: this.state.amount
+    // }
+    // itemsRef.update(item).then(()=>{
+    //     window.location.assign('/')
+    // }).catch((e)=>{
+    //     console.log(e)
+    // })
 
     
   }
@@ -100,12 +100,12 @@ this.setState({
 removeItem =()=>{
   //   const id = this.props.match.params.id
   // const itemRef = firebase.database().ref(`/expenses/` + id)
-  itemRef.remove().then(()=>{
-    alert('success')
-    window.location.assign('/')
-  }).catch((e)=>{
-    console.log(`not deleted:`, e)
-  })
+  // itemRef.remove().then(()=>{
+  //   alert('success')
+  //   window.location.assign('/')
+  // }).catch((e)=>{
+  //   console.log(`not deleted:`, e)
+  // })
 }
 
   render()
