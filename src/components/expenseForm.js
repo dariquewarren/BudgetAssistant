@@ -35,7 +35,7 @@ const FormProper = ()=>{
 const [newExpense, setExpense] = useState(0)
 const [newAmount, setAmount] = useState(0)
 const [newNotes, setNotes] = useState(0)
-const [newDate, setDate] = useState(0)
+const [newDate, setDate] = useState(false)
 const [newEmail, setEmail] = useState('dummyEmail')
       const prevEmail = usePrevious(newEmail);
   
@@ -78,39 +78,51 @@ useEffect(() => {
 
 const handleSubmit = (e)=>{
    e.preventDefault()
+
    const regex = /[a-z]/gmi
 
    let expenseEmail = (isAuthenticated) ? user.email.match(regex).join('') : 'testtestcom'
-setTimeout(()=>{
+
+   if(newAmount < .01){
+return alert('Amount is required (min $0.01)')
+   } else if (!newDate) {
+return alert('Date is required')
+   } else if (!newExpense.length){
+    return alert('expense required')
+   }else{
+
+    setTimeout(()=>{
   
  
   
-  let expenses = (isAuthenticated) ? {
-    expense: newExpense,
-    amount: newAmount,
-    notes: newNotes,
-    date: newDate,
-    email: user.email
-  }
-  : 
-  {
-    expense: newExpense,
-    amount: newAmount,
-    notes: newNotes,
-    date: newDate,
-    email: 'test@test.com'
-  }
-  console.log('expensesEmail', expenseEmail)
-
-  const itemsref = firebase.database().ref('expenses/' + expenseEmail)
-
+      let expenses = (isAuthenticated) ? {
+        expense: newExpense,
+        amount: newAmount,
+        notes: newNotes,
+        date: moment(newDate).format("YYYYMMDD"),
+        email: user.email
+      }
+      : 
+      {
+        expense: newExpense,
+        amount: newAmount,
+        notes: newNotes,
+        date:  moment(newDate).format("YYYYMMDD"),
+        email: 'test@test.com'
+      }
+      console.log('expensesEmail', expenseEmail)
+    
+      const itemsref = firebase.database().ref('expenses/' + expenseEmail)
+    
+      
+    
+       itemsref.push(expenses)
+     // window.location.assign('/')
+    
+      console.log(expenses)
+    }, 2000)
+   }
   
-
-   itemsref.push(expenses)
- // window.location.assign('/')
-
-  console.log(expenses)
-}, 2000)
 
 
 
@@ -124,7 +136,7 @@ setTimeout(()=>{
     <header>
     <div className='wrapper text-center'>
     <h3 style={{color: '#fbe8d3'}}>Add Expense for 
-    <h1>{isAuthenticated ? user.email : 'test@test.com' }</h1>  </h3>
+    {isAuthenticated ? user.email : 'test@test.com' }  </h3>
     </div>
     </header>
     <div className='container'> 

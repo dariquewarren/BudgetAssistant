@@ -28,33 +28,33 @@ class EditExpense extends React.Component{
   }
 
   componentDidMount(){
-
-console.log(window.location.pathname)
 // mutate email to exclude non letters
 // change items ref to select conditionally either expense/moddedEmail or expenses/testtestcom
 let realEmail = (this.props.auth) ? this.props.email : 'testtestcom'
 let regex = /[a-z]/gmi
   let expenseEmail = realEmail.match(regex).join('')
+  let id = window.location.pathname.slice(6)
 console.log('expenseEmail',expenseEmail)
-console.log(this.props.email)
-console.log(this.props.auth)
-    // const itemsRef = firebase.database().ref('expenses/' + expenseEmail)
-    // itemsRef.on('value', (snapshot)=>{
+console.log('email', this.props.email)
+console.log('isAuthounticated',this.props.auth)
 
-    //   var expenseGrabbed = snapshot.val()
-    //  const items = [expenseGrabbed]
+    const itemsRef = firebase.database().ref('expenses/' + expenseEmail + '/' + id)
+    itemsRef.on('value', (snapshot)=>{
+
+      var expenseGrabbed = snapshot.val()
+     const items = [expenseGrabbed]
         
      
-    //  this.setState({
-    //         items,
-    //         amount: expenseGrabbed.amount,
-    //         notes: expenseGrabbed.notes,
-    //         date: (expenseGrabbed.date),
-    //         expense: expenseGrabbed.expense
-    //     })
+     this.setState({
+            items,
+            amount: expenseGrabbed.amount,
+            notes: expenseGrabbed.notes,
+            date: (expenseGrabbed.date),
+            expense: expenseGrabbed.expense
+        })
       
      
-    // })
+    })
     
 
   }
@@ -79,33 +79,36 @@ this.setState({
   }
   handleSubmit = (e)=>{
     e.preventDefault()
-    // const id = this.props.match.params.id
-    // const itemsRef = firebase.database().ref('expenses/' + id)
+    const id = window.location.pathname.slice(6)
     
-    // const item = {
-    //   expense: this.state.expense,
-    //   notes: this.state.notes,
-    //   date: this.state.date,
-    //   amount: this.state.amount
-    // }
-    // itemsRef.update(item).then(()=>{
-    //     window.location.assign('/')
-    // }).catch((e)=>{
-    //     console.log(e)
-    // })
+
+    const itemsRef = firebase.database().ref('expenses/' + this.props.email + '/' + id)
+    
+    const item = {
+      expense: this.state.expense,
+      notes: this.state.notes,
+      date: this.state.date,
+      amount: this.state.amount
+    }
+    itemsRef.update(item).then(()=>{
+        window.location.assign('/')
+    }).catch((e)=>{
+        console.log(e)
+    })
 
     
   }
   
 removeItem =()=>{
-  //   const id = this.props.match.params.id
-  // const itemRef = firebase.database().ref(`/expenses/` + id)
-  // itemRef.remove().then(()=>{
-  //   alert('success')
-  //   window.location.assign('/')
-  // }).catch((e)=>{
-  //   console.log(`not deleted:`, e)
-  // })
+    const id = window.location.pathname.slice(6)
+
+  const itemRef = firebase.database().ref('expenses/' + this.props.email + '/' + id)
+  itemRef.remove().then(()=>{
+    alert('success')
+    window.location.assign('/')
+  }).catch((e)=>{
+    console.log(`not deleted:`, e)
+  })
 }
 
   render()
