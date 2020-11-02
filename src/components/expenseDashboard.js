@@ -10,12 +10,9 @@ import { FaGlasses, FaMinusCircle, FaPlayCircle,
     FaSortAmountUp, FaSortAmountDown, FaSortAlphaDownAlt, FaSortAlphaUpAlt} from 'react-icons/fa'
 import {BsFillGearFill} from 'react-icons/bs'
 import LoginButton from '../components/loginButton'
+import UserContext from './userContext'
 import { useAuth0 } from "@auth0/auth0-react";
 
-
-let regex = /[a-z]/gmi
-let expenseEmail = this.state.email.match(regex).join('')
-let myExpensesRef = (this.props.auth) ? firebase.database().ref("expenses/" + expenseEmail) : firebase.database().ref("expenses/testtestcom")
 
 
 
@@ -41,7 +38,9 @@ class ExpenseDashboard extends React.Component {
       items: [],
       email: this.props.email
     };
-    
+ 
+
+
     this.setStartDateRange = this.setStartDateRange.bind(this);
     this.setEndDateRange = this.setEndDateRange.bind(this);
     this.handleBeginningDate = this.handleBeginningDate.bind(this);
@@ -65,7 +64,11 @@ class ExpenseDashboard extends React.Component {
  
   console.log('state-email', this.props.auth)
 
-
+  let regex = /[a-z]/gmi
+  let expenseEmail = this.state.email.match(regex).join('')
+  let myExpensesRef = (this.props.auth) ? firebase.database().ref("expenses/" + expenseEmail) : firebase.database().ref("expenses/testtestcom")
+  
+  
 
 
 
@@ -201,6 +204,11 @@ console.log( e.target.budgetAmount.value)
   };
 
   sortDateLowHigh = () => {
+    let regex = /[a-z]/gmi
+    let expenseEmail = this.state.email.match(regex).join('')
+    let myExpensesRef = (this.props.auth) ? firebase.database().ref("expenses/" + expenseEmail) : firebase.database().ref("expenses/testtestcom")
+    
+    
     myExpensesRef.on("value", (snapshot) => {
       let items = snapshot.val();
       let newState = [];
@@ -237,6 +245,11 @@ console.log( e.target.budgetAmount.value)
   };
 
   sortDateHighLow = () => {
+    let regex = /[a-z]/gmi
+    let expenseEmail = this.state.email.match(regex).join('')
+    let myExpensesRef = (this.props.auth) ? firebase.database().ref("expenses/" + expenseEmail) : firebase.database().ref("expenses/testtestcom")
+    
+    
     myExpensesRef.on("value", (snapshot) => {
       let items = snapshot.val();
       let newState = [];
@@ -282,6 +295,11 @@ console.log( e.target.budgetAmount.value)
     e.preventDefault();
     const searchTerm = this.state.searchTerm;
     console.log("search term", searchTerm);
+    let regex = /[a-z]/gmi
+    let expenseEmail = this.state.email.match(regex).join('')
+    let myExpensesRef = (this.props.auth) ? firebase.database().ref("expenses/" + expenseEmail) : firebase.database().ref("expenses/testtestcom")
+    
+    
 
     myExpensesRef.on("value", (snapshot) => {
       const items = snapshot.val();
@@ -331,6 +349,12 @@ console.log('filter state', filterState)
   };
 
   setStartDateRange = () => {
+    let regex = /[a-z]/gmi
+    let expenseEmail = this.state.email.match(regex).join('')
+    let myExpensesRef = (this.props.auth) ? firebase.database().ref("expenses/" + expenseEmail) : firebase.database().ref("expenses/testtestcom")
+    
+    
+
     this.setState({
         items: []
     })
@@ -382,6 +406,11 @@ console.log('filter state', filterState)
   };
 
   setEndDateRange = () => {
+    let regex = /[a-z]/gmi
+    let expenseEmail = this.state.email.match(regex).join('')
+    let myExpensesRef = (this.props.auth) ? firebase.database().ref("expenses/" + expenseEmail) : firebase.database().ref("expenses/testtestcom")
+    
+    
     myExpensesRef.on("value", (snapshot) => {
       let items = snapshot.val();
       let newState = [];
