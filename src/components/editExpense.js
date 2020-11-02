@@ -256,7 +256,7 @@ const EditExpenseWrapper = ()=>{
   return (
 
       <div>     
-        <EditExpense id={ this.props.match.id} auth={isAuthenticated} email={isAuthenticated ? user.email : 'testtestcom' }/>
+        <EditExpense  auth={isAuthenticated} email={isAuthenticated ? user.email : 'testtestcom' }/>
       </div>
     
   );
