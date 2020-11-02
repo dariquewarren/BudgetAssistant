@@ -60,7 +60,7 @@ class ExpenseDashboard extends React.Component {
  }
 
  componentDidMount() {
-
+// log is loading prop to console via conditional
 console.log('see about delay when logging in. consider, isLoading prop') 
   console.log('state-email', this.props.auth)
 
@@ -484,7 +484,7 @@ console.log('final array', finalArray)
       endDate: value,
     });
   };
-
+// use isLoading prop to conditionally render summary part. if not possible, just use the whole compeonent
     render(){
      return (
 <div>
@@ -859,10 +859,13 @@ const ExpensesWrapper =()=>{
     getUserMetadata();
   }, []);
 
+// add isLoading prop
 
+// mayebe add summary conditionally below
   return(isAuthenticated ? 
     (<div>
-    <ExpenseDashboard email={user.email} auth={isAuthenticated}/>
+      
+    <ExpenseDashboard isLoading={isLoading}  email={user.email} auth={isAuthenticated}/>
     </div>)
     :(
       <div>
