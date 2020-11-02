@@ -29,7 +29,7 @@ class EditExpense extends React.Component{
 
   componentDidMount(){
 
-console.log(this.props.match.params.id)
+console.log(this.props.id)
 // mutate email to exclude non letters
 // change items ref to select conditionally either expense/moddedEmail or expenses/testtestcom
 let realEmail = (this.props.auth) ? this.props.email : 'testtestcom'
@@ -79,8 +79,8 @@ this.setState({
   }
   handleSubmit = (e)=>{
     e.preventDefault()
-    const id = this.props.match.params.id
-    const itemsRef = firebase.database().ref('expenses/' + id)
+    // const id = this.props.match.params.id
+    // const itemsRef = firebase.database().ref('expenses/' + id)
     
     const item = {
       expense: this.state.expense,
@@ -98,8 +98,8 @@ this.setState({
   }
   
 removeItem =()=>{
-    const id = this.props.match.params.id
-  const itemRef = firebase.database().ref(`/expenses/` + id)
+  //   const id = this.props.match.params.id
+  // const itemRef = firebase.database().ref(`/expenses/` + id)
   itemRef.remove().then(()=>{
     alert('success')
     window.location.assign('/')
@@ -256,7 +256,7 @@ const EditExpenseWrapper = ()=>{
   return (
 
       <div>     
-        <EditExpense auth={isAuthenticated} email={isAuthenticated ? user.email : 'testtestcom' }/>
+        <EditExpense id={ this.props.match.id} auth={isAuthenticated} email={isAuthenticated ? user.email : 'testtestcom' }/>
       </div>
     
   );
