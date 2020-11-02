@@ -118,7 +118,7 @@ if(this.props.auth){
       });
     }
 
-    
+    console.log('new items array', newState)
     const amountArray = [];
     newState.forEach((e) => {
       amountArray.push(parseFloat(e.amount,10));
