@@ -61,7 +61,7 @@ class ExpenseDashboard extends React.Component {
 
  componentDidMount() {
 
- 
+console.log('see about delay when logging in. consider, isLoading prop') 
   console.log('state-email', this.props.auth)
 
   let regex = /[a-z]/gmi
