@@ -59,9 +59,7 @@ class ExpenseDashboard extends React.Component {
  }
 
  componentDidMount() {
-if(!this.props.auth){
-  console.log(this.props.auth)
-}
+
   let regex = /[a-z]/gmi
   let expenseEmail = this.state.email.match(regex).join('')
   let myExpensesRef = firebase.database().ref("expenses/" + expenseEmail)
@@ -730,64 +728,67 @@ onClick={this.sortDateHighLow}><FaSortAlphaDownAlt/> Date</button>
 
 const ExpensesArray = (props)=>{
 
-return props.items && (
+return(
+  <div>
+  {  props.items ? <ul style={{backgroundColor: '#393e46', listStyleType:'none'}}>
+  {
+  props.items.map((m)=>{
+      return (
+       
+  m.expense &&
+  <button
+  key={m.id} 
+  style={{backgroundColor: '#60316e', height: '15rem', width: '20rem'}}   
+  className=' text-wrap text-center m-2 p-1' 
+  onClick={(e)=>{
+    e.preventDefault()
+    window.location.assign(`/edit/` + m.id)
   
-
-<ul style={{backgroundColor: '#393e46', listStyleType:'none'}}>
-{
-props.items.map((m)=>{
-    return (
-     
-
-<button
-key={m.id} 
-style={{backgroundColor: '#60316e', height: '15rem', width: '20rem'}}   
-className=' text-wrap text-center m-2 p-1' 
-onClick={(e)=>{
-  e.preventDefault()
-  window.location.assign(`/edit/` + m.id)
-
-
-}}
-
->
-<h4 style={{color: '#fbe8d3'}}>
-{m.expense}
-</h4>
-
-<div  
-style={{backgroundColor: '#60316e'}}
->
-<h5 style={{color: '#078d1e'}}>${m.amount}</h5>
-<div
-style={{backgroundColor: '#60316e'}}
-className="card ">
-
-<div  className="card-body">      
-      
-        <div className="text-xs font-weight-bold text-warning text-uppercase ">
-        <h6 style={{color: '#090030'}}>Notes</h6>
-        <h5 style={{color:'#fbe8d3'}} className='text-center text-wrap'>{m.notes}</h5> 
+  
+  }}
+  
+  >
+  <h4 style={{color: '#fbe8d3'}}>
+  {m.expense}
+  </h4>
+  
+  <div  
+  style={{backgroundColor: '#60316e'}}
+  >
+  <h5 style={{color: '#078d1e'}}>${m.amount}</h5>
+  <div
+  style={{backgroundColor: '#60316e'}}
+  className="card ">
+  
+  <div  className="card-body">      
         
+          <div className="text-xs font-weight-bold text-warning text-uppercase ">
+          <h6 style={{color: '#090030'}}>Notes</h6>
+          <h5 style={{color:'#fbe8d3'}} className='text-center text-wrap'>{m.notes}</h5> 
+          
+      </div>
+      
     </div>
     
   </div>
+  <h6 style={{color: '#090030'}} className='text-center'>{m.date}</h6>
   
-</div>
-<h6 style={{color: '#090030'}} className='text-center'>{m.date}</h6>
+  </div>
+  
+  <h5 style={{color: '#29a19c'}}>Click To Edit/Delete</h5>
+        
+  </button>
+  
+      )
+  })
+  
+  
+  }
+  </ul>
+   :  <div>nope</div>}
+  </div>
 
-</div>
 
-<h5 style={{color: '#29a19c'}}>Click To Edit/Delete</h5>
-      
-</button>
-
-    )
-})
-
-
-}
-</ul>
 
 
 )
