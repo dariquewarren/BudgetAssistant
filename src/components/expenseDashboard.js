@@ -10,7 +10,6 @@ import { FaGlasses, FaMinusCircle, FaPlayCircle,
     FaSortAmountUp, FaSortAmountDown, FaSortAlphaDownAlt, FaSortAlphaUpAlt} from 'react-icons/fa'
 import {BsFillGearFill} from 'react-icons/bs'
 import LoginButton from '../components/loginButton'
-import UserContext from './userContext'
 import { useAuth0 } from "@auth0/auth0-react";
 
 
