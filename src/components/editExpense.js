@@ -38,7 +38,7 @@ console.log('email', this.props.email)
 console.log('isAuthounticated',this.props.auth)
 console.log('id number', id)
 
-    const itemsRef = firebase.database().ref('expenses/' + expenseEmail)
+    const itemsRef = firebase.database().ref('expenses/' + expenseEmail + '/' + id)
   
     itemsRef.on("value", (snapshot) => {
       let items = snapshot.val();
@@ -46,14 +46,13 @@ console.log('id number', id)
   
       for (let item in items) {
         newState.push({
-          id: item,
           expense: items[item].expense,
           notes: items[item].notes,
           date: moment(items[item].date).format("MMM Do"),
           amount: items[item].amount,
         });
       }
-  
+  console.log('new state', newState)
       newState.filter((f)=>{
         return f.id === id
       })
@@ -63,6 +62,8 @@ console.log('id number', id)
       this.setState({ items: newState});
       
     });
+
+
   }
 
   handleChange = (e)=>{
