@@ -46,6 +46,7 @@ console.log('id number', id)
   console.log('items', items)
       for (let item in items) {
         newState.push({
+          id: item,
           expense: items[item].expense,
           notes: items[item].notes,
           date: moment(items[item].date).format("MMM Do"),
@@ -54,7 +55,7 @@ console.log('id number', id)
       }
   console.log('new state', newState)
     let experiment =  newState.filter((f)=>{
-        return f === id
+        return f.id === id
       })
      
   console.log('filter experiment', experiment)
