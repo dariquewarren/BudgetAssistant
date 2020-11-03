@@ -38,12 +38,12 @@ console.log('email', this.props.email)
 console.log('isAuthounticated',this.props.auth)
 console.log('id number', id)
 
-    const itemsRef = firebase.database().ref('expenses/' + expenseEmail + '/' + id)
+    const itemsRef = firebase.database().ref('expenses/')
   
-    itemsRef.on("value", (snapshot) => {
+    itemsRef.orderByChild(expenseEmail).equalTo(id).on("value", (snapshot) => {
       let items = snapshot.val();
       let newState = [];
-  
+  console.log('items', items)
       for (let item in items) {
         newState.push({
           expense: items[item].expense,
@@ -53,11 +53,11 @@ console.log('id number', id)
         });
       }
   console.log('new state', newState)
-      newState.filter((f)=>{
+    let experiment =  newState.filter((f)=>{
         return f.id === id
       })
      
-  
+  console.log('filter experiment')
       
       this.setState({ items: newState});
       
