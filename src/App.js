@@ -9,10 +9,11 @@ function App(){
   return (
     <Auth0Provider
     domain="dev-sg8fbv3t.us.auth0.com"
-    clientId="dDBCDAphCkb9dA1g9sP4JhTib0ZditlI"
+    clientId= "dDBCDAphCkb9dA1g9sP4JhTib0ZditlI"
     redirectUri={window.location.origin}
+    cacheLocation= "localstorage"
     useRefreshTokens = {true}
-    cacheLocation="localstorage"
+    
   >
      <AppRouter   />
      </Auth0Provider>

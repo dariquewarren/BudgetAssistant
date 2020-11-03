@@ -30,15 +30,15 @@ class EditExpense extends React.Component{
   componentDidMount(){
 // mutate email to exclude non letters
 // change items ref to select conditionally either expense/moddedEmail or expenses/testtestcom
-let realEmail = (this.props.auth) ? this.props.email : 'testtestcom'
 let regex = /[a-z]/gmi
-  let expenseEmail = realEmail.match(regex).join('')
+  let expenseEmail = this.props.email.match(regex).join('')
   let id = window.location.pathname.slice(6)
 console.log('expenseEmail',expenseEmail)
 console.log('email', this.props.email)
 console.log('isAuthounticated',this.props.auth)
+console.log('id number', id)
 
-    const itemsRef = firebase.database().ref('expenses/' + expenseEmail + '/' + id)
+    const itemsRef = firebase.database().ref('expenses/' + expenseEmail)
   
     itemsRef.on("value", (snapshot) => {
       let items = snapshot.val();
@@ -54,7 +54,9 @@ console.log('isAuthounticated',this.props.auth)
         });
       }
   
-      
+      newState.filter((f)=>{
+        return f.id === id
+      })
      
   
       
@@ -229,25 +231,17 @@ const EditExpenseWrapper = ()=>{
   useEffect(() => {
     const getUserMetadata = async () => {
       const domain = "dev-sg8fbv3t.us.auth0.com";
-      let myToken
+      
       try {
         const accessToken = await getAccessTokenSilently({
           audience: `https://${domain}/api/v2/`,
           scope: "read:current_user",
         });
   
-        const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user.sub}`;
-  
-        const metadataResponse = await fetch(userDetailsByIdUrl, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-  
-        const { user_metadata } = await metadataResponse.json();
+       
+  let myToken = await accessToken
   console.log(accessToken)
-  myToken = accessToken
-        setUserMetadata(user_metadata);
+  
       } catch (e) {
         console.log(e.message);
       }
@@ -261,10 +255,21 @@ const EditExpenseWrapper = ()=>{
     // email value = user.email or testtestcom
 
   return (
-
+    <div>
+    {
+      isAuthenticated === true ? 
       <div>     
-        <EditExpense  auth={isAuthenticated} email={isAuthenticated ? user.email : 'testtestcom' }/>
+      <EditExpense  auth={isAuthenticated} email={user.email}/>
+      </div> : 
+      <div>     
+      <EditExpense  auth={isAuthenticated} email={'testtestcom'}/>
       </div>
+      
+      }
+
+    </div>
+
+      
     
   );
 
