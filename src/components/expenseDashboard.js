@@ -794,7 +794,7 @@ return(
 const ExpensesWrapper =()=>{
   const { user, isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
   const [userMetadata, setUserMetadata] = useState(null);
-  let trueEmail
+  
  
  
   useEffect(() => {
@@ -818,7 +818,6 @@ const ExpensesWrapper =()=>{
         const { user_metadata } = await metadataResponse.json();
   console.log(accessToken)
   myToken = accessToken
-  trueEmail = await (user) ? user.email : 'testtestcom' 
         setUserMetadata(user_metadata);
       } catch (e) {
         console.log(e.message);
@@ -833,8 +832,8 @@ const ExpensesWrapper =()=>{
 // mayebe add summary conditionally below
   return( 
     <div>
-      {trueEmail}
-      <ExpenseDashboard  email={trueEmail} auth={isAuthenticated}/>
+      
+      <ExpenseDashboard  email={user?user.email:'testestcom'} auth={isAuthenticated}/>
       </div>
 )
 }
