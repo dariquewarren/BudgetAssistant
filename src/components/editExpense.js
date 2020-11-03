@@ -54,7 +54,7 @@ console.log('id number', id)
       }
   console.log('new state', newState)
     let experiment =  newState.filter((f)=>{
-        return f.id === id
+        return f === id
       })
      
   console.log('filter experiment', experiment)
