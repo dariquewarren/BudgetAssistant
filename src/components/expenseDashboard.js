@@ -830,12 +830,11 @@ const ExpensesWrapper =()=>{
     getUserMetadata();
   }, []);
 // add isLoading prop
-let authEmail = (user)? user.email : 'testtestcom'
 // mayebe add summary conditionally below
   return( 
     <div>
       
-      <ExpenseDashboard  email={authEmail} auth={isAuthenticated}/>
+      <ExpenseDashboard  email={trueEmail} auth={isAuthenticated}/>
       </div>
 )
 }
