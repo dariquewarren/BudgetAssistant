@@ -65,15 +65,17 @@ console.log('see about delay when logging in. consider, isLoading prop')
   console.log('state-email', this.props.auth)
 
   let regex = /[a-z]/gmi
-  let expenseEmail = this.state.email.match(regex).join('')
-  let myExpensesRef = (this.props.auth) ? firebase.database().ref("expenses/" + expenseEmail) : firebase.database().ref("expenses/testtestcom")
+  
+
+  
+  let expenseEmail = this.props.email.match(regex).join('')
+  let myExpensesRef =  firebase.database().ref("expenses/" + expenseEmail) 
   
   
 
 
 
-  console.log(this.props.auth)
-if(this.props.auth){
+  console.log('expenses email', expenseEmail)
   myExpensesRef.on("value", (snapshot) => {
     let items = snapshot.val();
     let newState = [];
@@ -104,41 +106,6 @@ if(this.props.auth){
   });
 
 
-
-}else if (!this.props.auth){
-  myExpensesRef.on("value", (snapshot) => {
-    let items = snapshot.val();
-    let newState = [];
-
-    for (let item in items) {
-      newState.push({
-        id: item,
-        expense: items[item].expense,
-        notes: items[item].notes,
-        date: moment(items[item].date).format("MMM Do"),
-        amount: items[item].amount,
-      });
-    }
-
-    console.log('new items array', newState)
-    const amountArray = [];
-    newState.forEach((e) => {
-      amountArray.push(parseFloat(e.amount,10));
-    });
-
-    const ddw = amountArray.reduce((total, currentValue) => {
-      return total + currentValue;
-    });
-
-    console.log(amountArray, newState);
-    this.setState({ items: newState, expensesTotal: ddw });
-    
-  });
-
-
-
-
-}
 
 
   
@@ -827,7 +794,9 @@ return(
 const ExpensesWrapper =()=>{
   const { user, isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
   const [userMetadata, setUserMetadata] = useState(null);
-const trueEmail = (isAuthenticated) ? user.email : 'testtestcom' 
+  let trueEmail
+ 
+ 
   useEffect(() => {
     const getUserMetadata = async () => {
       const domain = "dev-sg8fbv3t.us.auth0.com";
@@ -849,35 +818,25 @@ const trueEmail = (isAuthenticated) ? user.email : 'testtestcom'
         const { user_metadata } = await metadataResponse.json();
   console.log(accessToken)
   myToken = accessToken
+  trueEmail = await (user) ? user.email : 'testtestcom' 
         setUserMetadata(user_metadata);
       } catch (e) {
         console.log(e.message);
       }
     };
     
-       
+    
+  
     getUserMetadata();
   }, []);
-
 // add isLoading prop
-
+let authEmail = (user)? user.email : 'testtestcom'
 // mayebe add summary conditionally below
-  return( <div> {isLoading ? 
-    (
-
-      <div>
-      Loading
-      </div>
-
-    ):(
-      <div>
+  return( 
+    <div>
       
-    <ExpenseDashboard  email={trueEmail} auth={isAuthenticated}/>
-    </div>)     
-    } 
-  )
-
-  </div>
+      <ExpenseDashboard  email={authEmail} auth={isAuthenticated}/>
+      </div>
 )
 }
 

@@ -49,7 +49,7 @@ console.log('id number', id)
           id: item,
           expense: items[item].expense,
           notes: items[item].notes,
-          date: moment(items[item].date).format("MMM Do"),
+          date: items[item].date,
           amount: items[item].amount,
         });
       }
@@ -58,9 +58,9 @@ console.log('id number', id)
         return f.id === id
       })
      
-  console.log('filter experiment', realItem)
+  console.log('filter experiment', realItem[0])
       
-      this.setState({ items: realItem});
+       this.setState({ items: realItem[0]});
       
     });
 
@@ -123,6 +123,7 @@ removeItem =()=>{
  { return (
     <div style={{backgroundColor: '#393e46'}} className='text-primary'>
     <header className='text-center' >
+    
     <button
 
 style={{backgroundColor: '#60316e', height: '15rem', width: '20rem'}}   
@@ -136,13 +137,12 @@ onClick={(e)=>{
 
 >
 <h4 style={{color: '#fbe8d3'}}>
-{this.state.items[0].expense.toUpperCase()}
-</h4>
+{this.state.items.expense}</h4>
 
 <div  
 style={{backgroundColor: '#60316e'}}
 >
-<h5 style={{color: '#078d1e'}}>${this.state.items[0].amount}</h5>
+<h5 style={{color: '#078d1e'}}>${this.state.items.amount}</h5>
 <div
 style={{backgroundColor: '#60316e'}}
 className="card ">
@@ -151,7 +151,7 @@ className="card ">
       
         <div className="text-xs font-weight-bold text-warning text-uppercase ">
         <h6 style={{color: '#090030'}}>Notes</h6>
-        <h5 style={{color:'#fbe8d3'}} className='text-center text-wrap'>{this.state.items[0].notes}</h5> 
+        <h5 style={{color:'#fbe8d3'}} className='text-center text-wrap'>{this.state.items.notes}</h5> 
         
 
     </div>
@@ -159,7 +159,7 @@ className="card ">
   </div>
   
 </div>
-<h6 style={{color: '#090030'}} className='text-center'>{moment(this.state.items[0].date).format('MMMM Do YYYY')}</h6>
+<h6 style={{color: '#090030'}} className='text-center'> {moment(this.state.items.date).format('MMMM Do, YYYY')} </h6>
 
 </div>
 
@@ -251,7 +251,7 @@ const EditExpenseWrapper = ()=>{
     
        
     getUserMetadata();
-  }, []);
+  }, [user]);
   //set props for children (isauthenticated, useremail). 
   // useremail value is conditioned on authentication.
     // email value = user.email or testtestcom
@@ -259,7 +259,7 @@ const EditExpenseWrapper = ()=>{
   return (
     <div>
     {
-      isAuthenticated === true ? 
+      user ? 
       <div>     
       <EditExpense  auth={isAuthenticated} email={user.email}/>
       </div> : 

@@ -99,7 +99,7 @@ return alert('Date is required')
         expense: newExpense,
         amount: newAmount,
         notes: newNotes,
-        date: moment(newDate).format("YYYYMMDD"),
+        date: moment(newDate).format('YYYY-MM-DD'),
         email: user.email
       }
       : 
@@ -107,7 +107,7 @@ return alert('Date is required')
         expense: newExpense,
         amount: newAmount,
         notes: newNotes,
-        date:  moment(newDate).format("YYYYMMDD"),
+        date:  moment(newDate).format('YYYY-MM-DD'),
         email: 'test@test.com'
       }
       console.log('expensesEmail', expenseEmail)
