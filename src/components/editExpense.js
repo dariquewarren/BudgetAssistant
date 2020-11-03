@@ -39,24 +39,28 @@ console.log('email', this.props.email)
 console.log('isAuthounticated',this.props.auth)
 
     const itemsRef = firebase.database().ref('expenses/' + expenseEmail + '/' + id)
-    itemsRef.on('value', (snapshot)=>{
-
-      var expenseGrabbed = snapshot.val()
-     const items = [expenseGrabbed]
-        
-     
-     this.setState({
-            items,
-            amount: expenseGrabbed.amount,
-            notes: expenseGrabbed.notes,
-            date: (expenseGrabbed.date),
-            expense: expenseGrabbed.expense
-        })
+  
+    itemsRef.on("value", (snapshot) => {
+      let items = snapshot.val();
+      let newState = [];
+  
+      for (let item in items) {
+        newState.push({
+          id: item,
+          expense: items[item].expense,
+          notes: items[item].notes,
+          date: moment(items[item].date).format("MMM Do"),
+          amount: items[item].amount,
+        });
+      }
+  
       
      
-    })
-    
-
+  
+      
+      this.setState({ items: newState});
+      
+    });
   }
 
   handleChange = (e)=>{
