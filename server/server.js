@@ -31,7 +31,7 @@ app.use(express.static(publicPath))
 app.get('*', (req, res)=>{
 res.sendFile(path.join(publicPath, 'index.html'))
 })
-app.get('/testroute', (req, res)=>{
+app.get('/', checkJwt , (req, res)=>{
     axios.request(options).then(function (response) {
         console.log(response.data);
       }).catch(function (error) {
