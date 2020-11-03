@@ -794,7 +794,7 @@ return(
 const ExpensesWrapper =()=>{
   const { user, isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
   const [userMetadata, setUserMetadata] = useState(null);
-  let trueEmail
+  let trueEmail = await user
  
  
   useEffect(() => {
