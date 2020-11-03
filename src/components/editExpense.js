@@ -58,7 +58,7 @@ console.log('id number', id)
         return f.id === id
       })
      
-  console.log('filter experiment', experiment)
+  console.log('filter experiment', realItem)
       
       this.setState({ items: realItem});
       
