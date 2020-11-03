@@ -825,9 +825,9 @@ return(
 }
 
 const ExpensesWrapper =()=>{
-  const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
+  const { user, isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
   const [userMetadata, setUserMetadata] = useState(null);
-
+const trueEmail = (isAuthenticated) ? user.email : 'testtestcom' 
   useEffect(() => {
     const getUserMetadata = async () => {
       const domain = "dev-sg8fbv3t.us.auth0.com";
@@ -862,22 +862,23 @@ const ExpensesWrapper =()=>{
 // add isLoading prop
 
 // mayebe add summary conditionally below
-  return(isAuthenticated ? 
-    (<div>
-      
-    <ExpenseDashboard isLoading={isLoading}  email={user.email} auth={isAuthenticated}/>
-    </div>)
-    :(
-      <div>
-      <ExpenseDashboard email={'testtestcom'} auth={isAuthenticated}/>
-      </div>      
-    )
+  return( <div> {isLoading ? 
+    (
 
-    
+      <div>
+      Loading
+      </div>
+
+    ):(
+      <div>
+      
+    <ExpenseDashboard  email={trueEmail} auth={isAuthenticated}/>
+    </div>)     
+    } 
   )
 
-
-
+  </div>
+)
 }
 
 
