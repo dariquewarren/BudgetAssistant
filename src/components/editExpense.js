@@ -54,13 +54,13 @@ console.log('id number', id)
         });
       }
   console.log('new state', newState)
-    let experiment =  newState.filter((f)=>{
+    let realItem =  newState.filter((f)=>{
         return f.id === id
       })
      
   console.log('filter experiment', experiment)
       
-      this.setState({ items: newState});
+      this.setState({ items: realItem});
       
     });
 
@@ -136,13 +136,13 @@ onClick={(e)=>{
 
 >
 <h4 style={{color: '#fbe8d3'}}>
-{this.state.expense.toUpperCase()}
+{this.state.items[0].expense.toUpperCase()}
 </h4>
 
 <div  
 style={{backgroundColor: '#60316e'}}
 >
-<h5 style={{color: '#078d1e'}}>${this.state.amount}</h5>
+<h5 style={{color: '#078d1e'}}>${this.state.items[0].amount}</h5>
 <div
 style={{backgroundColor: '#60316e'}}
 className="card ">
@@ -151,7 +151,7 @@ className="card ">
       
         <div className="text-xs font-weight-bold text-warning text-uppercase ">
         <h6 style={{color: '#090030'}}>Notes</h6>
-        <h5 style={{color:'#fbe8d3'}} className='text-center text-wrap'>{this.state.notes}</h5> 
+        <h5 style={{color:'#fbe8d3'}} className='text-center text-wrap'>{this.state.items[0].notes}</h5> 
         
 
     </div>
@@ -159,11 +159,11 @@ className="card ">
   </div>
   
 </div>
-<h6 style={{color: '#090030'}} className='text-center'>{moment(this.state.date).format('MMMM Do YYYY')}</h6>
+<h6 style={{color: '#090030'}} className='text-center'>{moment(this.state.items[0].date).format('MMMM Do YYYY')}</h6>
 
 </div>
 
-<h5 style={{color: '#29a19c'}}>Click To Edit/Delete</h5>
+
       
 </button>
     
