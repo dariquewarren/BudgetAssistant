@@ -70,7 +70,7 @@ console.log('see about delay when logging in. consider, isLoading prop')
    
   let expenseEmail = this.props.email.match(regex).join('')
   let realLocation = `expenses/` + this.props.email
-  let myExpensesRef =  firebase.database().ref('expenses').child(this.props.email) 
+  let myExpensesRef =  firebase.database().ref('expenses').child(expenseEmail) 
   
   
   myExpensesRef.on("value", (snapshot) => {
