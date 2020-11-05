@@ -517,7 +517,7 @@ onClick={this.myExpenses}
  
 
 
-<LoginButton/>
+
 
 <div style={{backgroundColor: '#393e46', display: 'flex', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center'}}>
 
