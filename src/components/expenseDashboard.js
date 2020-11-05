@@ -36,11 +36,12 @@ class ExpenseDashboard extends React.Component {
       startDate: new moment().format("YYYY MM Do"),
       endDate: new moment().add(365, "days").format("YYYY MM Do"),
       items: [],
+      list: [],
       email: this.props.email
     };
  
 
-
+    this.myExpenses = this.myExpenses.bind(this)
     this.setStartDateRange = this.setStartDateRange.bind(this);
     this.setEndDateRange = this.setEndDateRange.bind(this);
     this.handleBeginningDate = this.handleBeginningDate.bind(this);
@@ -60,43 +61,47 @@ class ExpenseDashboard extends React.Component {
  }
 
  componentDidMount() {
+   
 // log is loading prop to console via conditional
 console.log('see about delay when logging in. consider, isLoading prop') 
   console.log('state-email', this.props.auth)
 
   let regex = /[a-z]/gmi
-  
-
-  
+   
   let expenseEmail = this.props.email.match(regex).join('')
-  let myExpensesRef =  firebase.database().ref("expenses/" + expenseEmail) 
+  let realLocation = `expenses/` + this.props.email
+  let myExpensesRef =  firebase.database().ref('expenses').child(this.props.email) 
   
   
-
-
-
-  console.log('expenses email', expenseEmail)
   myExpensesRef.on("value", (snapshot) => {
     let items = snapshot.val();
+let testArray = [items]
+console.log(testArray)
+//  let testFilter = items.filter((f)=>{
+//    return f.includes('testtestcom')
+//  })
+//  console.log(testFilter)
     let newState = [];
-
+console.log(items)
+console.log(realLocation)
     for (let item in items) {
       newState.push({
         id: item,
         expense: items[item].expense,
         notes: items[item].notes,
-        date: moment(items[item].date).format("MMM Do"),
+        date: items[item].date,
         amount: items[item].amount,
       });
     }
 
-    
-    const amountArray = [];
-    newState.forEach((e) => {
-      amountArray.push(parseFloat(e.amount,10));
-    });
+    console.log(newState)
 
-    const ddw = amountArray.reduce((total, currentValue) => {
+    let amountArray = [];
+    newState.forEach((e)=>{
+      return amountArray.push(e.amount)
+    })
+
+    let ddw = amountArray.reduce((total, currentValue) => {
       return total + currentValue;
     });
 
@@ -106,15 +111,57 @@ console.log('see about delay when logging in. consider, isLoading prop')
   });
 
 
-
-
-  
-
-  
   
   }
 
+myExpenses=()=>{
+  let quickTest = `${this.props.email}`
+  let myExpensesRef =  firebase.database().ref('expenses').orderByKey() 
+  
+  myExpensesRef.on("value", (snapshot) => {
+    let items = snapshot.val();
 
+    let newState = [];
+console.log('quick test items',items)
+
+for (let item in items) {
+if(item == this.props.email){
+  newState = items[item]
+} 
+  
+}
+
+let trueState = []
+for (let expense in newState) {
+  trueState.push({
+    id: expense,
+    expense: newState[expense].expense,
+    notes: newState[expense].notes,
+    date: newState[expense].date,
+    amount: newState[expense].amount,
+  });
+}
+
+console.log('new state', newState)
+console.log('true state', trueState)
+let emailString = this.props.email.toString()
+
+console.log('email string', `${emailString}`)
+
+// let myRegex = new RegExp(`${emailString}`, 'gmi')
+// let ddw = newState.filter((f)=>{
+//   return f.owner.match(myRegex)
+// })
+
+// console.log('filter state', ddw)
+
+
+    
+    
+  });
+
+}
+  
   handleBudget = (e)=>{
     e.preventDefault()
 this.setState({
@@ -131,7 +178,7 @@ setBudget = (e)=>{
 console.log( e.target.budgetAmount.value)
   }
   showDateFilters = () => {
-    const show = this.state.showDateFilters;
+    let show = this.state.showDateFilters;
     this.setState({
       showDateFilters: !show,
       showSortOptions: false,
@@ -147,7 +194,7 @@ console.log( e.target.budgetAmount.value)
     });
   };
   showSortOptions = () => {
-    const show = this.state.showSortOptions;
+    let show = this.state.showSortOptions;
     this.setState({
       showSortOptions: !show,
       showDateFilters: false,
@@ -155,16 +202,16 @@ console.log( e.target.budgetAmount.value)
     });
   };
   sortAmountLowHigh = () => {
-    const real = this.state.items;
-    const newItems = real.sort((a, b) => {
+    let real = this.state.items;
+    let newItems = real.sort((a, b) => {
       return a.amount - b.amount;
     });
     this.setState({ items: newItems });
   };
 
   sortAmountHighLow = () => {
-    const real = this.state.items;
-    const newItems = real.sort((a, b) => {
+    let real = this.state.items;
+    let newItems = real.sort((a, b) => {
       return b.amount - a.amount;
     });
     this.setState({ items: newItems });
@@ -190,11 +237,11 @@ console.log( e.target.budgetAmount.value)
         });
       }
 
-      const newItems = newState.sort((a, b) => {
+      let newItems = newState.sort((a, b) => {
         return parseInt(a.date, 10) - parseInt(b.date, 10);
       });
 
-      const realState = [];
+      let realState = [];
 
       for (let item in newItems) {
         realState.push({
@@ -231,11 +278,11 @@ console.log( e.target.budgetAmount.value)
         });
       }
 
-      const newItems = newState.sort((a, b) => {
+      let newItems = newState.sort((a, b) => {
         return parseInt(b.date, 10) - parseInt(a.date, 10);
       });
 
-      const realState = [];
+      let realState = [];
 
       for (let item in newItems) {
         realState.push({
@@ -260,7 +307,7 @@ console.log( e.target.budgetAmount.value)
 
   handleSearch = (e) => {
     e.preventDefault();
-    const searchTerm = this.state.searchTerm;
+    let searchTerm = this.state.searchTerm;
     console.log("search term", searchTerm);
     let regex = /[a-z]/gmi
     let expenseEmail = this.state.email.match(regex).join('')
@@ -269,7 +316,7 @@ console.log( e.target.budgetAmount.value)
     
 
     myExpensesRef.on("value", (snapshot) => {
-      const items = snapshot.val();
+      let items = snapshot.val();
       let newState = [];
 
       for (let item in items) {
@@ -281,24 +328,24 @@ console.log( e.target.budgetAmount.value)
           amount: items[item].amount,
         });
       }
-      const filterState = [];
+      let filterState = [];
 
       newState.forEach((f) => {
-        const regex = new RegExp(searchTerm.toUpperCase());
+        let regex = new RegExp(searchTerm.toUpperCase());
         if (regex.test(f.expense.toUpperCase())) {
           filterState.push(f);
         }
       });
 console.log('filter state', filterState)
-      const expenseArray = [];
+      let expenseArray = [];
 
       filterState.forEach((e) => {
         expenseArray.push(parseInt(e.amount, 10));
       });
 
-      const dummyArray = [1,2,3];
+      let dummyArray = [1,2,3];
 
-      const expensesTotal =
+      let expensesTotal =
         expenseArray.length === 0
           ? dummyArray
           : expenseArray.reduce((a, b) => {
@@ -340,7 +387,7 @@ console.log('filter state', filterState)
       }
 
       
-      const newArray = newState.filter((f) => {
+      let newArray = newState.filter((f) => {
         return (
           moment(f.date).format("X") > moment(this.state.startDate).subtract(1, 'day').format("X")
         );
@@ -348,15 +395,15 @@ console.log('filter state', filterState)
 
       console.log("Filtered Array", newArray);
 
-      const expenseArray = [];
+      let expenseArray = [];
 
       newArray.forEach((e) => {
         expenseArray.push(parseInt(e.amount, 10));
       });
 
-      const dummyArray = [1,2,3];
+      let dummyArray = [1,2,3];
 
-      const expensesTotal =
+      let expensesTotal =
         expenseArray.length === 0
           ? dummyArray
           : expenseArray.reduce((a, b) => {
@@ -393,19 +440,19 @@ console.log('filter state', filterState)
       }
 
       console.log("new state", newState);
-      const newArray = newState.filter((f) => {
+      let newArray = newState.filter((f) => {
         return(
           moment(f.date).format("X") <= moment(this.state.endDate).format("X")
         )
       });
       console.log("filtered array", newArray);
-      const expenseArray = [];
+      let expenseArray = [];
 
       newArray.forEach((e) => {
         expenseArray.push(parseInt(e.amount, 10));
       });
 
-      const finalArray = []
+      let finalArray = []
       newArray.forEach((e)=>{
           finalArray.push({
               id: e.id,
@@ -418,9 +465,9 @@ console.log('filter state', filterState)
           })
       })
 console.log('final array', finalArray)
-      const dummyArray = [1,2,3];
+      let dummyArray = [1,2,3];
 
-      const expensesTotal =
+      let expensesTotal =
         expenseArray.length === 0
           ? dummyArray
           : expenseArray.reduce((a, b) => {
@@ -436,7 +483,7 @@ console.log('final array', finalArray)
   };
 
   handleBeginningDate = (e) => {
-    const value = e.target.value;
+    let value = e.target.value;
 
     console.log(value);
     this.setState({
@@ -445,7 +492,7 @@ console.log('final array', finalArray)
   };
 
   handleEndingDate = (e) => {
-    const value = e.target.value;
+    let value = e.target.value;
 
     this.setState({
       endDate: value,
@@ -453,8 +500,24 @@ console.log('final array', finalArray)
   };
 // use isLoading prop to conditionally render summary part. if not possible, just use the whole compeonent
     render(){
+      
      return (
 <div>
+<button
+onClick={this.myExpenses}
+>MY EXPENSE</button>
+  <div>
+  {this.state.list.map((item) => {
+    return(
+      <div>
+        {item}
+      </div>
+    );
+  })}
+  </div>
+ 
+
+
 <LoginButton/>
 
 <div style={{backgroundColor: '#393e46', display: 'flex', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center'}}>
@@ -721,7 +784,7 @@ onClick={this.sortDateHighLow}><FaSortAlphaDownAlt/> Date</button>
 
 }
 
-const ExpensesArray = (props)=>{
+let ExpensesArray = (props)=>{
 
 return(
   <div>
@@ -791,31 +854,31 @@ return(
 
 }
 
-const ExpensesWrapper =()=>{
-  const { user, isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
-  const [userMetadata, setUserMetadata] = useState(null);
+let ExpensesWrapper =()=>{
+  let { user, isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
+  let [userMetadata, setUserMetadata] = useState(null);
   
  
  
   useEffect(() => {
-    const getUserMetadata = async () => {
-      const domain = "dev-sg8fbv3t.us.auth0.com";
+    let getUserMetadata = async () => {
+      let domain = "dev-sg8fbv3t.us.auth0.com";
       let myToken
       try {
-        const accessToken = await getAccessTokenSilently({
+        let accessToken = await getAccessTokenSilently({
           audience: `https://${domain}/api/v2/`,
           scope: "read:current_user",
         });
   
-        const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user.sub}`;
+        let userDetailsByIdUrl = `https://${domain}/api/v2/users/${user.sub}`;
   
-        const metadataResponse = await fetch(userDetailsByIdUrl, {
+        let metadataResponse = await fetch(userDetailsByIdUrl, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
         });
   
-        const { user_metadata } = await metadataResponse.json();
+        let { user_metadata } = await metadataResponse.json();
   console.log(accessToken)
   myToken = accessToken
         setUserMetadata(user_metadata);
@@ -830,10 +893,12 @@ const ExpensesWrapper =()=>{
   }, []);
 // add isLoading prop
 // mayebe add summary conditionally below
+
+let realEmail = (user) ? user.email : 'testtestcom'
   return( 
     <div>
       
-      <ExpenseDashboard  email={user?user.email:'testestcom'} auth={isAuthenticated}/>
+      <ExpenseDashboard  email={realEmail} auth={isAuthenticated}/>
       </div>
 )
 }

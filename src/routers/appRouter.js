@@ -7,9 +7,11 @@ import ExpensesWrapper from '../components/expenseDashboard'
 import Login from '../components/login'
 import Logout from '../components/logout'
 
-const AppRouter =() => (
-    <BrowserRouter>
-    <div>
+
+  class AppRouter extends React.Component {
+    render() {
+      const App = () => (
+        <div>
     <Header />
     <Switch>
     <Route path="/"  component={ExpensesWrapper} exact={true}/>
@@ -18,9 +20,18 @@ const AppRouter =() => (
     <Route path="/login" component={Login} />
     <Route path="/logout" component={Logout} />
     </Switch>
-    </div>      
-    </BrowserRouter>
-  )
+    </div>
+      )
+      return (
+        <BrowserRouter>
+        <Switch>
+        <App/>  
 
+        </Switch>
+    </BrowserRouter>
+       
+      );
+    }
+  }
 
 export default AppRouter

@@ -14,6 +14,8 @@ ReactDOM.render(
   redirectUri={window.location.origin}
   audience="https://dev-sg8fbv3t.us.auth0.com/api/v2/"
   scope="read:current_user update:current_user_metadata"
+  cacheLocation= "localstorage"
+    useRefreshTokens = {true}
 >
 
 

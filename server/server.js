@@ -2,11 +2,13 @@ const express = require('express')
 const app = express()
 const path = require('path')
 const publicPath = path.join(__dirname,'..', '/build')
+
+
 const port = process.env.PORT || 3000
 const jwt = require('express-jwt');
 const jwtAuthz = require('express-jwt-authz');
 const jwksRsa = require('jwks-rsa');
-
+const axios = require('axios')
 const checkJwt = jwt({
     // Dynamically provide a signing key
     // based on the kid in the header and 
@@ -31,14 +33,11 @@ app.use(express.static(publicPath))
 app.get('*', (req, res)=>{
 res.sendFile(path.join(publicPath, 'index.html'))
 })
-app.get('/', checkJwt , (req, res)=>{
-    axios.request(options).then(function (response) {
-        console.log(response.data);
-      }).catch(function (error) {
-        console.error(error);
-      });
-})
-
+app.get('/list', (req,res) => {
+ let item = ["item1", "item2", "item3"]
+  res.json(item);
+  console.log('Sent list of items');
+});
 app.listen(port, ()=>{
     console.log(`server is up `)
 })

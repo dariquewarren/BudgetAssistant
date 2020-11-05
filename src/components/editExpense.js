@@ -18,7 +18,7 @@ class EditExpense extends React.Component{
       expense: '',
       amount: '',
       notes: '',
-      date: '',
+      date: moment().format('YYYYMMDD'),
       items: []
     }
     
@@ -174,19 +174,30 @@ className="card ">
     <div className='text-center' style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center'}} >
     <h5 style={{color: 'white'}} >
     Expense <br></br>
-    <TextField className='bg-light text-center' style={{width: '10rem', margin: '10px'}}  label={this.state.expense} name='expense'  onChange={this.handleChange} />
+    <TextField className='bg-light text-center' 
+    style={{width: '10rem', margin: '10px'}}  
+    label={this.state.expense} 
+    value={this.state.expense}
+    name='expense'  onChange={this.handleChange} />
 
     </h5>
     <h5 style={{color: 'white'}}>
     Amount <br></br>
-    <TextField className='bg-light text-center' style={{width: '10rem', margin: '10px'}}  label={this.state.amount} name='amount' type='number' step='.01' min='.01'  onChange={this.handleChange}  />
+    <TextField className='bg-light text-center' 
+    style={{width: '10rem', margin: '10px'}}  
+    label={this.state.amount} 
+    value={this.state.amount} 
+    name='amount' type='number' step='.01' min='.01'  onChange={this.handleChange}  />
 
     </h5>
     
     <h5 style={{color: 'white'}}>
     Notes <br></br>
     <TextField
-  style={{width: '10rem', margin: '10px'}} className='bg-light text-center'  label='EXTRA NOTES' name='notes' placeholder='extra notes' onChange={this.handleChange}  
+  style={{width: '10rem', margin: '10px'}} className='bg-light text-center'  
+  label='EXTRA NOTES' 
+  value={this.state.notes}
+  name='notes' placeholder='extra notes' onChange={this.handleChange}  
   
   />
   
