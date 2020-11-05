@@ -76,6 +76,7 @@ console.log('see about delay when logging in. consider, isLoading prop')
   myExpensesRef.on("value", (snapshot) => {
     let items = snapshot.val();
 console.log('expense email', expenseEmail)
+console.log(this.props.email)
 //  let testFilter = items.filter((f)=>{
 //    return f.includes('testtestcom')
 //  })
