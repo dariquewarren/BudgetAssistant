@@ -75,15 +75,13 @@ console.log('see about delay when logging in. consider, isLoading prop')
   
   myExpensesRef.on("value", (snapshot) => {
     let items = snapshot.val();
-let testArray = [items]
-console.log(testArray)
+console.log('expense email', expenseEmail)
 //  let testFilter = items.filter((f)=>{
 //    return f.includes('testtestcom')
 //  })
 //  console.log(testFilter)
     let newState = [];
-console.log(items)
-console.log(realLocation)
+
     for (let item in items) {
       newState.push({
         id: item,
