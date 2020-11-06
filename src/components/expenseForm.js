@@ -36,8 +36,9 @@ const [newExpense, setExpense] = useState(0)
 const [newAmount, setAmount] = useState(0)
 const [newNotes, setNotes] = useState(0)
 const [newDate, setDate] = useState(false)
-const [newEmail, setEmail] = useState('dummyEmail')
-      const prevEmail = usePrevious(newEmail);
+const [newEmail, setEmail] = useState('test@test.com')
+
+const prevEmail = usePrevious(newEmail);
   
 
 const [userMetadata, setUserMetadata] = useState(null);
@@ -81,7 +82,7 @@ const handleSubmit = (e)=>{
 
    const regex = /[a-z]/gmi
 
-   let expenseEmail = (isAuthenticated) ? user.email.match(regex).join('') : 'testtestcom'
+   let expenseEmail = (isAuthenticated) ? user.email.match(regex).join('') : newEmail.match(regex).join('')
 
    if(newAmount < .01){
 return alert('Amount is required (min $0.01)')
@@ -100,7 +101,7 @@ return alert('Date is required')
         amount: newAmount,
         notes: newNotes,
         date: moment(newDate).format('YYYY-MM-DD'),
-        email: user.email
+        email: newEmail
       }
       : 
       {
@@ -108,7 +109,7 @@ return alert('Date is required')
         amount: newAmount,
         notes: newNotes,
         date:  moment(newDate).format('YYYY-MM-DD'),
-        email: 'test@test.com'
+        email: newEmail
       }
       console.log('expensesEmail', expenseEmail)
     
@@ -135,8 +136,8 @@ return alert('Date is required')
     
     <header>
     <div className='wrapper text-center'>
-    <h3 style={{color: '#fbe8d3'}}>Add Expense for 
-    {isAuthenticated ? user.email : 'test@test.com' }  </h3>
+    <h3 style={{color: '#fbe8d3'}}>Add Expense for {newEmail}
+     </h3>
     </div>
     </header>
     <div className='container'> 
@@ -146,6 +147,30 @@ return alert('Date is required')
     
     <form style={{backgroundColor: '757575'}} className='text-center' onSubmit={handleSubmit}>
     <div className='text-center' style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center'}} >
+    
+    <div>
+
+    <h5  style={{color: '#fbe8d3'}} className='m-2'>
+        Email <br></br> 
+        <TextField 
+    
+        id="email"
+        className='bg-light text-center'
+        name='Email'
+        value={newEmail}
+        type="email"  
+        onChange={ (e)=>{
+          setEmail(e.target.value)
+        }}
+        InputLabelProps={{
+          shrink: true,
+        }}
+      />
+        </h5>
+        
+    </div>
+    
+    
     <h5 style={{color: '#fbe8d3'}} className='m-2'>
     Expense <br></br>
     <TextField className='bg-light text-center '   name='expense'  onChange={ (e)=>{

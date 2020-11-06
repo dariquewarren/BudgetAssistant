@@ -30,16 +30,25 @@ class EditExpense extends React.Component{
   componentDidMount(){
 // mutate email to exclude non letters
 // change items ref to select conditionally either expense/moddedEmail or expenses/testtestcom
+let id = 123234
 let regex = /[a-z]/gmi
-  let expenseEmail = this.props.email.match(regex).join('')
-  let id = window.location.pathname.slice(6)
-console.log('expenseEmail',expenseEmail)
-console.log('email', this.props.email)
-console.log('isAuthounticated',this.props.auth)
-console.log('id number', id)
 
-    const itemsRef = firebase.database().ref('expenses/' + expenseEmail)
+  let realId = this.props.props.props.match.params.id
+  let realEmail = this.props.props.props.match.params.email.match(regex).join('')
+  let expenseEmail = this.props.email.match(regex).join('')
   
+console.log('expenseEmail',expenseEmail)
+console.log('isAuthounticated',this.props.auth)
+console.log('id parameter', realId)
+console.log('email parameter', realEmail)
+
+const params = window.location.search
+
+console.log('window check',params)
+console.log('props list', this.props)
+
+    const itemsRef = firebase.database().ref('expenses/' + realEmail)
+    let newRef = firebase.database().ref('expenses')
     itemsRef.on("value", (snapshot) => {
       let items = snapshot.val();
       let newState = [];
@@ -55,7 +64,7 @@ console.log('id number', id)
       }
   console.log('new state', newState)
     let realItem =  newState.filter((f)=>{
-        return f.id === id
+        return f.id === realId
       })
      
   console.log('filter experiment', realItem[0])
@@ -137,12 +146,14 @@ onClick={(e)=>{
 
 >
 <h4 style={{color: '#fbe8d3'}}>
-{this.state.items.expense}</h4>
+{this.state.items.expense}
+
+</h4>
 
 <div  
 style={{backgroundColor: '#60316e'}}
 >
-<h5 style={{color: '#078d1e'}}>${this.state.items.amount}</h5>
+<h5 style={{color: '#078d1e'}}>$</h5>
 <div
 style={{backgroundColor: '#60316e'}}
 className="card ">
@@ -151,7 +162,7 @@ className="card ">
       
         <div className="text-xs font-weight-bold text-warning text-uppercase ">
         <h6 style={{color: '#090030'}}>Notes</h6>
-        <h5 style={{color:'#fbe8d3'}} className='text-center text-wrap'>{this.state.items.notes}</h5> 
+        <h5 style={{color:'#fbe8d3'}} className='text-center text-wrap'>notes here</h5> 
         
 
     </div>
@@ -159,7 +170,7 @@ className="card ">
   </div>
   
 </div>
-<h6 style={{color: '#090030'}} className='text-center'> {moment(this.state.items.date).format('MMMM Do, YYYY')} </h6>
+<h6 style={{color: '#090030'}} className='text-center'> date here</h6>
 
 </div>
 
@@ -236,7 +247,7 @@ className="card ">
 
 }
 
-const EditExpenseWrapper = ()=>{
+const EditExpenseWrapper = (props)=>{
 
   const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
   const [userMetadata, setUserMetadata] = useState(null);
@@ -260,7 +271,7 @@ const EditExpenseWrapper = ()=>{
       }
     };
     
-       
+       console.log(props.id)
     getUserMetadata();
   }, [user]);
   //set props for children (isauthenticated, useremail). 
@@ -272,10 +283,11 @@ const EditExpenseWrapper = ()=>{
     {
       user ? 
       <div>     
-      <EditExpense  auth={isAuthenticated} email={user.email}/>
+      <EditExpense props={props} auth={isAuthenticated} email={user.email}/>
       </div> : 
       <div>     
-      <EditExpense  auth={isAuthenticated} email={'testtestcom'}/>
+      
+      <EditExpense props={props}  auth={isAuthenticated} email={'testtestcom'}/>
       </div>
       
       }

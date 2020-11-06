@@ -16,7 +16,7 @@ import Logout from '../components/logout'
     <Switch>
     <Route path="/"  component={ExpensesWrapper} exact={true}/>
     <Route path="/create" component={FormProper} />
-    <Route path="/edit/:id" component={EditExpenseWrapper} />
+    <Route path="/edit/:id/:email" render={({...props})=><EditExpenseWrapper props={props} />} />
     <Route path="/login" component={Login} />
     <Route path="/logout" component={Logout} />
     </Switch>

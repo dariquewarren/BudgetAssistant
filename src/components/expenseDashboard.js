@@ -1,7 +1,7 @@
 import React, {useState,useEffect} from "react";
 import "../App.css";
 import firebase from "../firebase";
-import {Badge} from "react-bootstrap";
+import {Badge, Form} from "react-bootstrap";
 import { TextField} from "@material-ui/core";
 import moment from "moment";
 import { FaGlasses, FaMinusCircle, FaPlayCircle, 
@@ -21,6 +21,7 @@ class ExpenseDashboard extends React.Component {
  constructor(props){
     super(props);
     this.state = {
+      myEmail: 'test@test.com',
       expensesTotal: 0,
       budget: 0,
       expense: "",
@@ -40,7 +41,7 @@ class ExpenseDashboard extends React.Component {
       email: this.props.email
     };
  
-
+    this.handleMyEmail = this.handleMyEmail.bind(this)
     this.myExpenses = this.myExpenses.bind(this)
     this.setStartDateRange = this.setStartDateRange.bind(this);
     this.setEndDateRange = this.setEndDateRange.bind(this);
@@ -68,7 +69,7 @@ console.log('see about delay when logging in. consider, isLoading prop')
 
   let regex = /[a-z]/gmi
    
-  let expenseEmail = this.props.email.match(regex).join('')
+  let expenseEmail = this.state.myEmail.match(regex).join('')
   let realLocation = `expenses/` + this.props.email
   let myExpensesRef =  firebase.database().ref('expenses').child(expenseEmail) 
   
@@ -90,6 +91,7 @@ console.log(this.props.email)
         notes: items[item].notes,
         date: items[item].date,
         amount: items[item].amount,
+        email: items[item].email,
       });
     }
 
@@ -113,9 +115,22 @@ console.log(this.props.email)
   
   }
 
+handleMyEmail=(e)=>{
+  e.preventDefault()
+  let myEmail = e.target.value
+console.log(e.target.value)
+this.setState({
+  myEmail
+})
+}
+
 myExpenses=()=>{
+  let regex = /[a-z]/gmi
+
   let quickTest = `${this.props.email}`
-  let myExpensesRef =  firebase.database().ref('expenses').orderByKey() 
+  let trueEmail = this.state.myEmail.match(regex).join('')
+   
+  let myExpensesRef =  firebase.database().ref('expenses/' + trueEmail)
   
   myExpensesRef.on("value", (snapshot) => {
     let items = snapshot.val();
@@ -123,26 +138,20 @@ myExpenses=()=>{
     let newState = [];
 console.log('quick test items',items)
 
-for (let item in items) {
-if(item == this.props.email){
-  newState = items[item]
-} 
-  
-}
 
-let trueState = []
-for (let expense in newState) {
-  trueState.push({
-    id: expense,
-    expense: newState[expense].expense,
-    notes: newState[expense].notes,
-    date: newState[expense].date,
-    amount: newState[expense].amount,
+for (let item in items) {
+  newState.push({
+    id: item,
+    expense: items[item].expense,
+    notes: items[item].notes,
+    date: items[item].date,
+    amount: items[item].amount,
+    email: items[item].email,
   });
 }
 
+
 console.log('new state', newState)
-console.log('true state', trueState)
 let emailString = this.props.email.toString()
 
 console.log('email string', `${emailString}`)
@@ -502,9 +511,13 @@ console.log('final array', finalArray)
       
      return (
 <div>
+<form onSubmit={this.handleMyEmail}>
+<Form.Control  type='email' onChange={this.handleMyEmail}/>
 <button
 onClick={this.myExpenses}
 >MY EXPENSE</button>
+</form>
+
   <div>
   {this.state.list.map((item) => {
     return(
@@ -799,7 +812,7 @@ return(
   className=' text-wrap text-center m-2 p-1' 
   onClick={(e)=>{
     e.preventDefault()
-    window.location.assign(`/edit/` + m.id)
+    window.location.assign(`/edit/` + m.id + '/' + m.email)
   
   
   }}
