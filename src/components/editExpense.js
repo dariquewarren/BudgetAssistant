@@ -30,7 +30,7 @@ class EditExpense extends React.Component{
   componentDidMount(){
 // mutate email to exclude non letters
 // change items ref to select conditionally either expense/moddedEmail or expenses/testtestcom
-let id = 123234
+
 let regex = /[a-z]/gmi
 
   let realId = this.props.props.props.match.params.id
@@ -48,12 +48,12 @@ console.log('window check',params)
 console.log('props list', this.props)
 
     const itemsRef = firebase.database().ref('expenses/' + realEmail)
-    let newRef = firebase.database().ref('expenses')
     itemsRef.on("value", (snapshot) => {
       let items = snapshot.val();
       let newState = [];
   console.log('items', items)
-      for (let item in items) {
+     
+  for (let item in items) {
         newState.push({
           id: item,
           expense: items[item].expense,
@@ -69,7 +69,14 @@ console.log('props list', this.props)
      
   console.log('filter experiment', realItem[0])
       
-       this.setState({ items: realItem[0]});
+       this.setState({ 
+         items: realItem[0],
+        amount: realItem[0].amount,
+        date: realItem[0].date,
+        expense: realItem[0].expense,
+        notes: realItem[0].notes
+        
+        });
       
     });
 
@@ -96,18 +103,22 @@ this.setState({
   }
   handleSubmit = (e)=>{
     e.preventDefault()
-    const id = window.location.pathname.slice(6)
-    
+    let regex = /[a-z]/gmi
 
-    const itemsRef = firebase.database().ref('expenses/' + this.props.email + '/' + id)
+
+    let realId = this.props.props.props.match.params.id
+    let realEmail = this.props.props.props.match.params.email.match(regex).join('')    
+
+    const itemsRef = firebase.database().ref('expenses/' + realEmail + '/' + realId)
     
     const item = {
       expense: this.state.expense,
       notes: this.state.notes,
       date: this.state.date,
-      amount: this.state.amount
+      amount: this.state.amount,
     }
     itemsRef.update(item).then(()=>{
+      alert('success')
         window.location.assign('/')
     }).catch((e)=>{
         console.log(e)
@@ -117,10 +128,15 @@ this.setState({
   }
   
 removeItem =()=>{
-    const id = window.location.pathname.slice(6)
+  let regex = /[a-z]/gmi
 
-  const itemRef = firebase.database().ref('expenses/' + this.props.email + '/' + id)
-  itemRef.remove().then(()=>{
+
+  let realId = this.props.props.props.match.params.id
+  let realEmail = this.props.props.props.match.params.email.match(regex).join('')    
+
+  const itemsRef = firebase.database().ref('expenses/' + realEmail + '/' + realId)
+  
+  itemsRef.remove().then(()=>{
     alert('success')
     window.location.assign('/')
   }).catch((e)=>{
@@ -153,7 +169,7 @@ onClick={(e)=>{
 <div  
 style={{backgroundColor: '#60316e'}}
 >
-<h5 style={{color: '#078d1e'}}>$</h5>
+<h5 style={{color: '#078d1e'}}>${this.state.amount}</h5>
 <div
 style={{backgroundColor: '#60316e'}}
 className="card ">
@@ -162,7 +178,7 @@ className="card ">
       
         <div className="text-xs font-weight-bold text-warning text-uppercase ">
         <h6 style={{color: '#090030'}}>Notes</h6>
-        <h5 style={{color:'#fbe8d3'}} className='text-center text-wrap'>notes here</h5> 
+        <h5 style={{color:'#fbe8d3'}} className='text-center text-wrap'>{this.state.notes}</h5> 
         
 
     </div>
@@ -170,7 +186,7 @@ className="card ">
   </div>
   
 </div>
-<h6 style={{color: '#090030'}} className='text-center'> date here</h6>
+<h6 style={{color: '#090030'}} className='text-center'>{moment(this.state.date).format('MMMM Do, YYYY')}</h6>
 
 </div>
 
@@ -189,6 +205,7 @@ className="card ">
     style={{width: '10rem', margin: '10px'}}  
     label={this.state.expense} 
     value={this.state.expense}
+    maxLength='20'
     name='expense'  onChange={this.handleChange} />
 
     </h5>
@@ -208,6 +225,7 @@ className="card ">
   style={{width: '10rem', margin: '10px'}} className='bg-light text-center'  
   label='EXTRA NOTES' 
   value={this.state.notes}
+  maxLength='50'
   name='notes' placeholder='extra notes' onChange={this.handleChange}  
   
   />
@@ -216,13 +234,13 @@ className="card ">
     
 
     <h5 style={{height: '5.5rem', width: '12rem', color: 'white'}} >
-    Date <br></br> 
+    Date 
     <TextField 
     style={{width: '10rem'}}
     id="date"
     className='bg-light text-center m-3'
     name='date'
-    
+    label={moment(this.state.date).format('MM/DD/YYYY')}
     type="date"  
     onChange={this.handleChange}
     InputLabelProps={{

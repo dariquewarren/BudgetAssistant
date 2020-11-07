@@ -2,7 +2,7 @@ import React, {Component, useState, useEffect, useRef} from 'react';
 import '../App.css';
 import firebase from '../firebase'
 import {TextField} from '@material-ui/core'
-import {Button} from 'react-bootstrap'
+import {Button, Form, Col} from 'react-bootstrap'
 import moment from 'moment'
 import { useAuth0} from "@auth0/auth0-react";
 
@@ -92,36 +92,27 @@ return alert('Date is required')
     return alert('expense required')
    }else{
 
-    setTimeout(()=>{
+    let expenses =  {
+      expense: newExpense,
+      amount: newAmount,
+      notes: newNotes,
+      date:  moment(newDate).format('YYYYMMDD'),
+      email: 'testtestcom'
+    }
+    console.log('expensesEmail', expenseEmail)
   
- 
+    const itemsref = firebase.database().ref('expenses/testtestcom')
   
-      let expenses = (isAuthenticated) ? {
-        expense: newExpense,
-        amount: newAmount,
-        notes: newNotes,
-        date: moment(newDate).format('YYYY-MM-DD'),
-        email: newEmail
-      }
-      : 
-      {
-        expense: newExpense,
-        amount: newAmount,
-        notes: newNotes,
-        date:  moment(newDate).format('YYYY-MM-DD'),
-        email: newEmail
-      }
-      console.log('expensesEmail', expenseEmail)
     
-      const itemsref = firebase.database().ref('expenses/' + expenseEmail)
-    
-      
-    
-       itemsref.push(expenses)
-     // window.location.assign('/')
-    
-      console.log(expenses)
-    }, 2000)
+  
+     itemsref.push(expenses)
+     alert('success')
+    // window.location.assign('/')
+  
+    console.log(expenses)
+
+
+
    }
   
 
@@ -145,84 +136,53 @@ return alert('Date is required')
 
     <div className='text-center' style={{backgroundColor: '#393e46'}} >
     
-    <form style={{backgroundColor: '757575'}} className='text-center' onSubmit={handleSubmit}>
+    
     <div className='text-center' style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center'}} >
     
-    <div>
+    
+   
+    <Form style={{backgroundColor: '757575'}} className='text-center m-2' onSubmit={handleSubmit}> 
+  <Form.Row>
+    <Col  xs='auto'>
+    <Form.Label style={{color: '#fbe8d3'}}>Expense</Form.Label>
+      <Form.Control className='bg-light text-center '   name='expense'  onChange={ (e)=>{
+        setExpense(e.target.value)
+      }}  type='text' placeholder="Expense Name" />
+    </Col>
+    <Col xs='auto'>
+    <Form.Label style={{color: '#fbe8d3'}}>Amount</Form.Label>
+      <Form.Control className='bg-light text-center'  name='amount' type='number' step='.01' min='.01'  onChange={ (e)=>{
+        setAmount(e.target.value)
+      }}  placeholder="Amount" />
+    </Col>
+    <Col xs='auto'>
+    <Form.Label style={{color: '#fbe8d3'}}>Notes</Form.Label>
+      <Form.Control className='bg-light text-center'  
+      name='notes' placeholder='extra notes' onChange={(e)=>{
+       setNotes(e.target.value)
+      }}   type='text' placeholder="Extra Notes" />
+    </Col>
+    <Col xs='auto'>
+    <Form.Label style={{color: '#fbe8d3'}}>Date</Form.Label>
+      <Form.Control id="date"
+      className='bg-light text-center'
+      name='date'
+      placeholder="date"
+      type="date"  
+      onChange={ (e)=>{
+        setDate(e.target.value)
+      }}   />
+    </Col>
+  </Form.Row>
+  <Button onClick={handleSubmit} className='m-2'  style={{backgroundColor: '#753775', color: '#fbe8d3'}}>Add Expense</Button>
 
-    <h5  style={{color: '#fbe8d3'}} className='m-2'>
-        Email <br></br> 
-        <TextField 
-    
-        id="email"
-        className='bg-light text-center'
-        name='Email'
-        value={newEmail}
-        type="email"  
-        onChange={ (e)=>{
-          setEmail(e.target.value)
-        }}
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
-        </h5>
-        
-    </div>
-    
-    
-    <h5 style={{color: '#fbe8d3'}} className='m-2'>
-    Expense <br></br>
-    <TextField className='bg-light text-center '   name='expense'  onChange={ (e)=>{
-      setExpense(e.target.value)
-    }} />
-
-    </h5>
-    <h5 style={{color: '#fbe8d3'}} className='m-2'>
-    Amount <br></br>
-    <TextField className='bg-light text-center'  name='amount' type='number' step='.01' min='.01'  onChange={ (e)=>{
-      setAmount(e.target.value)
-    }}  />
-
-    </h5>
-    
-    <h5 style={{color: '#fbe8d3'}} className='m-2'>
-    Notes <br></br>
-    <TextField
-   className='bg-light text-center'  
-   name='notes' placeholder='extra notes' onChange={(e)=>{
-    setNotes(e.target.value)
-   }}  
-  
-  />
-  
-    </h5>
-    
-
-    <h5  style={{color: '#fbe8d3'}} className='m-2'>
-    Date <br></br> 
-    <TextField 
-
-    id="date"
-    className='bg-light text-center'
-    name='date'
-    
-    type="date"  
-    onChange={ (e)=>{
-      setDate(e.target.value)
-    }}
-    InputLabelProps={{
-      shrink: true,
-    }}
-  />
-    </h5>
+</Form>
     
     
     </div>
-    <Button onClick={handleSubmit}  style={{backgroundColor: '#753775', color: '#fbe8d3'}}>Add Expense</Button>
-
-
-    </form>
+   
+    
+   
     </div>
      </section>
     
