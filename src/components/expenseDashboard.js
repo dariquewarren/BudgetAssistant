@@ -464,7 +464,7 @@ console.log('final array', finalArray)
   Set Budget
   <form  onSubmit={this.setBudget}>
   <input style={{width: '25%'}} name='budgetAmount' type='number' value={this.state.budget} min='.01' step='.01' onChange={this.handleBudget} onClick={(e)=>{e.preventDefault(); e.target.value=''}} />    
-  <button style={{backgroundColor: ' #283c63',width: '6rem', color: '#fbe8d3', width: '20%'}}>Set</button>
+  <button style={{backgroundColor: ' #283c63',color: '#fbe8d3', width: '6rem',  width: '20%'}}>Set</button>
   </form>
   <p>
   {this.state.items.length === 1 ? 

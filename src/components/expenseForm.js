@@ -123,47 +123,50 @@ return alert('Date is required')
 
 
   return (
-    <div className='app ' style={{backgroundColor: '#393e46'}}>
+    <div className='app ' style={{backgroundColor: '#fdecd8ff'}}>
     
     <header>
+    <br></br>
     <div className='wrapper text-center'>
-    <h3 style={{color: '#fbe8d3'}}>Add Expense for {newEmail}
+    <h3 style={{color: '#22194dff'}}>Add Expense 
      </h3>
     </div>
     </header>
+    <br></br>
+    <br></br>
     <div className='container'> 
     <section className='add-item'>
 
-    <div className='text-center' style={{backgroundColor: '#393e46'}} >
+    <div className='text-center' style={{backgroundColor: '#fdecd8ff'}} >
     
     
     <div className='text-center' style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center'}} >
     
     
    
-    <Form style={{backgroundColor: '757575'}} className='text-center m-2' onSubmit={handleSubmit}> 
+    <Form style={{backgroundColor: '#fdecd8ff'}} className='text-center m-2' onSubmit={handleSubmit}> 
   <Form.Row>
     <Col  xs='auto'>
-    <Form.Label style={{color: '#fbe8d3'}}>Expense</Form.Label>
+    <Form.Label style={{color: '#22194dff', fontSize: 'large'}}>Expense</Form.Label>
       <Form.Control className='bg-light text-center '   name='expense'  onChange={ (e)=>{
         setExpense(e.target.value)
       }}  type='text' placeholder="Expense Name" />
     </Col>
     <Col xs='auto'>
-    <Form.Label style={{color: '#fbe8d3'}}>Amount</Form.Label>
+    <Form.Label style={{color: '#22194dff', fontSize: 'large'}}>Amount</Form.Label>
       <Form.Control className='bg-light text-center'  name='amount' type='number' step='.01' min='.01'  onChange={ (e)=>{
         setAmount(e.target.value)
       }}  placeholder="Amount" />
     </Col>
     <Col xs='auto'>
-    <Form.Label style={{color: '#fbe8d3'}}>Notes</Form.Label>
+    <Form.Label style={{color: '#22194dff', fontSize: 'large'}}>Notes</Form.Label>
       <Form.Control className='bg-light text-center'  
       name='notes' placeholder='extra notes' onChange={(e)=>{
        setNotes(e.target.value)
       }}   type='text' placeholder="Extra Notes" />
     </Col>
     <Col xs='auto'>
-    <Form.Label style={{color: '#fbe8d3'}}>Date</Form.Label>
+    <Form.Label style={{color: '#22194dff', fontSize: 'large'}}>Date</Form.Label>
       <Form.Control id="date"
       className='bg-light text-center'
       name='date'
@@ -174,7 +177,7 @@ return alert('Date is required')
       }}   />
     </Col>
   </Form.Row>
-  <Button onClick={handleSubmit} className='m-2'  style={{backgroundColor: '#753775', color: '#fbe8d3'}}>Add Expense</Button>
+  <Button onClick={handleSubmit} className='m-2'  style={{backgroundColor: ' #283c63',color: '#fbe8d3'}}>Add Expense</Button>
 
 </Form>
     
