@@ -132,64 +132,72 @@ return alert('Date is required')
      </h3>
     </div>
     </header>
-    <br></br>
-    <br></br>
-    <div className='container'> 
-    <section className='add-item'>
+    
+    
 
-    <div className='text-center' style={{backgroundColor: '#fdecd8ff'}} >
-    
-    
-    <div className='text-center' style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center'}} >
-    
-    
-   
-    <Form style={{backgroundColor: '#fdecd8ff'}} className='text-center m-2' onSubmit={handleSubmit}> 
-  <Form.Row>
-    <Col  xs='auto'>
-    <Form.Label style={{color: '#22194dff', fontSize: 'large'}}>Expense</Form.Label>
-      <Form.Control className='bg-light text-center '   name='expense'  onChange={ (e)=>{
-        setExpense(e.target.value)
-      }}  type='text' placeholder="Expense Name" />
-    </Col>
-    <Col xs='auto'>
-    <Form.Label style={{color: '#22194dff', fontSize: 'large'}}>Amount</Form.Label>
-      <Form.Control className='bg-light text-center'  name='amount' type='number' step='.01' min='.01'  onChange={ (e)=>{
-        setAmount(e.target.value)
-      }}  placeholder="Amount" />
-    </Col>
-    <Col xs='auto'>
-    <Form.Label style={{color: '#22194dff', fontSize: 'large'}}>Notes</Form.Label>
-      <Form.Control className='bg-light text-center'  
-      name='notes' placeholder='extra notes' onChange={(e)=>{
-       setNotes(e.target.value)
-      }}   type='text' placeholder="Extra Notes" />
-    </Col>
-    <Col xs='auto'>
-    <Form.Label style={{color: '#22194dff', fontSize: 'large'}}>Date</Form.Label>
-      <Form.Control id="date"
-      className='bg-light text-center'
-      name='date'
-      placeholder="date"
-      type="date"  
-      onChange={ (e)=>{
-        setDate(e.target.value)
-      }}   />
-    </Col>
-  </Form.Row>
-  <Button onClick={handleSubmit} className='m-2'  style={{backgroundColor: ' #283c63',color: '#fbe8d3'}}>Add Expense</Button>
+     <section  >
+     <div className='text-center' style={{backgroundColor: '#fdecd8ff'}} >
+     
+     
+     <div className='text-center' style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center'}} >
+     
+     
+ 
+     <Form style={{backgroundColor: '757575'}} className='text-center' onSubmit={handleSubmit} >
+     <Form.Row>
+     <Col xs={5} className='m-3'>
+     <Form.Label style={{color: '#22194dff', fontSize: 'large'}}>Expense</Form.Label>
+     <Form.Control type='text' placeholder="Expense Name" className='bg-light text-center '  
+     name='expense' maxLength='20'  onChange={ (e)=>{
+      setExpense(e.target.value)
+    }} />
+   </Col>
+   <Col xs={5} className='m-3'>
+   <Form.Label style={{color: '#22194dff', fontSize: 'large'}}>Amount</Form.Label>
+   <Form.Control placeholder="Amount" className='bg-light text-center' 
+    name='amount' type='number' step='.01' min='.01'  onChange={ (e)=>{
+      setAmount(e.target.value)
+    }}
+    /> 
+ </Col>
+ </Form.Row>
+ 
+ <Form.Row>
+ <Col xs={5} className='m-3'>
+ <Form.Label style={{color: '#22194dff', fontSize: 'large'}}>Notes</Form.Label>
+ <Form.Control className='bg-light text-center'  
+ name='notes'  type='text' placeholder="Extra Notes"
+ onChange={ (e)=>{
+  setNotes(e.target.value)
+}}
+ maxLength='50'
+  />
+ </Col>
+ <Col xs={5} className='m-3'>
+ <Form.Label style={{color: '#22194dff', fontSize: 'large'}}>Date </Form.Label>
+ <Form.Control 
+ id="date"
+ className='bg-light text-center'
+ name='date'
+ type="date" 
+ onChange={ (e)=>{
+  setDate(e.target.value)
+}}
 
-</Form>
-    
-    
-    </div>
-   
-    
-   
-    </div>
+ />
+ </Col>
+ </Form.Row>
+ <Button onClick={handleSubmit} className='m-2'  style={{backgroundColor: ' #283c63',color: '#fbe8d3'}}>Add Expense</Button>
+
+ </Form>
+ 
+ </div>
+ 
+ </div>
+ 
      </section>
     
-    </div>
+
     </div>
   )
 

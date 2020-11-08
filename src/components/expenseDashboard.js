@@ -1,7 +1,7 @@
 import React, {useState,useEffect} from "react";
 import "../App.css";
 import firebase from "../firebase";
-import {Button,Badge, Form, Col, Row, ListGroup} from "react-bootstrap";
+import {Button,Badge, Card, Form, Col, Row, ListGroup} from "react-bootstrap";
 import { TextField} from "@material-ui/core";
 import moment from "moment";
 import { FaGlasses, FaMinusCircle, FaPlayCircle, 
@@ -33,6 +33,7 @@ class ExpenseDashboard extends React.Component {
       showSortOptions: false,
       showDateFilters: false,
       showSearchFilter: false,
+      
       filterBy: "date",
       startDate: new moment().format("YYYY MM Do"),
       endDate: new moment().add(365, "days").format("YYYY MM Do"),
@@ -129,6 +130,8 @@ setBudget = (e)=>{
       })
 console.log( e.target.budgetAmount.value)
   }
+
+
   showDateFilters = () => {
     let show = this.state.showDateFilters;
     this.setState({
@@ -459,7 +462,7 @@ console.log('final array', finalArray)
 <div style={{backgroundColor: '#fdecd8ff', display: 'flex', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center'}}>
 
 
-  <div style={{backgroundColor: '#3f88c5ff', color:' #22194dff'}} className="card  shadow text-center py-2 m-2">
+  <div style={{backgroundColor: '#4e0704ff', color:'#fdecd8ff'}} className="card  shadow text-center py-2 m-2">
   
   Set Budget
   <form  onSubmit={this.setBudget}>
@@ -470,8 +473,12 @@ console.log('final array', finalArray)
   {this.state.items.length === 1 ? 
     `${this.state.items.length} Expense`
     : 
-    `${this.state.items.length} Expenses` } 
-    Totalling: ${this.state.expensesTotal}
+    `${this.state.items.length} Expenses` }
+    
+    <br></br> 
+     <Badge pill style={{backgroundColor: '#000000', color:' #0f6128', fontSize:'medium'}}>
+    ${this.state.expensesTotal}
+    </Badge> 
 
       </p>  
  
@@ -481,11 +488,20 @@ console.log('final array', finalArray)
               <Badge pill className='text-right' style={{color: '#0f6e14'}} >
               ${this.state.budget}
               </Badge> 
-      Surplus:
-      <Badge pill className='text-right' style={{color: '#0f6e14'}} >
-      ${isNaN(parseInt(this.state.budget, 10).toFixed(2)) === false ? parseInt(this.state.budget, 10).toFixed(2) - parseInt(this.state.expensesTotal, 10).toFixed(2) : (0)  } 
-      </Badge>
-      
+{this.state.budget > this.state.expensesTotal ? 
+  <p>Surplus:
+  <Badge pill className='text-right' style={{color: '#0f6e14'}} >
+  ${isNaN(parseInt(this.state.budget, 10).toFixed(2)) === false ? parseInt(this.state.budget, 10).toFixed(2) - parseInt(this.state.expensesTotal, 10).toFixed(2) : (0)  } 
+  </Badge></p>
+  :
+  <p>Surplus:
+  <Badge pill className='text-right' style={{color: 'rgb(182, 19, 13)'}} >
+  ${isNaN(parseInt(this.state.budget, 10).toFixed(2)) === false ? parseInt(this.state.budget, 10).toFixed(2) - parseInt(this.state.expensesTotal, 10).toFixed(2) : (0)  } 
+  </Badge></p> 
+  
+}
+
+    
       </p>
 
 
@@ -534,7 +550,7 @@ this.setState({
             ? 
             {backgroundColor: '#ad0404e7', color: 'white'}
              :
-              {backgroundColor: '#283c63', color: 'white'}} 
+              {backgroundColor: '#212121', color: 'white'}} 
         
           className="btn btn-icon-split m-1">
           
@@ -557,7 +573,7 @@ this.setState({
              ? 
              {backgroundColor: '#ad0404e7', color: 'white'}
               :
-               {backgroundColor: '#283c63', color: 'white'}} 
+               {backgroundColor: '#212121', color: 'white'}} 
          
            className="btn btn-icon-split m-1">
            <span className="text"> 
@@ -577,7 +593,7 @@ this.setState({
               ? 
               {backgroundColor: '#ad0404e7', color: 'white'}
                :
-                {backgroundColor: '#283c63', color: 'white'}} 
+                {backgroundColor: '#212121', color: 'white'}} 
           
             className="btn btn-icon-split m-1">
             
@@ -730,8 +746,7 @@ return(
       <button as='button'
       key={m.id} 
       style={{backgroundColor: '#3f88c5ff', 
-      height: '15rem', 
-      width: '20rem'
+      
       
     }}   
       className=' text-wrap text-center m-2 p-1' 
@@ -742,19 +757,24 @@ return(
       
       
       }}>
+    <Card style={{backgroundColor: '#fdecd8ff'}}>
+    <Card.Body style={{backgroundColor: ' #3f88c5ff'}}>
     
-      <h5 style={{color: '#090030'}}>
+   
+      <h5 style={{color: ' #fdecd8ff'}}>
       {m.expense}
       </h5> 
       <h5 className='text-center m-1 text-wrap' >
-      <Badge style={{backgroundColor: '#fdecd8ff', color:' #0f6128'}}>${m.amount}</Badge> </h5>
+      <Badge pill style={{backgroundColor: '#000000', color:' #0f6128'}}>${m.amount}</Badge> </h5>
               <div className="text-xs font-weight-bold text-warning text-uppercase ">
        
-              <p style={{color:'#fbe8d3'}} className='text-center m-1 text-wrap'>
-              Addtl Notes: <br></br><Badge style={{backgroundColor: '#fdecd8ff', color:'#22194dff'}} className='m-2 p-2'>
+              <p style={{color:'#fbe8d3', fontSize: 'medium'}} className='text-center m-1 text-wrap'>
+              <Badge pill style={{backgroundColor: ' #BDBDBD', color:'#22194dff'}} className='m-2 p-2'>
               {m.notes} </Badge> </p> 
-        
-              <h6 style={{color: '#090030'}} className='text-center m-1'>{moment(m.date).format("MMMM Do, YYYY")}</h6>
+        <Badge pill style={{backgroundColor: '#000000', color:' #0f6128'}} >
+        <p className='text-center m-1 p-2'>{moment(m.date).format("MMMM Do, YYYY")}</p>
+
+        </Badge>
 
           </div>
           <br></br>
@@ -768,7 +788,8 @@ return(
         
       </div>
       
-      
+      </Card.Body>
+      </Card>
       
             
      

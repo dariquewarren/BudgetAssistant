@@ -7,6 +7,11 @@
 .second-color { 
 	background: #e77480ff; 
 }
+
+.umpteenth-color { 
+	background: rgb(148, 0, 15); 
+}
+
 .alt-color { 
 	background: #fdecd8ff; 
 }
@@ -18,7 +23,7 @@
 }
 
 .fourth-color { 
-	background: #4e0704ff; 
+	background: rgb(182, 19, 13); 
 }
 .primary-money-color { 
 	color: #0f6128; 

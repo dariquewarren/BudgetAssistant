@@ -3,7 +3,7 @@ import '../App.css';
 import { useAuth0 } from "@auth0/auth0-react";
 import firebase from '../firebase'
 import { TextField} from '@material-ui/core'
-import {Button} from 'react-bootstrap'
+import {Button, Badge, Form, Col} from 'react-bootstrap'
 import moment from 'moment'
 
 
@@ -102,7 +102,7 @@ this.setState({
     
   }
   handleSubmit = (e)=>{
-    e.preventDefault()
+    
     let regex = /[a-z]/gmi
 
 
@@ -146,117 +146,116 @@ removeItem =()=>{
 
   render()
  { return (
-    <div style={{backgroundColor: '#393e46'}} className='text-primary'>
+    <div style={{backgroundColor: '#fdecd8ff'}} className='text-primary'>
     <header className='text-center' >
     
     <button
 
-style={{backgroundColor: '#60316e', height: '15rem', width: '20rem'}}   
+style={{backgroundColor: '#3f88c5ff', height: '15rem', width: '20rem'}}   
 className=' text-wrap text-center m-2 p-1' 
 onClick={(e)=>{
   e.preventDefault()
+  this.handleSubmit()
+  alert('submitted')
+  window.location.assign('/')
   console.log('test')
-
-
 }}
 
 >
-<h4 style={{color: '#fbe8d3'}}>
-{this.state.items.expense}
 
-</h4>
-
-<div  
-style={{backgroundColor: '#60316e'}}
->
-<h5 style={{color: '#078d1e'}}>${this.state.amount}</h5>
-<div
-style={{backgroundColor: '#60316e'}}
-className="card ">
-
-<div  className="card-body">      
-      
+<h5 style={{color: '#090030'}}>
+{this.state.items.expense}</h5> 
+<h5 className='text-center m-1 text-wrap' >
+<Badge style={{backgroundColor: '#fdecd8ff', color:' #0f6128'}}>${this.state.amount}</Badge> </h5>
         <div className="text-xs font-weight-bold text-warning text-uppercase ">
-        <h6 style={{color: '#090030'}}>Notes</h6>
-        <h5 style={{color:'#fbe8d3'}} className='text-center text-wrap'>{this.state.notes}</h5> 
-        
+ 
+        <p style={{color:'#fbe8d3'}} className='text-center m-1 text-wrap'>
+        Addtl Notes: <br></br><Badge style={{backgroundColor: '#fdecd8ff', color:'#22194dff'}} className='m-2 p-2'>
+        {this.state.notes} </Badge> </p> 
+  
+        <h6 style={{color: '#090030'}} className='text-center m-1'>
+        {moment(this.state.date).format('MMMM Do, YYYY')}        </h6>
 
     </div>
+    <br></br>
     
-  </div>
+<div  
+style={{backgroundColor: '#3f88c5ff'}}
+>
+
+
   
 </div>
-<h6 style={{color: '#090030'}} className='text-center'>{moment(this.state.date).format('MMMM Do, YYYY')}</h6>
 
-</div>
+
+
+      
+
+
+
+
 
 
       
 </button>
     
 </header>
+    <section  >
+    <div className='text-center' style={{backgroundColor: '#fdecd8ff'}} >
     
-    <section >
-    <form style={{backgroundColor: '757575'}} className='text-center' onSubmit={this.handleSubmit}>
+    
     <div className='text-center' style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center'}} >
-    <h5 style={{color: 'white'}} >
-    Expense <br></br>
-    <TextField className='bg-light text-center' 
-    style={{width: '10rem', margin: '10px'}}  
-    label={this.state.expense} 
-    value={this.state.expense}
-    maxLength='20'
-    name='expense'  onChange={this.handleChange} />
-
-    </h5>
-    <h5 style={{color: 'white'}}>
-    Amount <br></br>
-    <TextField className='bg-light text-center' 
-    style={{width: '10rem', margin: '10px'}}  
-    label={this.state.amount} 
-    value={this.state.amount} 
-    name='amount' type='number' step='.01' min='.01'  onChange={this.handleChange}  />
-
-    </h5>
-    
-    <h5 style={{color: 'white'}}>
-    Notes <br></br>
-    <TextField
-  style={{width: '10rem', margin: '10px'}} className='bg-light text-center'  
-  label='EXTRA NOTES' 
-  value={this.state.notes}
-  maxLength='50'
-  name='notes' placeholder='extra notes' onChange={this.handleChange}  
-  
-  />
-  
-    </h5>
-    
-
-    <h5 style={{height: '5.5rem', width: '12rem', color: 'white'}} >
-    Date 
-    <TextField 
-    style={{width: '10rem'}}
-    id="date"
-    className='bg-light text-center m-3'
-    name='date'
-    label={moment(this.state.date).format('MM/DD/YYYY')}
-    type="date"  
-    onChange={this.handleChange}
-    InputLabelProps={{
-      shrink: true,
-    }}
-  />
-    </h5>
     
     
-    </div>
-    <Button onClick={this.handleSubmit}  style={{backgroundColor: '#753775'}}>Update Expense</Button>
-    <Button onClick={this.removeItem} className='bg-danger'>
-    Delete Expense
-    </Button>
 
-    </form>
+    <Form style={{backgroundColor: '757575'}} className='text-center' onSubmit={this.handleSubmit}>
+    <Form.Row>
+    <Col xs={5} className='m-2'>
+    <Form.Label style={{color: '#22194dff', fontSize: 'large'}}>Expense</Form.Label>
+    <Form.Control type='text' placeholder="Expense Name" className='bg-light text-center '  
+    name='expense' maxLength='20' value={this.state.expense} onChange={this.handleChange}  />
+  </Col>
+  <Col xs={5} className='m-2'>
+  <Form.Label style={{color: '#22194dff', fontSize: 'large'}}>Amount</Form.Label>
+  <Form.Control placeholder="Amount" className='bg-light text-center' 
+   name='amount' type='number' step='.01' min='.01' value={this.state.amount}
+   onChange={this.handleChange}
+   /> 
+</Col>
+</Form.Row>
+
+<Form.Row>
+<Col xs={5} className='m-3'>
+<Form.Label style={{color: '#22194dff', fontSize: 'large'}}>Notes</Form.Label>
+<Form.Control className='bg-light text-center'  
+name='notes'  type='text' placeholder="Extra Notes"
+onChange={this.handleChange}
+value={this.state.notes}
+maxLength='50'
+ />
+</Col>
+<Col xs={5} className='m-3'>
+<Form.Label style={{color: '#22194dff', fontSize: 'large'}}>Date </Form.Label>
+<Form.Control 
+id="date"
+className='bg-light text-center'
+name='date'
+type="date" 
+
+onChange={this.handleChange}
+/>
+</Col>
+</Form.Row>
+<Button onClick={this.handleSubmit} className='m-2'  style={{backgroundColor: '#283c63',color: '#fbe8d3'}} >Update Expense</Button>
+<Button onClick={this.removeItem} className='m-2'  style={{backgroundColor: 'rgb(148, 0, 15)',color: '#fbe8d3'}}>
+Delete Expense
+</Button> 
+</Form>
+
+</div>
+
+</div>
+
     </section>
    
     </div>
