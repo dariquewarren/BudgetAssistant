@@ -462,7 +462,7 @@ console.log('final array', finalArray)
 <div style={{backgroundColor: '#fdecd8ff', display: 'flex', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center'}}>
 
 
-  <div style={{backgroundColor: '#4e0704ff', color:'#fdecd8ff'}} className="card  shadow text-center py-2 m-2">
+  <div style={{backgroundColor: '#22194dff', color:'#fdecd8ff'}} className="card  shadow text-center py-2 m-2">
   
   Set Budget
   <form  onSubmit={this.setBudget}>
@@ -485,17 +485,17 @@ console.log('final array', finalArray)
       <p>
       Budget: 
               
-              <Badge pill className='text-right' style={{color: '#0f6e14'}} >
+              <Badge pill className='text-right' style={{color: '#0f6e14', fontSize: 'medium'}} >
               ${this.state.budget}
               </Badge> 
 {this.state.budget > this.state.expensesTotal ? 
   <p>Surplus:
-  <Badge pill className='text-right' style={{color: '#0f6e14'}} >
+  <Badge pill className='text-right' style={{color: '#0f6e14', fontSize: 'medium'}} >
   ${isNaN(parseInt(this.state.budget, 10).toFixed(2)) === false ? parseInt(this.state.budget, 10).toFixed(2) - parseInt(this.state.expensesTotal, 10).toFixed(2) : (0)  } 
   </Badge></p>
   :
   <p>Surplus:
-  <Badge pill className='text-right' style={{color: 'rgb(182, 19, 13)'}} >
+  <Badge pill className='text-right' style={{color: 'rgb(182, 19, 13)', fontSize: 'medium'}} >
   ${isNaN(parseInt(this.state.budget, 10).toFixed(2)) === false ? parseInt(this.state.budget, 10).toFixed(2) - parseInt(this.state.expensesTotal, 10).toFixed(2) : (0)  } 
   </Badge></p> 
   
@@ -757,36 +757,32 @@ return(
       
       
       }}>
-    <Card style={{backgroundColor: '#fdecd8ff'}}>
+    <Card style={{backgroundColor: '#fdecd8ff', width: '20rem', height: '15rem'}}>
     <Card.Body style={{backgroundColor: ' #3f88c5ff'}}>
     
    
-      <h5 style={{color: ' #fdecd8ff'}}>
+      <h5 style={{color: '#22194dff'}}>
       {m.expense}
       </h5> 
-      <h5 className='text-center m-1 text-wrap' >
+      <h5 className='text-center m-3 text-wrap' >
       <Badge pill style={{backgroundColor: '#000000', color:' #0f6128'}}>${m.amount}</Badge> </h5>
-              <div className="text-xs font-weight-bold text-warning text-uppercase ">
+              <div >
        
-              <p style={{color:'#fbe8d3', fontSize: 'medium'}} className='text-center m-1 text-wrap'>
-              <Badge pill style={{backgroundColor: ' #BDBDBD', color:'#22194dff'}} className='m-2 p-2'>
-              {m.notes} </Badge> </p> 
-        <Badge pill style={{backgroundColor: '#000000', color:' #0f6128'}} >
-        <p className='text-center m-1 p-2'>{moment(m.date).format("MMMM Do, YYYY")}</p>
+       {m.notes.length > 26
+         ?
+         <div  style={{fontFamily:'sans serif', color:'#22194dff', fontStyle: 'italic'}}> <p clasName='m-3'>Additional Notes Below</p> </div>
+       :
+       <div className='m-2 p-2' style={{fontFamily:'sans serif', color:'#22194dff', fontStyle: 'italic'}}> <p  >Additional Notes Below</p>  </div>}
 
-        </Badge>
+              <p style={{color:'#22194dff', fontSize: '1rem'}} className='text-center m-2'>
+              {m.notes} </p> 
+
 
           </div>
-          <br></br>
+          <p className='text-center m-1 p-2' style={{color:'#22194dff'}}>{moment(m.date).format("MMMM Do, YYYY")}</p>
+
           
-      <div  
-      style={{backgroundColor: '#3f88c5ff'}}
-      >
       
-      
-      <h5 style={{color: '#fdecd8ff'}}>Click To Modify</h5>
-        
-      </div>
       
       </Card.Body>
       </Card>

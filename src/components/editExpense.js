@@ -166,11 +166,20 @@ onClick={(e)=>{
 <h5 style={{color: '#090030'}}>
 {this.state.items.expense}</h5> 
 <h5 className='text-center m-1 text-wrap' >
-<Badge style={{backgroundColor: '#fdecd8ff', color:' #0f6128'}}>${this.state.amount}</Badge> </h5>
-        <div className="text-xs font-weight-bold text-warning text-uppercase ">
+<Badge pill style={{backgroundColor: '#000000', color:' #0f6128'}}>${this.state.amount}</Badge> </h5>
+        <div className=" text-wrap ">
  
-        <p style={{color:'#fbe8d3'}} className='text-center m-1 text-wrap'>
-        Addtl Notes: <br></br><Badge style={{backgroundColor: '#fdecd8ff', color:'#22194dff'}} className='m-2 p-2'>
+        {this.state.notes.length > 26
+          ?
+          <div  style={{fontFamily:'sans serif', color:'#22194dff', fontStyle: 'italic'}}> <p clasName='m-3'>Additional Notes Below</p> </div>
+        :
+        <div className='m-2 p-2' style={{fontFamily:'sans serif', color:'#22194dff', fontStyle: 'italic'}}> <p  >Additional Notes Below</p>  
+        </div>}
+
+
+        <p style={{color:'#fbe8d3', fontSize: 'medium'}} className='text-center m-1 text-wrap'>
+        <Badge style={{backgroundColor: '#3f88c5ff', color:'#22194dff'}} 
+        className='m-2 p-2 text-wrap'>
         {this.state.notes} </Badge> </p> 
   
         <h6 style={{color: '#090030'}} className='text-center m-1'>
