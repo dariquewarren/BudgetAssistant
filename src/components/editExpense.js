@@ -3,7 +3,7 @@ import '../App.css';
 import { useAuth0 } from "@auth0/auth0-react";
 import firebase from '../firebase'
 import { TextField} from '@material-ui/core'
-import {Button} from 'react-bootstrap'
+import {Button, Badge, Form, Col} from 'react-bootstrap'
 import moment from 'moment'
 
 
@@ -30,7 +30,7 @@ class EditExpense extends React.Component{
   componentDidMount(){
 // mutate email to exclude non letters
 // change items ref to select conditionally either expense/moddedEmail or expenses/testtestcom
-let id = 123234
+
 let regex = /[a-z]/gmi
 
   let realId = this.props.props.props.match.params.id
@@ -48,12 +48,12 @@ console.log('window check',params)
 console.log('props list', this.props)
 
     const itemsRef = firebase.database().ref('expenses/' + realEmail)
-    let newRef = firebase.database().ref('expenses')
     itemsRef.on("value", (snapshot) => {
       let items = snapshot.val();
       let newState = [];
   console.log('items', items)
-      for (let item in items) {
+     
+  for (let item in items) {
         newState.push({
           id: item,
           expense: items[item].expense,
@@ -69,7 +69,14 @@ console.log('props list', this.props)
      
   console.log('filter experiment', realItem[0])
       
-       this.setState({ items: realItem[0]});
+       this.setState({ 
+         items: realItem[0],
+        amount: realItem[0].amount,
+        date: realItem[0].date,
+        expense: realItem[0].expense,
+        notes: realItem[0].notes
+        
+        });
       
     });
 
@@ -95,19 +102,23 @@ this.setState({
     
   }
   handleSubmit = (e)=>{
-    e.preventDefault()
-    const id = window.location.pathname.slice(6)
     
+    let regex = /[a-z]/gmi
 
-    const itemsRef = firebase.database().ref('expenses/' + this.props.email + '/' + id)
+
+    let realId = this.props.props.props.match.params.id
+    let realEmail = this.props.props.props.match.params.email.match(regex).join('')    
+
+    const itemsRef = firebase.database().ref('expenses/' + realEmail + '/' + realId)
     
     const item = {
       expense: this.state.expense,
       notes: this.state.notes,
       date: this.state.date,
-      amount: this.state.amount
+      amount: this.state.amount,
     }
     itemsRef.update(item).then(()=>{
+      alert('success')
         window.location.assign('/')
     }).catch((e)=>{
         console.log(e)
@@ -117,10 +128,15 @@ this.setState({
   }
   
 removeItem =()=>{
-    const id = window.location.pathname.slice(6)
+  let regex = /[a-z]/gmi
 
-  const itemRef = firebase.database().ref('expenses/' + this.props.email + '/' + id)
-  itemRef.remove().then(()=>{
+
+  let realId = this.props.props.props.match.params.id
+  let realEmail = this.props.props.props.match.params.email.match(regex).join('')    
+
+  const itemsRef = firebase.database().ref('expenses/' + realEmail + '/' + realId)
+  
+  itemsRef.remove().then(()=>{
     alert('success')
     window.location.assign('/')
   }).catch((e)=>{
@@ -130,115 +146,125 @@ removeItem =()=>{
 
   render()
  { return (
-    <div style={{backgroundColor: '#393e46'}} className='text-primary'>
+    <div style={{backgroundColor: '#fdecd8ff'}} className='text-primary'>
     <header className='text-center' >
     
     <button
 
-style={{backgroundColor: '#60316e', height: '15rem', width: '20rem'}}   
+style={{backgroundColor: '#3f88c5ff', height: '15rem', width: '20rem'}}   
 className=' text-wrap text-center m-2 p-1' 
 onClick={(e)=>{
   e.preventDefault()
+  this.handleSubmit()
+  alert('submitted')
+  window.location.assign('/')
   console.log('test')
-
-
 }}
 
 >
-<h4 style={{color: '#fbe8d3'}}>
-{this.state.items.expense}
 
-</h4>
+<h5 style={{color: '#090030'}}>
+{this.state.items.expense}</h5> 
+<h5 className='text-center m-1 text-wrap' >
+<Badge pill style={{backgroundColor: '#000000', color:' #0f6128'}}>${this.state.amount}</Badge> </h5>
+        <div className=" text-wrap ">
+ 
+        {this.state.notes.length > 26
+          ?
+          <div  style={{fontFamily:'sans serif', color:'#22194dff', fontStyle: 'italic'}}> <p clasName='m-3'>Additional Notes Below</p> </div>
+        :
+        <div className='m-2 p-2' style={{fontFamily:'sans serif', color:'#22194dff', fontStyle: 'italic'}}> <p  >Additional Notes Below</p>  
+        </div>}
 
-<div  
-style={{backgroundColor: '#60316e'}}
->
-<h5 style={{color: '#078d1e'}}>$</h5>
-<div
-style={{backgroundColor: '#60316e'}}
-className="card ">
 
-<div  className="card-body">      
-      
-        <div className="text-xs font-weight-bold text-warning text-uppercase ">
-        <h6 style={{color: '#090030'}}>Notes</h6>
-        <h5 style={{color:'#fbe8d3'}} className='text-center text-wrap'>notes here</h5> 
-        
+        <p style={{color:'#fbe8d3', fontSize: 'medium'}} className='text-center m-1 text-wrap'>
+        <Badge style={{backgroundColor: '#3f88c5ff', color:'#22194dff'}} 
+        className='m-2 p-2 text-wrap'>
+        {this.state.notes} </Badge> </p> 
+  
+        <h6 style={{color: '#090030'}} className='text-center m-1'>
+        {moment(this.state.date).format('MMMM Do, YYYY')}        </h6>
 
     </div>
+    <br></br>
     
-  </div>
+<div  
+style={{backgroundColor: '#3f88c5ff'}}
+>
+
+
   
 </div>
-<h6 style={{color: '#090030'}} className='text-center'> date here</h6>
 
-</div>
+
+
+      
+
+
+
+
 
 
       
 </button>
     
 </header>
+    <section  >
+    <div className='text-center' style={{backgroundColor: '#fdecd8ff'}} >
     
-    <section >
-    <form style={{backgroundColor: '757575'}} className='text-center' onSubmit={this.handleSubmit}>
+    
     <div className='text-center' style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center'}} >
-    <h5 style={{color: 'white'}} >
-    Expense <br></br>
-    <TextField className='bg-light text-center' 
-    style={{width: '10rem', margin: '10px'}}  
-    label={this.state.expense} 
-    value={this.state.expense}
-    name='expense'  onChange={this.handleChange} />
-
-    </h5>
-    <h5 style={{color: 'white'}}>
-    Amount <br></br>
-    <TextField className='bg-light text-center' 
-    style={{width: '10rem', margin: '10px'}}  
-    label={this.state.amount} 
-    value={this.state.amount} 
-    name='amount' type='number' step='.01' min='.01'  onChange={this.handleChange}  />
-
-    </h5>
     
-    <h5 style={{color: 'white'}}>
-    Notes <br></br>
-    <TextField
-  style={{width: '10rem', margin: '10px'}} className='bg-light text-center'  
-  label='EXTRA NOTES' 
-  value={this.state.notes}
-  name='notes' placeholder='extra notes' onChange={this.handleChange}  
-  
-  />
-  
-    </h5>
     
 
-    <h5 style={{height: '5.5rem', width: '12rem', color: 'white'}} >
-    Date <br></br> 
-    <TextField 
-    style={{width: '10rem'}}
-    id="date"
-    className='bg-light text-center m-3'
-    name='date'
-    
-    type="date"  
-    onChange={this.handleChange}
-    InputLabelProps={{
-      shrink: true,
-    }}
-  />
-    </h5>
-    
-    
-    </div>
-    <Button onClick={this.handleSubmit}  style={{backgroundColor: '#753775'}}>Update Expense</Button>
-    <Button onClick={this.removeItem} className='bg-danger'>
-    Delete Expense
-    </Button>
+    <Form style={{backgroundColor: '757575'}} className='text-center' onSubmit={this.handleSubmit}>
+    <Form.Row>
+    <Col xs={5} className='m-2'>
+    <Form.Label style={{color: '#22194dff', fontSize: 'large'}}>Expense</Form.Label>
+    <Form.Control type='text' placeholder="Expense Name" className='bg-light text-center '  
+    name='expense' maxLength='20' value={this.state.expense} onChange={this.handleChange}  />
+  </Col>
+  <Col xs={5} className='m-2'>
+  <Form.Label style={{color: '#22194dff', fontSize: 'large'}}>Amount</Form.Label>
+  <Form.Control placeholder="Amount" className='bg-light text-center' 
+   name='amount' type='number' step='.01' min='.01' value={this.state.amount}
+   onChange={this.handleChange}
+   /> 
+</Col>
+</Form.Row>
 
-    </form>
+<Form.Row>
+<Col xs={5} className='m-3'>
+<Form.Label style={{color: '#22194dff', fontSize: 'large'}}>Notes</Form.Label>
+<Form.Control className='bg-light text-center'  
+name='notes'  type='text' placeholder="Extra Notes"
+onChange={this.handleChange}
+value={this.state.notes}
+maxLength='50'
+ />
+</Col>
+<Col xs={5} className='m-3'>
+<Form.Label style={{color: '#22194dff', fontSize: 'large'}}>Date </Form.Label>
+<Form.Control 
+id="date"
+className='bg-light text-center'
+name='date'
+type="date" 
+
+onChange={this.handleChange}
+/>
+</Col>
+</Form.Row>
+<Button onClick={this.handleSubmit} className='m-2'  style={{backgroundColor: '#283c63',color: '#fbe8d3'}} >Update Expense</Button>
+<Button onClick={this.removeItem} className='m-2'  style={{backgroundColor: 'rgb(148, 0, 15)',color: '#fbe8d3'}}>
+Delete Expense
+</Button> 
+</Form>
+
+</div>
+
+</div>
+
     </section>
    
     </div>

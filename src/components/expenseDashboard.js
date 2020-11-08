@@ -1,7 +1,7 @@
 import React, {useState,useEffect} from "react";
 import "../App.css";
 import firebase from "../firebase";
-import {Badge, Form} from "react-bootstrap";
+import {Button,Badge, Card, Form, Col, Row, ListGroup} from "react-bootstrap";
 import { TextField} from "@material-ui/core";
 import moment from "moment";
 import { FaGlasses, FaMinusCircle, FaPlayCircle, 
@@ -12,7 +12,7 @@ import {BsFillGearFill} from 'react-icons/bs'
 import LoginButton from '../components/loginButton'
 import UserContext from './userContext'
 import { useAuth0 } from "@auth0/auth0-react";
-
+import expensesData from '../tests/fixtures/expensesData'
 
 
 
@@ -33,6 +33,7 @@ class ExpenseDashboard extends React.Component {
       showSortOptions: false,
       showDateFilters: false,
       showSearchFilter: false,
+      
       filterBy: "date",
       startDate: new moment().format("YYYY MM Do"),
       endDate: new moment().add(365, "days").format("YYYY MM Do"),
@@ -41,8 +42,7 @@ class ExpenseDashboard extends React.Component {
       email: this.props.email
     };
  
-    this.handleMyEmail = this.handleMyEmail.bind(this)
-    this.myExpenses = this.myExpenses.bind(this)
+  
     this.setStartDateRange = this.setStartDateRange.bind(this);
     this.setEndDateRange = this.setEndDateRange.bind(this);
     this.handleBeginningDate = this.handleBeginningDate.bind(this);
@@ -62,7 +62,7 @@ class ExpenseDashboard extends React.Component {
  }
 
  componentDidMount() {
-   
+   console.log(expensesData)
 // log is loading prop to console via conditional
 console.log('see about delay when logging in. consider, isLoading prop') 
   console.log('state-email', this.props.auth)
@@ -99,14 +99,14 @@ console.log(this.props.email)
 
     let amountArray = [];
     newState.forEach((e)=>{
-      return amountArray.push(e.amount)
+      return amountArray.push(Number(e.amount))
     })
 
     let ddw = amountArray.reduce((total, currentValue) => {
       return total + currentValue;
     });
 
-    console.log(amountArray);
+    console.log(ddw);
     this.setState({ items: newState, expensesTotal: ddw });
     
   });
@@ -114,61 +114,6 @@ console.log(this.props.email)
 
   
   }
-
-handleMyEmail=(e)=>{
-  e.preventDefault()
-  let myEmail = e.target.value
-console.log(e.target.value)
-this.setState({
-  myEmail
-})
-}
-
-myExpenses=()=>{
-  let regex = /[a-z]/gmi
-
-  let quickTest = `${this.props.email}`
-  let trueEmail = this.state.myEmail.match(regex).join('')
-   
-  let myExpensesRef =  firebase.database().ref('expenses/' + trueEmail)
-  
-  myExpensesRef.on("value", (snapshot) => {
-    let items = snapshot.val();
-
-    let newState = [];
-console.log('quick test items',items)
-
-
-for (let item in items) {
-  newState.push({
-    id: item,
-    expense: items[item].expense,
-    notes: items[item].notes,
-    date: items[item].date,
-    amount: items[item].amount,
-    email: items[item].email,
-  });
-}
-
-
-console.log('new state', newState)
-let emailString = this.props.email.toString()
-
-console.log('email string', `${emailString}`)
-
-// let myRegex = new RegExp(`${emailString}`, 'gmi')
-// let ddw = newState.filter((f)=>{
-//   return f.owner.match(myRegex)
-// })
-
-// console.log('filter state', ddw)
-
-
-    
-    
-  });
-
-}
   
   handleBudget = (e)=>{
     e.preventDefault()
@@ -185,6 +130,8 @@ setBudget = (e)=>{
       })
 console.log( e.target.budgetAmount.value)
   }
+
+
   showDateFilters = () => {
     let show = this.state.showDateFilters;
     this.setState({
@@ -212,7 +159,7 @@ console.log( e.target.budgetAmount.value)
   sortAmountLowHigh = () => {
     let real = this.state.items;
     let newItems = real.sort((a, b) => {
-      return a.amount - b.amount;
+      return Number(a.amount)  - Number(b.amount);
     });
     this.setState({ items: newItems });
   };
@@ -220,15 +167,17 @@ console.log( e.target.budgetAmount.value)
   sortAmountHighLow = () => {
     let real = this.state.items;
     let newItems = real.sort((a, b) => {
-      return b.amount - a.amount;
+      return Number(b.amount) - Number(a.amount) ;
     });
     this.setState({ items: newItems });
   };
 
   sortDateLowHigh = () => {
     let regex = /[a-z]/gmi
-    let expenseEmail = this.state.email.match(regex).join('')
-    let myExpensesRef = (this.props.auth) ? firebase.database().ref("expenses/" + expenseEmail) : firebase.database().ref("expenses/testtestcom")
+    let expenseEmail = this.state.myEmail.match(regex).join('')
+    
+    let myExpensesRef = firebase.database().ref("expenses/" + expenseEmail)
+    
     
     
     myExpensesRef.on("value", (snapshot) => {
@@ -268,9 +217,8 @@ console.log( e.target.budgetAmount.value)
 
   sortDateHighLow = () => {
     let regex = /[a-z]/gmi
-    let expenseEmail = this.state.email.match(regex).join('')
-    let myExpensesRef = (this.props.auth) ? firebase.database().ref("expenses/" + expenseEmail) : firebase.database().ref("expenses/testtestcom")
-    
+    let expenseEmail = this.state.myEmail.match(regex).join('')
+    let myExpensesRef = firebase.database().ref("expenses/" + expenseEmail)
     
     myExpensesRef.on("value", (snapshot) => {
       let items = snapshot.val();
@@ -318,9 +266,8 @@ console.log( e.target.budgetAmount.value)
     let searchTerm = this.state.searchTerm;
     console.log("search term", searchTerm);
     let regex = /[a-z]/gmi
-    let expenseEmail = this.state.email.match(regex).join('')
-    let myExpensesRef = (this.props.auth) ? firebase.database().ref("expenses/" + expenseEmail) : firebase.database().ref("expenses/testtestcom")
-    
+    let expenseEmail = this.state.myEmail.match(regex).join('')
+    let myExpensesRef = firebase.database().ref("expenses/" + expenseEmail)
     
 
     myExpensesRef.on("value", (snapshot) => {
@@ -340,7 +287,7 @@ console.log( e.target.budgetAmount.value)
 
       newState.forEach((f) => {
         let regex = new RegExp(searchTerm.toUpperCase());
-        if (regex.test(f.expense.toUpperCase())) {
+        if (regex.test(f.expense.toUpperCase()) || regex.test(f.notes.toUpperCase())  ) {
           filterState.push(f);
         }
       });
@@ -351,7 +298,7 @@ console.log('filter state', filterState)
         expenseArray.push(parseInt(e.amount, 10));
       });
 
-      let dummyArray = [1,2,3];
+      let dummyArray = [];
 
       let expensesTotal =
         expenseArray.length === 0
@@ -372,14 +319,14 @@ console.log('filter state', filterState)
 
   setStartDateRange = () => {
     let regex = /[a-z]/gmi
-    let expenseEmail = this.state.email.match(regex).join('')
-    let myExpensesRef = (this.props.auth) ? firebase.database().ref("expenses/" + expenseEmail) : firebase.database().ref("expenses/testtestcom")
-    
+    let expenseEmail = this.state.myEmail.match(regex).join('')
+    let myExpensesRef = firebase.database().ref("expenses/" + expenseEmail)
     
 
     this.setState({
         items: []
     })
+
     myExpensesRef.on("value", (snapshot) => {
       let items = snapshot.val();
       let newState = [];
@@ -409,7 +356,7 @@ console.log('filter state', filterState)
         expenseArray.push(parseInt(e.amount, 10));
       });
 
-      let dummyArray = [1,2,3];
+      let dummyArray = [];
 
       let expensesTotal =
         expenseArray.length === 0
@@ -429,9 +376,8 @@ console.log('filter state', filterState)
 
   setEndDateRange = () => {
     let regex = /[a-z]/gmi
-    let expenseEmail = this.state.email.match(regex).join('')
-    let myExpensesRef = (this.props.auth) ? firebase.database().ref("expenses/" + expenseEmail) : firebase.database().ref("expenses/testtestcom")
-    
+    let expenseEmail = this.state.myEmail.match(regex).join('')
+    let myExpensesRef = firebase.database().ref("expenses/" + expenseEmail)
     
     myExpensesRef.on("value", (snapshot) => {
       let items = snapshot.val();
@@ -511,90 +457,77 @@ console.log('final array', finalArray)
       
      return (
 <div>
-<form onSubmit={this.handleMyEmail}>
-<Form.Control  type='email' onChange={this.handleMyEmail}/>
-<button
-onClick={this.myExpenses}
->MY EXPENSE</button>
-</form>
-
-  <div>
-  {this.state.list.map((item) => {
-    return(
-      <div>
-        {item}
-      </div>
-    );
-  })}
-  </div>
+  
  
+<div style={{backgroundColor: '#fdecd8ff', display: 'flex', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center'}}>
 
 
-
-
-<div style={{backgroundColor: '#393e46', display: 'flex', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center'}}>
-
-<div style={{width: '300px'}}>
-  <div style={{backgroundColor: '#fbe8d3'}} className="card  shadow h-100 py-2 m-2">
-
-    <div className="card-body">
-    <h4 className='text-center'>Summary</h4> 
-    <div style={{color: '#283c63'}} className="text-xs font-weight-bold text-uppercase text-center mb-1">
+  <div style={{backgroundColor: '#22194dff', color:'#fdecd8ff'}} className="card  shadow text-center py-2 m-2">
+  
+  Set Budget
+  <form  onSubmit={this.setBudget}>
+  <input style={{width: '25%'}} name='budgetAmount' type='number' value={this.state.budget} min='.01' step='.01' onChange={this.handleBudget} onClick={(e)=>{e.preventDefault(); e.target.value=''}} />    
+  <button style={{backgroundColor: ' #283c63',color: '#fbe8d3', width: '6rem',  width: '20%'}}>Set</button>
+  </form>
+  <p>
+  {this.state.items.length === 1 ? 
+    `${this.state.items.length} Expense`
+    : 
+    `${this.state.items.length} Expenses` }
     
-    {this.state.items.length} Expenses Totalling ${this.state.expensesTotal}
+    <br></br> 
+     <Badge pill style={{backgroundColor: '#000000', color:' #0f6128', fontSize:'medium'}}>
+    ${this.state.expensesTotal}
+    </Badge> 
+
+      </p>  
+ 
+      <p>
+      Budget: 
+              
+              <Badge pill className='text-right' style={{color: '#0f6e14', fontSize: 'medium'}} >
+              ${this.state.budget}
+              </Badge> 
+{this.state.budget > this.state.expensesTotal ? 
+  <p>Surplus:
+  <Badge pill className='text-right' style={{color: '#0f6e14', fontSize: 'medium'}} >
+  ${isNaN(parseInt(this.state.budget, 10).toFixed(2)) === false ? parseInt(this.state.budget, 10).toFixed(2) - parseInt(this.state.expensesTotal, 10).toFixed(2) : (0)  } 
+  </Badge></p>
+  :
+  <p>Surplus:
+  <Badge pill className='text-right' style={{color: 'rgb(182, 19, 13)', fontSize: 'medium'}} >
+  ${isNaN(parseInt(this.state.budget, 10).toFixed(2)) === false ? parseInt(this.state.budget, 10).toFixed(2) - parseInt(this.state.expensesTotal, 10).toFixed(2) : (0)  } 
+  </Badge></p> 
+  
+}
 
     
-      </div>
+      </p>
 
-      <div className="row no-gutters align-items-center">
 
-        <div className="col mr-2">
-        <h5>Budget: 
-        <br></br>
-        <Badge pill className='text-right' style={{color: '#0f6e14'}} >
-        ${this.state.budget}
-        </Badge>     </h5>  
+    
+      
         
-        <h5>
-        
-        Surplus:
-        <Badge pill className='text-right' style={{color: '#0f6e14'}} >
-        ${isNaN(parseInt(this.state.budget, 10).toFixed(2)) === false ? parseInt(this.state.budget, 10).toFixed(2) - parseInt(this.state.expensesTotal, 10).toFixed(2) : (0)  } 
-        </Badge>
-        </h5>
-         
-        
-         
-        </div>
+          
+<p className='text-right m-1'> 
+<button
+style={this.state.showGeneralOptions ? {height: '2rem', backgroundColor: '#ad0404e7'} : {height: '2rem', backgroundColor: '#078d1e'} }
 
-        <div className="col mr-2">
-        <div className="text-xs font-weight-boldtext-uppercase mb-1" 
-        
-        style={{color: '#283c63'}}>Set Budget </div>
-<form  onSubmit={this.setBudget}>
-<input style={{width: '7rem'}} name='budgetAmount' type='number' value={this.state.budget} min='.01' step='.01' onChange={this.handleBudget} onClick={(e)=>{e.preventDefault(); e.target.value=''}} />    
-<button style={{backgroundColor: ' #283c63', color: '#fbe8d3', width: '100%'}}>Set</button>
-</form>
- </div>
+className='rounded rounded-circle shadow'
+onClick={(e)=>{
+e.preventDefault()
+this.setState({
+  showGeneralOptions: !this.state.showGeneralOptions
+})
+}}> <BsFillGearFill />
+ </button>
+</p> 
+    
+      
 
-
-      </div>
-      <h6 className='text-right mt-4'> 
-          <button
-         style={this.state.showGeneralOptions ? {height: '2rem', backgroundColor: '#ad0404e7'} : {height: '2rem', backgroundColor: '#078d1e'} }
-         
-         className='rounded rounded-circle shadow'
-         onClick={(e)=>{
-          e.preventDefault()
-          this.setState({
-            showGeneralOptions: !this.state.showGeneralOptions
-          })
-          }}> <BsFillGearFill />
-           </button>
-          </h6> 
-    </div>
+   
   </div>
-</div>
+
 
 
 {this.state.showGeneralOptions ?
@@ -617,7 +550,7 @@ onClick={this.myExpenses}
             ? 
             {backgroundColor: '#ad0404e7', color: 'white'}
              :
-              {backgroundColor: '#283c63', color: 'white'}} 
+              {backgroundColor: '#212121', color: 'white'}} 
         
           className="btn btn-icon-split m-1">
           
@@ -640,7 +573,7 @@ onClick={this.myExpenses}
              ? 
              {backgroundColor: '#ad0404e7', color: 'white'}
               :
-               {backgroundColor: '#283c63', color: 'white'}} 
+               {backgroundColor: '#212121', color: 'white'}} 
          
            className="btn btn-icon-split m-1">
            <span className="text"> 
@@ -660,7 +593,7 @@ onClick={this.myExpenses}
               ? 
               {backgroundColor: '#ad0404e7', color: 'white'}
                :
-                {backgroundColor: '#283c63', color: 'white'}} 
+                {backgroundColor: '#212121', color: 'white'}} 
           
             className="btn btn-icon-split m-1">
             
@@ -687,64 +620,85 @@ onClick={this.myExpenses}
 
 </div>
 
-<div style={{backgroundColor: '#393e46', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+<div style={{backgroundColor: '#fdecd8ff', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+
+{this.state.showSortOptions 
+  ? <div style={{backgroundColor: '#fdecd8ff', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+  <h5> 
+  <button 
+  style={{backgroundColor: '#283c63',  color: '#078d1e'}}
+  onClick={this.sortAmountLowHigh}>  $ <FaSortAmountUp/></button> 
+  <button 
+  style={{backgroundColor: '#283c63',  color: '#078d1e'}}
+  onClick={this.sortAmountHighLow} >  $ <FaSortAmountDown/></button>
+  
+  <button 
+  style={{backgroundColor: '#283c63', color: '#fbe8d3'}}
+  onClick={this.sortDateLowHigh}><FaSortAlphaUpAlt/> Date</button>
+  <button 
+  style={{backgroundColor: '#283c63', color: '#fbe8d3'}}
+  onClick={this.sortDateHighLow}><FaSortAlphaDownAlt/> Date</button> 
+  </h5>
+  </div>
+  
+  :  <p></p>
+  }
 
 
 {this.state.showDateFilters ? (
   <div className='text-center' 
-  style={{backgroundColor: '#393e46', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-   <div className ='m-3 ' style={{backgroundColor: '#393e46'}}>
-   <p style={{color: '#fbe8d3'}} > Expenses After</p>
-   <TextField
-   id="date"
-   name="date"
-   style={{backgroundColor: '#fbe8d3', width: '8rem' }}
-
-   type="date"
-   onChange={this.handleBeginningDate}
-   InputLabelProps={{
-     shrink: true,
-   }}
- />
- 
-
- <button
- style={{  backgroundColor: '#283c63', color: '#fbe8d3', height: '2rem' }}
- onClick={this.setStartDateRange}
->
-<p><FaCalendarPlus/> Filter</p>  
-</button>
- 
-   
-   </div>
+  style={{backgroundColor: '#fdecd8ff'}}>
   
-<div className ='m-3' style={{backgroundColor: '#393e46'}}>
-<p style={{color: '#fbe8d3'}} > Expenses Before</p>
-   
-   <TextField
-   id="date"
-   name="date"
-   style={{ backgroundColor: '#fbe8d3', width: '8rem'}}
-   type="date"
-   onChange={this.handleEndingDate}
-   InputLabelProps={{
-     shrink: true,
-   }}
- />
+<Form>
+<Form.Row className='p-1'>
+<Col xs={6} style={{backgroundColor: '#3f88c5ff'}} className='text-center'>
+<Form.Label style={{color: '#fbe8d3', fontSize: 'large'}}>View Expenses After</Form.Label>
   
+  <Form.Control 
+  name='date'
+  id="date"
+  style={{ backgroundColor: '#fbe8d3', width: '10.5rem'}}
+  className='m-2'
+  type="date"
+  onChange={this.handleBeginningDate}
+  />
   <button
  
-  style={{  backgroundColor: '#283c63', color: '#fbe8d3', height: '2rem' }}
+  style={{  backgroundColor: '#283c63', color: '#fbe8d3'}}
+  className='m-2'
+  onClick={this.setStartDateRange}
+>
+<FaCalendarMinus/> Filter  
+</button>
+ 
+  
+</Col>
+
+
+
+<Col xs={6}  style={{backgroundColor: '#3f88c5ff'}} >
+<Form.Label style={{color:'white', fontSize: 'large'}}>View Expenses Before</Form.Label>
+  <Form.Control
+  name='date'
+  className='m-2'
+
+  id="date"
+  style={{ backgroundColor: '#fbe8d3', width: '10.5rem'}}
+  type="date"
+  onChange={this.handleEndingDate}
+
+  />
+  <button
+  className='m-2'
+  style={{  backgroundColor: '#283c63', color: '#fbe8d3' }}
   onClick={this.setEndDateRange}
 >
-<p><FaCalendarMinus/> Filter</p>  
+<FaCalendarMinus/> Filter 
 </button>
+</Col>
+</Form.Row>
+</Form>
 
-
-</div>
-
-
-   
 
   </div>
 ) : <p></p> }
@@ -754,35 +708,15 @@ onClick={this.myExpenses}
 
 {this.state.showSearchFilter ?
   
-<form onSubmit={this.handleSearch} style={{backgroundColor: '#393e46'}}>
-<p style={{color: '#fbe8d3'}}>Expense Name</p>
+<form onSubmit={this.handleSearch} className='text-center' style={{backgroundColor: '#fdecd8ff'}}>
+
 <input style={{width: '7rem'}} name='searchTerm' type='text' onChange={this.changeSearchTerm}/>
 <button style={{backgroundColor: '#283c63', color: '#fbe8d3'}}><FaGlasses/> Search</button>
 </form>
   : <p></p>}
 
 
-  {this.state.showSortOptions 
-? <div style={{backgroundColor: '#393e46', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-<h5> 
-<button 
-style={{backgroundColor: '#283c63',  color: '#078d1e'}}
-onClick={this.sortAmountLowHigh}>  $ <FaSortAmountUp/></button> 
-<button 
-style={{backgroundColor: '#283c63',  color: '#078d1e'}}
-onClick={this.sortAmountHighLow} >  $ <FaSortAmountDown/></button>
-
-<button 
-style={{backgroundColor: '#283c63', color: '#fbe8d3'}}
-onClick={this.sortDateLowHigh}><FaSortAlphaUpAlt/> Date</button>
-<button 
-style={{backgroundColor: '#283c63', color: '#fbe8d3'}}
-onClick={this.sortDateHighLow}><FaSortAlphaDownAlt/> Date</button> 
-</h5>
-</div>
-
-:  <p></p>
-}
+ 
 
 </div>
 
@@ -799,63 +733,69 @@ onClick={this.sortDateHighLow}><FaSortAlphaDownAlt/> Date</button>
 let ExpensesArray = (props)=>{
 
 return(
-  <div>
-  {  props.items ? <ul style={{backgroundColor: '#393e46', listStyleType:'none'}}>
-  {
-  props.items.map((m)=>{
-      return (
-       
-  m.expense &&
-  <button
-  key={m.id} 
-  style={{backgroundColor: '#60316e', height: '15rem', width: '20rem'}}   
-  className=' text-wrap text-center m-2 p-1' 
-  onClick={(e)=>{
-    e.preventDefault()
-    window.location.assign(`/edit/` + m.id + '/' + m.email)
-  
-  
-  }}
-  
-  >
-  <h4 style={{color: '#fbe8d3'}}>
-  {m.expense}
-  </h4>
-  
-  <div  
-  style={{backgroundColor: '#60316e'}}
-  >
-  <h5 style={{color: '#078d1e'}}>${m.amount}</h5>
-  <div
-  style={{backgroundColor: '#60316e'}}
-  className="card ">
-  
-  <div  className="card-body">      
-        
-          <div className="text-xs font-weight-bold text-warning text-uppercase ">
-          <h6 style={{color: '#090030'}}>Notes</h6>
-          <h5 style={{color:'#fbe8d3'}} className='text-center text-wrap'>{m.notes}</h5> 
-          
-      </div>
+  <div style={{backgroundColor: '#fdecd8ff' }}>
+  <ListGroup style={{backgroundColor: '#fdecd8ff', listStyleType:'none', display:'flex',
+  flexWrap: 'wrap',
+  flexDirection:'row',
+  alignItems: 'center',
+  justifyContent: 'center'
+}} as='ul'>
+  {props.items.map((m)=>{
+    return (
+
+      <button as='button'
+      key={m.id} 
+      style={{backgroundColor: '#3f88c5ff', 
       
-    </div>
+      
+    }}   
+      className=' text-wrap text-center m-2 p-1' 
+      
+      onClick={(e)=>{
+        e.preventDefault()
+        window.location.assign(`/edit/` + m.id + '/' + m.email)
+      
+      
+      }}>
+    <Card style={{backgroundColor: '#fdecd8ff', width: '20rem', height: '15rem'}}>
+    <Card.Body style={{backgroundColor: ' #3f88c5ff'}}>
     
-  </div>
-  <h6 style={{color: '#090030'}} className='text-center'>{m.date}</h6>
-  
-  </div>
-  
-  <h5 style={{color: '#29a19c'}}>Click To Edit/Delete</h5>
-        
-  </button>
-  
-      )
-  })
-  
-  
-  }
-  </ul>
-   :  <div>nope</div>}
+   
+      <h5 style={{color: '#22194dff'}}>
+      {m.expense}
+      </h5> 
+      <h5 className='text-center m-3 text-wrap' >
+      <Badge pill style={{backgroundColor: '#000000', color:' #0f6128'}}>${m.amount}</Badge> </h5>
+              <div >
+       
+       {m.notes.length > 26
+         ?
+         <div  style={{fontFamily:'sans serif', color:'#22194dff', fontStyle: 'italic'}}> <p clasName='m-3'>Additional Notes Below</p> </div>
+       :
+       <div className='m-2 p-2' style={{fontFamily:'sans serif', color:'#22194dff', fontStyle: 'italic'}}> <p  >Additional Notes Below</p>  </div>}
+
+              <p style={{color:'#22194dff', fontSize: '1rem'}} className='text-center m-2'>
+              {m.notes} </p> 
+
+
+          </div>
+          <p className='text-center m-1 p-2' style={{color:'#22194dff'}}>{moment(m.date).format("MMMM Do, YYYY")}</p>
+
+          
+      
+      
+      </Card.Body>
+      </Card>
+      
+            
+     
+      </button>
+
+    )
+  })}
+ 
+</ListGroup>
+
   </div>
 
 
