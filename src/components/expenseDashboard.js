@@ -745,12 +745,9 @@ return(
 
       <button as='button'
       key={m.id} 
-      style={{backgroundColor: '#3f88c5ff', 
-      
-      
-    }}   
+      style={{backgroundColor: '#3f88c5ff'}}   
       className=' text-wrap text-center m-2 p-1' 
-      
+     
       onClick={(e)=>{
         e.preventDefault()
         window.location.assign(`/edit/` + m.id + '/' + m.email)
