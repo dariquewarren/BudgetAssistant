@@ -817,6 +817,20 @@ return(
        e.preventDefault()
        removeItem(e)
      }}
+
+     onMouseOver={(e)=>{
+       e.preventDefault()
+       let style = e.target.style
+       style.height = '4rem'
+       style.width = '4rem'
+       style.color ='#000000'
+       setTimeout(()=>{
+         style.height = '2rem'
+         style.width = '2rem'
+         style.color ='rgb(124, 30, 26)'
+       }, 900)
+     }}
+
      style={{ height: '2rem', width: '2rem ',  color:'rgb(124, 30, 26)'}}
      />
      </div>
@@ -836,14 +850,32 @@ return(
      
       <p>{moment(m.date).format("MMMM Do, YYYY")}</p>
       <div>
-<button className='text-center btn rounded rounded-circle p-2' style={{height: '4rem', width: '9rem', 
-color:'rgb(245, 222, 196)', backgroundColor: '#283c63'}} >
+<button className='text-center btn rounded rounded-circle p-2' style={{height: '4rem', width: '8rem', 
+color:'rgb(245, 222, 196)', backgroundColor: '#283c63'}} 
+onMouseOver={(e)=>{
+e.preventDefault()
+let style = e.target.style
+style.backgroundColor = 'rgb(10, 0, 63)'
+setTimeout(()=>{
+style.backgroundColor = '#283c63'
+
+},300)
+setTimeout(()=>{
+  style.backgroundColor = 'rgb(10, 0, 63'
+  
+  },500)
+  setTimeout(()=>{
+    style.backgroundColor = '#283c63'
+    
+    },700)
+}}
+>
 
 <FaShareSquare onClick={(e)=>{
   e.preventDefault()
   window.location.assign('/edit/'+ m.id + '/' + props.email)
 }}
-style={{ height: '1.5rem', width: '1.5rem ', backgroundColor: 'rgb(245, 222, 196)', color: '#1d8a99ff'}} 
+style={{ height: '1.5rem', width: '1.5rem ', backgroundColor: '#283c63', color: 'rgb(245, 222, 196)'}} 
 className='m-2'
 /> Update
 </button>
