@@ -1,19 +1,19 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Budget Checker",
+  "name": "Budget Checker App by Darique Warren",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "portfolio_pic_origin_c876y_8M8_icon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
+      "src": "portfolio_pic_origin_C876y.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "logo512.png",
+      "src": "portfolio_pic_origin_C876y.png",
       "type": "image/png",
       "sizes": "512x512"
     }
