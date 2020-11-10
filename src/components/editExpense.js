@@ -3,9 +3,12 @@ import '../App.css';
 import { useAuth0 } from "@auth0/auth0-react";
 import firebase from '../firebase'
 import { TextField} from '@material-ui/core'
-import {Button, Badge, Form, Col} from 'react-bootstrap'
+import {Button,Badge, Card, Form, Col, Row, ListGroup} from "react-bootstrap";
 import moment from 'moment'
-
+import { FaGlasses, FaMinusCircle, FaPlayCircle, FaTimesCircle,
+  FaCalendarAlt, FaCalendarMinus,
+   FaCalendarPlus, FaSort,
+    FaSortAmountUp, FaSortAmountDown, FaSortAlphaDownAlt, FaSortAlphaUpAlt, FaShareSquare} from 'react-icons/fa'
 
 
 class EditExpense extends React.Component{
@@ -146,71 +149,42 @@ removeItem =()=>{
 
   render()
  { return (
-    <div style={{backgroundColor: '#fdecd8ff'}} className='text-primary'>
-    <header className='text-center' >
+    <div style={{backgroundColor: '#8fbfe0ff'}} className='text-primary'>
+    <header className='text-center' style={{display: 'flex', flexDirection: 'column', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center'}} >
     
-    <button
-
-style={{backgroundColor: '#3f88c5ff', height: '15rem', width: '20rem'}}   
-className=' text-wrap text-center m-2 p-1' 
-onClick={(e)=>{
-  e.preventDefault()
-  this.handleSubmit()
-  alert('submitted')
-  window.location.assign('/')
-  console.log('test')
-}}
-
->
-
-<h5 style={{color: '#090030'}}>
-{this.state.items.expense}</h5> 
-<h5 className='text-center m-1 text-wrap' >
-<Badge pill style={{backgroundColor: '#000000', color:' #0f6128'}}>${this.state.amount}</Badge> </h5>
-        <div className=" text-wrap ">
- 
-        {this.state.notes.length > 26
-          ?
-          <div  style={{fontFamily:'sans serif', color:'#22194dff', fontStyle: 'italic'}}> <p clasName='m-3'>Additional Notes Below</p> </div>
-        :
-        <div className='m-2 p-2' style={{fontFamily:'sans serif', color:'#22194dff', fontStyle: 'italic'}}> <p  >Additional Notes Below</p>  
-        </div>}
-
-
-        <p style={{color:'#fbe8d3', fontSize: 'medium'}} className='text-center m-1 text-wrap'>
-        <Badge style={{backgroundColor: '#3f88c5ff', color:'#22194dff'}} 
-        className='m-2 p-2 text-wrap'>
-        {this.state.notes} </Badge> </p> 
-  
-        <h6 style={{color: '#090030'}} className='text-center m-1'>
-        {moment(this.state.date).format('MMMM Do, YYYY')}        </h6>
-
-    </div>
-    <br></br>
     
-<div  
-style={{backgroundColor: '#3f88c5ff'}}
+<Card 
+style={{backgroundColor: '#1d8a99ff', color: '#fdecd8ff', width: '250px'}}   
+className=' text-wrap text-center m-1' 
+onDoubleClick={(e)=>{
+e.preventDefault()
+    }}
 >
 
 
-  
+<Card.Body>
+<Card.Title>
+<h5 className='text-uppercase text-bold'>{this.state.items.expense}</h5>
+<Badge pill style={{backgroundColor: '#000000', color:' #15b344'}}>${this.state.amount}</Badge>
+
+</Card.Title>
+
+<div> {this.state.notes} 
 </div>
 
+</Card.Body>
+
+<p>        {moment(this.state.date).format('MMMM Do, YYYY')}  
+</p>
+<div>
 
 
-      
-
-
-
-
-
-
-      
-</button>
+</div>
+</Card>
     
 </header>
     <section  >
-    <div className='text-center' style={{backgroundColor: '#fdecd8ff'}} >
+    <div className='text-center' style={{backgroundColor: '#8fbfe0ff'}} >
     
     
     <div className='text-center' style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center'}} >

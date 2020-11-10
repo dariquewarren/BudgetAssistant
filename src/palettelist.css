@@ -13,7 +13,7 @@
 }
 
 .alt-color { 
-	background: #fdecd8ff; 
+	background: rgb(245, 222, 196); 
 }
 .alt-color { 
 	background: #22194dff; 
@@ -23,10 +23,10 @@
 }
 
 .fourth-color { 
-	background: rgb(182, 19, 13); 
+	background: rgb(124, 30, 26); 
 }
 .primary-money-color { 
-	color: #0f6128; 
+	color: #15b344; 
 }
 .primary-text-color { 
 	color: #212121; 
@@ -41,9 +41,28 @@
 }
 
 .divider-color { 
-	color: #BDBDBD; 
+	color: #ececec; 
 }
 
 .icon-color { 
 	color: #000000; 
+}
+
+
+
+.pale-cerulean {
+color: #8fbfe0ff
+}
+.violet-blue-crayola {
+	color: #7c77b9ff
+}
+
+.metalic-Seaweed {
+	color: #1d8a99ff
+}
+.dark-turqoise {
+	color: #0bc9cdff
+}
+.turquoise-blue {
+	color: #14fff7ff
 }

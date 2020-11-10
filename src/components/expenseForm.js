@@ -123,7 +123,7 @@ return alert('Date is required')
 
 
   return (
-    <div className='app ' style={{backgroundColor: '#fdecd8ff'}}>
+    <div className='app ' style={{backgroundColor: '#8fbfe0ff'}}>
     
     <header>
     <br></br>
@@ -136,7 +136,7 @@ return alert('Date is required')
     
 
      <section  >
-     <div className='text-center' style={{backgroundColor: '#fdecd8ff'}} >
+     <div className='text-center' style={{backgroundColor: '#8fbfe0ff'}} >
      
      
      <div className='text-center' style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center'}} >

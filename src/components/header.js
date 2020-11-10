@@ -7,7 +7,7 @@ import LogoutButton from '../components/logoutButton'
 
 const Header = ()=> (
  
-    <header style={{backgroundColor: '#3f88c5ff'}} className='p-3'>
+    <header style={{backgroundColor: '#7c77b9ff'}} className='p-3'>
     
     <h1 style={{color:'#fbe8d3'}} className='text-center'>Budget Buddy</h1>
    
