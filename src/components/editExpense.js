@@ -155,7 +155,7 @@ removeItem =()=>{
     
 <Card 
 style={{backgroundColor: '#1d8a99ff', color: '#fdecd8ff', width: '250px'}}   
-className=' text-wrap text-center m-1' 
+className=' text-wrap text-center my-2' 
 onDoubleClick={(e)=>{
 e.preventDefault()
     }}
@@ -183,43 +183,52 @@ e.preventDefault()
 </Card>
     
 </header>
-    <section  >
-    <div className='text-center' style={{backgroundColor: '#8fbfe0ff'}} >
-    
-    
-    <div className='text-center' style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center'}} >
-    
-    
+    <section style={{width: '95vw'}} className='mt-2' >
+    <div className='text-center mx-4' style={{backgroundColor: '#8fbfe0ff'}} >    
 
-    <Form style={{backgroundColor: '757575'}} className='text-center' onSubmit={this.handleSubmit}>
-    <Form.Row>
-    <Col xs={5} className='m-2'>
+    <Form style={{backgroundColor: '757575', width: '100%'}} className='text-center' onSubmit={this.handleSubmit}>
+    <div className='text-center' 
+    style=
+    {{
+      width:'100%',
+    display: 'flex', flexDirection: 'row', 
+    flexWrap: 'wrap',
+    alignItems: 'center', 
+    justifyContent: 'center'
+   }} > 
+    <Col className='m-2  text-center' style={{width: '25%'}}>
     <Form.Label style={{color: '#22194dff', fontSize: 'large'}}>Expense</Form.Label>
     <Form.Control type='text' placeholder="Expense Name" className='bg-light text-center '  
-    name='expense' maxLength='20' value={this.state.expense} onChange={this.handleChange}  />
+    name='expense' maxLength='20'
+    style={{width: '100%'}}
+    value={this.state.expense} onChange={this.handleChange}  />
   </Col>
-  <Col xs={5} className='m-2'>
+  <Col Col className='m-2 text-center' style={{width: '25%', fontStyle: 'bold', fontSize: '1.2rem'}}>
   <Form.Label style={{color: '#22194dff', fontSize: 'large'}}>Amount</Form.Label>
   <Form.Control placeholder="Amount" className='bg-light text-center' 
-   name='amount' type='number' step='.01' min='.01' value={this.state.amount}
+   name='amount' 
+   style={{width: '100%'}}
+   type='number' step='.01' min='.01' value={this.state.amount}
    onChange={this.handleChange}
    /> 
 </Col>
-</Form.Row>
 
-<Form.Row>
-<Col xs={5} className='m-3'>
+
+<Col className='m-2 text-center' style={{width: '25%'}}>
 <Form.Label style={{color: '#22194dff', fontSize: 'large'}}>Notes</Form.Label>
-<Form.Control className='bg-light text-center'  
+<Form.Control 
+className='bg-light text-center' 
+style={{width: '100%'}} 
 name='notes'  type='text' placeholder="Extra Notes"
 onChange={this.handleChange}
 value={this.state.notes}
 maxLength='50'
  />
 </Col>
-<Col xs={5} className='m-3'>
+<Col className='m-2 text-center' style={{width: '25%'}}>
 <Form.Label style={{color: '#22194dff', fontSize: 'large'}}>Date </Form.Label>
 <Form.Control 
+style={{width: '100%'}}
 id="date"
 className='bg-light text-center'
 name='date'
@@ -228,16 +237,16 @@ type="date"
 onChange={this.handleChange}
 />
 </Col>
-</Form.Row>
-<Button onClick={this.handleSubmit} className='m-2'  style={{backgroundColor: '#283c63',color: '#fbe8d3'}} >Update Expense</Button>
-<Button onClick={this.removeItem} className='m-2'  style={{backgroundColor: 'rgb(148, 0, 15)',color: '#fbe8d3'}}>
+</div>
+
+
+</Form>
+<Button onClick={this.handleSubmit} className='m-1'  style={{backgroundColor: '#283c63',color: '#fbe8d3'}} >Update Expense</Button>
+<Button onClick={this.removeItem} className='m-1'  style={{backgroundColor: 'rgb(148, 0, 15)',color: '#fbe8d3'}}>
 Delete Expense
 </Button> 
-</Form>
-
 </div>
 
-</div>
 
     </section>
    

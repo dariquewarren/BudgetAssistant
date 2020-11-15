@@ -62,94 +62,79 @@ class ExpenseDashboard extends React.Component {
  }
 
  componentDidMount() {
-   console.log(expensesData)
-// log is loading prop to console via conditional
-console.log('see about delay when logging in. consider, isLoading prop') 
-  console.log('state-email', this.props.auth)
 
   let regex = /[a-z]/gmi
    
   let expenseEmail = this.state.myEmail.match(regex).join('')
-  let realLocation = `expenses/` + this.props.email
   let myExpensesRef =  firebase.database().ref('expenses').child(expenseEmail) 
+  let myPromise = Promise.resolve(myExpensesRef)
+  let promise = Promise.resolve(myPromise)
   
-  
-  myExpensesRef.on("value", (snapshot) => {
-    let items = snapshot.val();
-console.log('expense email', expenseEmail)
-console.log(this.props.email)
-//  let testFilter = items.filter((f)=>{
-//    return f.includes('testtestcom')
-//  })
-//  console.log(testFilter)
-    let newState = [];
+  promise.then((value)=>{
+    
 
-    for (let item in items) {
-      newState.push({
-        id: item,
-        expense: items[item].expense,
-        notes: items[item].notes,
-        date: items[item].date,
-        amount: items[item].amount,
-        email: items[item].email,
-      });
-    }
+    value.on('value',(snapshot)=>{
+      let items = snapshot.val();
+      let newState = [];
+      let expenses = []
 
-    console.log(newState)
+      for (let item in items) {
+        newState.push({
+          id: item,
+          expense: items[item].expense,
+          notes: items[item].notes,
+          date: items[item].date,
+          amount: items[item].amount,
+          email: items[item].email,
+        });
+        expenses.push(Number(items[item].amount))
+      }
+      let expensesTotal = expenses.reduce((a, b)=>{
+        return a + b
+      })
+      this.setState({ items: newState, expensesTotal});
+      console.log('expenses', expensesTotal)
+      console.log('newState', newState)
+    
 
-    let amountArray = [];
-    newState.forEach((e)=>{
-      return amountArray.push(Number(e.amount))
     })
 
-    let ddw = amountArray.reduce((total, currentValue) => {
-      return total + currentValue;
-    });
 
-    console.log(ddw);
-    this.setState({ items: newState, expensesTotal: ddw });
+
+  
     
-  });
+        
 
-myExpensesRef.off('value', (snapshot) => {
-  let items = snapshot.val();
-console.log('expense email', expenseEmail)
-console.log(this.props.email)
-//  let testFilter = items.filter((f)=>{
-//    return f.includes('testtestcom')
-//  })
-//  console.log(testFilter)
-  let newState = [];
 
-  for (let item in items) {
-    newState.push({
-      id: item,
-      expense: items[item].expense,
-      notes: items[item].notes,
-      date: items[item].date,
-      amount: items[item].amount,
-      email: items[item].email,
-    });
-  }
+    value.off('value', (snapshot) => {
+      let items = snapshot.val();
+         
+      let newState = [];
+    
+      for (let item in items) {
+        newState.push({
+          id: item,
+          expense: items[item].expense,
+          notes: items[item].notes,
+          date: items[item].date,
+          amount: items[item].amount,
+          email: items[item].email,
+        });
+      }
+    
+      
+     
+      this.setState({ items: newState });
+    })  
+ 
 
-  console.log(newState)
-
-  let amountArray = [];
-  newState.forEach((e)=>{
-    return amountArray.push(Number(e.amount))
   })
 
-  let ddw = amountArray.reduce((total, currentValue) => {
-    return total + currentValue;
-  });
+ }
+     
+  
 
-  console.log(ddw);
-  this.setState({ items: newState, expensesTotal: ddw });
-  
-})
-  
-  }
-  
+ 
   handleBudget = (e)=>{
     e.preventDefault()
 this.setState({
@@ -869,12 +854,13 @@ setTimeout(()=>{
     
     },700)
 }}
->
-
-<FaShareSquare onClick={(e)=>{
+onClick={(e)=>{
   e.preventDefault()
   window.location.assign('/edit/'+ m.id + '/' + props.email)
 }}
+>
+
+<FaShareSquare 
 style={{ height: '1.5rem', width: '1.5rem ', backgroundColor: '#283c63', color: 'rgb(245, 222, 196)'}} 
 className='m-2'
 /> Update

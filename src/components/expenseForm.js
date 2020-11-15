@@ -2,7 +2,7 @@ import React, {Component, useState, useEffect, useRef} from 'react';
 import '../App.css';
 import firebase from '../firebase'
 import {TextField} from '@material-ui/core'
-import {Button, Form, Col} from 'react-bootstrap'
+import {Button, Form, Col, Row} from 'react-bootstrap'
 import moment from 'moment'
 import { useAuth0} from "@auth0/auth0-react";
 
@@ -135,49 +135,64 @@ return alert('Date is required')
     
     
 
-     <section  >
-     <div className='text-center' style={{backgroundColor: '#8fbfe0ff'}} >
+     <section style={{width: '100vw'}} >
+     <div className='text-center ' 
+     style=
+     {{
+       backgroundColor: '#8fbfe0ff'
+  
+    }} >
      
-     
-     <div className='text-center' style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center'}} >
-     
-     
+        
+        
  
-     <Form style={{backgroundColor: '757575'}} className='text-center' onSubmit={handleSubmit} >
-     <Form.Row>
-     <Col xs={5} className='m-3'>
-     <Form.Label style={{color: '#22194dff', fontSize: 'large'}}>Expense</Form.Label>
-     <Form.Control type='text' placeholder="Expense Name" className='bg-light text-center '  
+     <Form  style={{backgroundColor: '757575', width: '100%'}} className='text-center'
+      onSubmit={handleSubmit} >
+     
+      <div className='text-center' 
+      style=
+      {{
+        width:'100%',
+      display: 'flex', flexDirection: 'row', 
+      flexWrap: 'wrap',
+      alignItems: 'center', 
+      justifyContent: 'center'
+     }} >  
+  
+     <Col   className=' text-center' style={{width: '50%'}} >
+     <h5 style={{color: '#22194dff'}} >Expense</h5>
+     <Form.Control type='text' placeholder="Expense Name" style={{width: '100%'}}
+      className='bg-light text-center  '  
      name='expense' maxLength='20'  onChange={ (e)=>{
       setExpense(e.target.value)
     }} />
    </Col>
-   <Col xs={5} className='m-3'>
-   <Form.Label style={{color: '#22194dff', fontSize: 'large'}}>Amount</Form.Label>
-   <Form.Control placeholder="Amount" className='bg-light text-center' 
+   <Col  className=' text-center' style={{width: '50%'}}>
+   <h5 style={{color: '#22194dff'}}>Amount</h5>
+   <Form.Control placeholder="Amount" style={{width: '100%'}} className='bg-light text-center ' 
     name='amount' type='number' step='.01' min='.01'  onChange={ (e)=>{
       setAmount(e.target.value)
     }}
     /> 
  </Col>
- </Form.Row>
  
- <Form.Row>
- <Col xs={5} className='m-3'>
- <Form.Label style={{color: '#22194dff', fontSize: 'large'}}>Notes</Form.Label>
- <Form.Control className='bg-light text-center'  
- name='notes'  type='text' placeholder="Extra Notes"
+ <Col   className='text-center' style={{width: '50%'}}>
+ <h5 style={{color: '#22194dff'}}>Notes</h5>
+ <Form.Control className='bg-light text-center' 
+ style={{width: '100%'}}
+  name='notes'  type='text' placeholder="Extra Notes"
  onChange={ (e)=>{
   setNotes(e.target.value)
 }}
  maxLength='50'
   />
  </Col>
- <Col xs={5} className='m-3'>
- <Form.Label style={{color: '#22194dff', fontSize: 'large'}}>Date </Form.Label>
+ <Col  className=' text-center' style={{width: '50%'}}>
+ <h5 style={{color: '#22194dff'}}>Date </h5>
  <Form.Control 
  id="date"
- className='bg-light text-center'
+ style={{width: '100%'}}
+  className='bg-light text-center'
  name='date'
  type="date" 
  onChange={ (e)=>{
@@ -186,16 +201,14 @@ return alert('Date is required')
 
  />
  </Col>
- </Form.Row>
- <Button onClick={handleSubmit} className='m-2'  style={{backgroundColor: ' #283c63',color: '#fbe8d3'}}>Add Expense</Button>
+
+ </div>
 
  </Form>
- 
+ <Button onClick={handleSubmit} className='m-2'  style={{backgroundColor: ' #283c63',color: '#fbe8d3'}}>Add Expense</Button>
+
  </div>
- 
- </div>
- 
-     </section>
+ </section>
     
 
     </div>
