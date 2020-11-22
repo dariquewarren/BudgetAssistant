@@ -105,11 +105,12 @@ return alert('Date is required')
   
     
   
-     itemsref.push(expenses)
-     alert('success')
-    // window.location.assign('/')
+     itemsref.push(expenses).then(()=>{
+      window.location.assign('/')
+
+     })
+     
   
-    console.log(expenses)
 
 
 

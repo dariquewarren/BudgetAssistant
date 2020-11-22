@@ -754,22 +754,18 @@ this.setState({
 
 let ExpensesArray = (props)=>{
 
-  let removeItem =(e)=>{
+  let removeItem =(id)=>{
     let regex = /[a-z]/gmi
-let realId = e.target.value
+let realId = id
 let realEmail = props.email
-    let ddw ={
-      testLocation: 'expenses/' + realEmail + '/' + realId
-    }
-  console.log(ddw)
-    // let realId = this.props.props.props.match.params.id
-    // let realEmail = this.props.props.props.match.params.email.match(regex).join('')    
-  
+    
+  console.log(realId)
+   
     const itemsRef = firebase.database().ref('expenses/' + realEmail + '/' + realId)
+    // realId = undefined
     
     itemsRef.remove().then(()=>{
-      alert('success')
-      window.location.assign('/')
+      alert(`${realId}` )
     }).catch((e)=>{
       console.log(`not deleted:`, e)
     })
@@ -798,23 +794,13 @@ return(
      >
      <div className='text-right'>
      <FaTimesCircle
+     value={m.id}
      onClick={(e)=>{
        e.preventDefault()
-       removeItem(e)
+       removeItem(m.id)
      }}
 
-     onMouseOver={(e)=>{
-       e.preventDefault()
-       let style = e.target.style
-       style.height = '4rem'
-       style.width = '4rem'
-       style.color ='#000000'
-       setTimeout(()=>{
-         style.height = '2rem'
-         style.width = '2rem'
-         style.color ='rgb(124, 30, 26)'
-       }, 900)
-     }}
+    
 
      style={{ height: '2rem', width: '2rem ',  color:'rgb(124, 30, 26)'}}
      />
