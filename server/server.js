@@ -1,8 +1,13 @@
+import sslRedirect from 'heroku-ssl-redirect';
+
 const express = require('express')
 const app = express()
 const path = require('path')
 const publicPath = path.join(__dirname,'..', '/build')
 
+ 
+// enable ssl redirect
+app.use(sslRedirect());
 
 const port = process.env.PORT || 3000
 const jwt = require('express-jwt');
